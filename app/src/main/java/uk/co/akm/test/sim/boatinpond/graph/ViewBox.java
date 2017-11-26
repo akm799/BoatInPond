@@ -1,6 +1,8 @@
 package uk.co.akm.test.sim.boatinpond.graph;
 
 
+import java.util.Arrays;
+
 /**
  * Created by Thanos Mavroidis on 17/11/2017.
  */
@@ -150,6 +152,7 @@ public final class ViewBox implements ViewBoxLines {
     }
 
     private void findVerticals() {
+        Arrays.fill(vertical, Double.NaN);
         final double xStart = lineSpacing*Math.floor(xMin/lineSpacing);
 
         int i = 0;
@@ -165,6 +168,7 @@ public final class ViewBox implements ViewBoxLines {
     }
 
     private void findHorizontals() {
+        Arrays.fill(horizontal, Double.NaN);
         final double yStart = lineSpacing*Math.floor(yMin/lineSpacing);
 
         int i = 0;
@@ -192,10 +196,10 @@ public final class ViewBox implements ViewBoxLines {
     }
 
     private void findVerticalIntercepts() {
-        for (double x : vertical) {
+        for (int i=0 ; i<nVertical ; i++) {
             final Line line = getFirstNullLine();
             if (line != null) {
-                findVerticalIntercept(x, line);
+                findVerticalIntercept(vertical[i], line);
             }
         }
     }
@@ -215,10 +219,10 @@ public final class ViewBox implements ViewBoxLines {
     }
 
     private void findHorizontalIntercepts() {
-        for (double y : horizontal) {
+        for (int i=0 ; i<nHorizontal ; i++) {
             final Line line = getFirstNullLine();
             if (line != null) {
-                findHorizontalIntercept(y, line);
+                findHorizontalIntercept(horizontal[i], line);
             }
         }
     }
