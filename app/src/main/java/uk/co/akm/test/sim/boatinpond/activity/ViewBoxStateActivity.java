@@ -1,0 +1,54 @@
+package uk.co.akm.test.sim.boatinpond.activity;
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+
+import uk.co.akm.test.sim.boatinpond.game.GameConstants;
+import uk.co.akm.test.sim.boatinpond.graph.ViewBoxLines;
+import uk.co.akm.test.sim.boatinpond.phys.UpdatableState;
+import uk.co.akm.test.sim.boatinpond.view.ScreenView;
+
+/**
+ * Created by Thanos Mavroidis on 26/11/2017.
+ */
+public abstract class ViewBoxStateActivity<T extends UpdatableState, G extends ViewBoxLines> extends AbstractStateActivity<T, G> {
+    private G viewBox;
+    private ScreenView<G> screenView;
+
+    public ViewBoxStateActivity() {
+        super(GameConstants.UI_UPDATE_MILLIS, GameConstants.N_UPDATE_STEPS);
+    }
+
+    protected abstract int getLayoutId();
+
+    protected abstract int getScreenViewId();
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(getLayoutId());
+
+        screenView = findViewById(getScreenViewId());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        viewBox = buildViewBox(screenView.getWidth(), screenView.getHeight());
+    }
+
+    protected abstract G buildViewBox(int viewWidth, int viewHeight);
+
+    @Override
+    public final G computeRenderingData(T state) {
+        viewBox.buildLines(state.x(), state.y(), state.aHdn());
+        return viewBox;
+    }
+
+    @Override
+    protected final void drawState(G renderingData) {
+        screenView.setViewBox(viewBox);
+        screenView.invalidate();
+    }
+}
