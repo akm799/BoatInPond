@@ -7,9 +7,11 @@ import java.util.Arrays;
  * Created by Thanos Mavroidis on 17/11/2017.
  */
 public final class ViewBox implements ViewBoxLines {
-    private final double side;
+    private final double horizontalSide;
+    private final double verticalSide;
     private final double lineSpacing;
-    private final int screenSide;
+    private final int screenWidth;
+    private final int screenHeight;
 
     private final Point bottomLeft = new Point();
     private final Point bottomRight = new Point();
@@ -38,12 +40,14 @@ public final class ViewBox implements ViewBoxLines {
     private int nLines;
     private final Line[] lines;
 
-    public ViewBox(double side, double lineSpacing, int screenSide) {
-        this.side = side;
+    public ViewBox(double horizontalSide, double lineSpacing, int screenWidth, int screenHeight) {
+        this.horizontalSide = horizontalSide;
         this.lineSpacing = lineSpacing;
-        this.screenSide = screenSide;
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
+        this.verticalSide = (screenHeight*horizontalSide)/screenWidth;
 
-        maxDiv = (int)(Math.sqrt(2*side*side)/lineSpacing) + 1;
+        maxDiv = (int)(Math.sqrt(horizontalSide*horizontalSide + verticalSide*verticalSide)/lineSpacing) + 1;
         vertical = new double[maxDiv];
         horizontal = new double[maxDiv];
         lines = initLines(maxDiv);
@@ -83,11 +87,13 @@ public final class ViewBox implements ViewBoxLines {
     }
 
     private void placeAtOrigin() {
-        final double halfSide = side/2;
-        bottomLeft.set(-halfSide, -halfSide);
-        bottomRight.set(halfSide, -halfSide);
-        topRight.set(halfSide, halfSide);
-        topLeft.set(-halfSide, halfSide);
+        final double halfHorizontalSide = horizontalSide/2;
+        final double halfVerticalSide = verticalSide/2;
+
+        bottomLeft.set(-halfHorizontalSide, -halfVerticalSide);
+        bottomRight.set(halfHorizontalSide, -halfVerticalSide);
+        topRight.set(halfHorizontalSide, halfVerticalSide);
+        topLeft.set(-halfHorizontalSide, halfVerticalSide);
     }
 
     private void rotateAndTranslateBox(double a, double dx, double dy) {
@@ -271,7 +277,7 @@ public final class ViewBox implements ViewBoxLines {
     private void setLinePixels() {
         for (Line line : lines) {
             if (line.isNotNull()) {
-                line.setPixels(side, screenSide);
+                line.setPixels(horizontalSide, verticalSide, screenWidth, screenHeight);
             }
         }
     }

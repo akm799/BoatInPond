@@ -12,7 +12,7 @@ public class ViewBoxTest {
 
     @Test
     public void shouldBuildLines() {
-        final ViewBoxLines underTest = new ViewBox(2, 5, 400);
+        final ViewBoxLines underTest = new ViewBox(2, 5, 400, 400);
 
         final int nLines = underTest.buildLines(0, 0, 0);
         Assert.assertEquals(2, nLines);
@@ -23,7 +23,7 @@ public class ViewBoxTest {
 
     @Test
     public void shouldBuildMultipleLines() {
-        final ViewBoxLines underTest = new ViewBox(3, 1, 400);
+        final ViewBoxLines underTest = new ViewBox(3, 1, 400, 400);
 
         final int nLines = underTest.buildLines(0, 0, 0);
         Assert.assertEquals(6, nLines);
@@ -39,8 +39,27 @@ public class ViewBoxTest {
     }
 
     @Test
+    public void shouldBuildMultipleLinesWhenBoxIsNotSquared() {
+        final ViewBoxLines underTest = new ViewBox(3, 1, 400, 800);
+
+        final int nLines = underTest.buildLines(0, 0, 0);
+        Assert.assertEquals(8, nLines);
+        assertNumberOfSetLines(nLines, underTest);
+
+        Assert.assertTrue(lineExists(-1.5, -2, 1.5, -2, underTest.allLines()));
+        Assert.assertTrue(lineExists(-1.5, -1, 1.5, -1, underTest.allLines()));
+        Assert.assertTrue(lineExists(-1.5, 0, 1.5, 0, underTest.allLines()));
+        Assert.assertTrue(lineExists(-1.5, 1, 1.5, 1, underTest.allLines()));
+        Assert.assertTrue(lineExists(-1.5, 2, 1.5, 2, underTest.allLines()));
+
+        Assert.assertTrue(lineExists(-1, -3, -1, 3, underTest.allLines()));
+        Assert.assertTrue(lineExists(0, -3, 0, 3, underTest.allLines()));
+        Assert.assertTrue(lineExists(1, -3, 1, 3, underTest.allLines()));
+    }
+
+    @Test
     public void shouldBuildLinesAfterRotation() {
-        final ViewBoxLines underTest = new ViewBox(2, 5, 400);
+        final ViewBoxLines underTest = new ViewBox(2, 5, 400, 400);
 
         final int nLines = underTest.buildLines(0, 0, Math.PI/2);
         Assert.assertEquals(2, nLines);
@@ -51,7 +70,7 @@ public class ViewBoxTest {
 
     @Test
     public void shouldBuildLinesAfter45DegreeRotation() {
-        final ViewBoxLines underTest = new ViewBox(2, 5, 400);
+        final ViewBoxLines underTest = new ViewBox(2, 5, 400, 400);
 
         final int nLines = underTest.buildLines(0, 0, Math.PI/4);
         Assert.assertEquals(2, nLines);
@@ -62,7 +81,7 @@ public class ViewBoxTest {
 
     @Test
     public void shouldBuildLinesAfterTranslation() {
-        final ViewBoxLines underTest = new ViewBox(2, 5, 400);
+        final ViewBoxLines underTest = new ViewBox(2, 5, 400, 400);
 
         final int nLines = underTest.buildLines(5, 5, 0);
         Assert.assertEquals(2, nLines);
@@ -73,7 +92,7 @@ public class ViewBoxTest {
 
     @Test
     public void shouldBuildLinesAfterRotationAndRotation() {
-        final ViewBoxLines underTest = new ViewBox(2, 5, 400);
+        final ViewBoxLines underTest = new ViewBox(2, 5, 400, 400);
 
         final int nLines = underTest.buildLines(5, 5, Math.PI/2);
         Assert.assertEquals(2, nLines);

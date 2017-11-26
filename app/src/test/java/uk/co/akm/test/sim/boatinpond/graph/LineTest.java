@@ -246,7 +246,7 @@ public class LineTest {
         final Line underTest = new Line();
         underTest.set(0.5, 0.5, 1.0, 1.0);
 
-        underTest.setPixels(2, 400);
+        underTest.setPixels(2, 2, 400, 400);
         Assert.assertEquals(300, underTest.startPixel.x);
         Assert.assertEquals(100, underTest.startPixel.y);
         Assert.assertEquals(400, underTest.endPixel.x);

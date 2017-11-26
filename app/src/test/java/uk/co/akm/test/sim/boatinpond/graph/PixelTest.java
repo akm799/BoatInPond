@@ -27,7 +27,7 @@ public class PixelTest {
         point.set(xPoint, yPoint);
 
         final Pixel underTest = new Pixel();
-        underTest.fromPoint(point, boxSide, screenSide);
+        underTest.fromPoint(point, boxSide, boxSide, screenSide, screenSide);
         Assert.assertEquals(xPixel, underTest.x);
         Assert.assertEquals(yPixel, underTest.y);
     }

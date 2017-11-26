@@ -125,9 +125,9 @@ public final class Line implements Transformable {
         return hasNoEquationParameters() ? Double.NaN : (y - yIntercept)/slope;
     }
 
-    void setPixels(double boxSide, int screenSide) {
-        startPixel.fromPoint(start, boxSide, screenSide);
-        endPixel.fromPoint(end, boxSide, screenSide);
+    void setPixels(double boxHorizontalSide, double boxVerticalSide, int screenWidth, int screenHeight) {
+        startPixel.fromPoint(start, boxHorizontalSide, boxVerticalSide, screenWidth, screenHeight);
+        endPixel.fromPoint(end, boxHorizontalSide, boxVerticalSide, screenWidth, screenHeight);
     }
 
     @Override

@@ -8,10 +8,13 @@ public final class Pixel {
     public int x;
     public int y;
 
-    void fromPoint(Point p, double boxSide, int screenSide) {
-        final double hb = boxSide/2; //TODO Move to constants for optimization.
-        final double f = screenSide/boxSide; //TODO Move to constants for optimization.
-        x = (int)Math.floor(f*(p.x + hb));
-        y = screenSide - (int)Math.floor(f*(p.y + hb));
+    void fromPoint(Point p, double boxHorizontalSide, double boxVerticalSide, int screenWidth, int screenHeight) {
+        final double halfHorizontalSide = boxHorizontalSide/2; //TODO Move to constants for optimization.
+        final double fx = screenWidth/boxHorizontalSide; //TODO Move to constants for optimization.
+        x = (int)Math.floor(fx*(p.x + halfHorizontalSide));
+
+        final double halfVerticalSide = boxVerticalSide/2; //TODO Move to constants for optimization.
+        final double fy = screenHeight/boxVerticalSide; //TODO Move to constants for optimization.
+        y = screenHeight - (int)Math.floor(fy*(p.y + halfVerticalSide));
     }
 }
