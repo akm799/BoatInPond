@@ -41,6 +41,8 @@ public final class ViewBox implements ViewBoxLines {
     private final Line[] lines;
 
     public ViewBox(double horizontalSide, double lineSpacing, int screenWidth, int screenHeight) {
+        checkScreenDimensions(screenWidth, screenHeight);
+
         this.horizontalSide = horizontalSide;
         this.lineSpacing = lineSpacing;
         this.screenWidth = screenWidth;
@@ -51,6 +53,12 @@ public final class ViewBox implements ViewBoxLines {
         vertical = new double[maxDiv];
         horizontal = new double[maxDiv];
         lines = initLines(maxDiv);
+    }
+
+    private void checkScreenDimensions(int screenWidth, int screenHeight) {
+        if (screenWidth <= 0 || screenHeight <= 0) {
+            throw new IllegalArgumentException("Invalid sceen dimensions: (" + screenWidth + ", " + screenHeight + ")");
+        }
     }
 
     private Line[] initLines(int maxDiv) {

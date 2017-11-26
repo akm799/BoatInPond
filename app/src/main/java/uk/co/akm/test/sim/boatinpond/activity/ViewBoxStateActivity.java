@@ -2,6 +2,8 @@ package uk.co.akm.test.sim.boatinpond.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.view.ViewTreeObserver;
 
 import uk.co.akm.test.sim.boatinpond.game.GameConstants;
 import uk.co.akm.test.sim.boatinpond.graph.ViewBoxLines;
@@ -29,13 +31,16 @@ public abstract class ViewBoxStateActivity<T extends UpdatableState, G extends V
         setContentView(getLayoutId());
 
         screenView = findViewById(getScreenViewId());
+        addLayoutListener(screenView);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        viewBox = buildViewBox(screenView.getWidth(), screenView.getHeight());
+    private void addLayoutListener(View view) {
+        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                viewBox = buildViewBox(screenView.getWidth(), screenView.getHeight());
+            }
+        });
     }
 
     protected abstract G buildViewBox(int viewWidth, int viewHeight);
