@@ -12,7 +12,7 @@ public class ViewBoxTest {
 
     @Test
     public void shouldBuildLines() {
-        final ViewBox underTest = new ViewBox(2, 5, 400);
+        final ViewBoxLines underTest = new ViewBox(2, 5, 400);
 
         final int nLines = underTest.buildLines(0, 0, 0);
         Assert.assertEquals(2, nLines);
@@ -23,7 +23,7 @@ public class ViewBoxTest {
 
     @Test
     public void shouldBuildMultipleLines() {
-        final ViewBox underTest = new ViewBox(3, 1, 400);
+        final ViewBoxLines underTest = new ViewBox(3, 1, 400);
 
         final int nLines = underTest.buildLines(0, 0, 0);
         Assert.assertEquals(6, nLines);
@@ -40,7 +40,7 @@ public class ViewBoxTest {
 
     @Test
     public void shouldBuildLinesAfterRotation() {
-        final ViewBox underTest = new ViewBox(2, 5, 400);
+        final ViewBoxLines underTest = new ViewBox(2, 5, 400);
 
         final int nLines = underTest.buildLines(0, 0, Math.PI/2);
         Assert.assertEquals(2, nLines);
@@ -51,7 +51,7 @@ public class ViewBoxTest {
 
     @Test
     public void shouldBuildLinesAfter45DegreeRotation() {
-        final ViewBox underTest = new ViewBox(2, 5, 400);
+        final ViewBoxLines underTest = new ViewBox(2, 5, 400);
 
         final int nLines = underTest.buildLines(0, 0, Math.PI/4);
         Assert.assertEquals(2, nLines);
@@ -62,7 +62,7 @@ public class ViewBoxTest {
 
     @Test
     public void shouldBuildLinesAfterTranslation() {
-        final ViewBox underTest = new ViewBox(2, 5, 400);
+        final ViewBoxLines underTest = new ViewBox(2, 5, 400);
 
         final int nLines = underTest.buildLines(5, 5, 0);
         Assert.assertEquals(2, nLines);
@@ -73,7 +73,7 @@ public class ViewBoxTest {
 
     @Test
     public void shouldBuildLinesAfterRotationAndRotation() {
-        final ViewBox underTest = new ViewBox(2, 5, 400);
+        final ViewBoxLines underTest = new ViewBox(2, 5, 400);
 
         final int nLines = underTest.buildLines(5, 5, Math.PI/2);
         Assert.assertEquals(2, nLines);

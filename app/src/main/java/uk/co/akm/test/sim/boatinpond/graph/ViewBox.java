@@ -47,6 +47,15 @@ public final class ViewBox implements ViewBoxLines {
         lines = initLines(maxDiv);
     }
 
+    private Line[] initLines(int maxDiv) {
+        final Line[] lines = new Line[2*maxDiv]; // Double (1 for vertical + 1 for horizontal) the number.
+        for (int i=0 ; i<lines.length ; i++) {
+            lines[i] = new Line();
+        }
+
+        return lines;
+    }
+
     @Override
     public int numberOfSetLines() {
         return nLines;
@@ -57,22 +66,7 @@ public final class ViewBox implements ViewBoxLines {
         return lines;
     }
 
-    private Line[] initLines(int maxDiv) {
-        final Line[] lines = new Line[2*maxDiv]; // Double (1 for vertical + 1 for horizontal) the number.
-        for (int i=0 ; i<lines.length ; i++) {
-            lines[i] = new Line();
-        }
-
-        return lines;
-    }
-
-    /**
-     *
-     * @param x
-     * @param y
-     * @param a
-     * @return the number of lines set in the lines array.
-     */
+    @Override
     public int buildLines(double x, double y, double a) {
         placeAtOrigin();
         rotateAndTranslateBox(a, x, y);
