@@ -57,7 +57,7 @@ public final class TestActivity extends ViewBoxStateActivity<TestBody, ViewBox> 
     }
 
     private void startMotion() {
-        initState(new TestBody(10, 0, 0, 3, Math.PI/4));
+        initState(new TestBody(10, 0, 0, 3, Math.PI/2));
         initiate();
     }
 }
