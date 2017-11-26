@@ -27,7 +27,6 @@ public class ViewBoxTest {
 
         final int nLines = underTest.buildLines(0, 0, 0);
         Assert.assertEquals(6, nLines);
-        Assert.assertEquals(6, underTest.numberOfSetLines());
         assertNumberOfSetLines(nLines, underTest);
 
         Assert.assertTrue(lineExists(-1.5, -1, 1.5, -1, underTest.allLines()));
