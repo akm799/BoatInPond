@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import uk.co.akm.test.sim.boatinpond.R;
 import uk.co.akm.test.sim.boatinpond.activity.ViewBoxStateActivity;
@@ -16,13 +15,11 @@ import uk.co.akm.test.sim.boatinpond.graph.ViewBox;
  */
 public final class TestActivity extends ViewBoxStateActivity<TestBody, ViewBox> {
     private Button commandBtn;
-private View view;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         commandBtn = findViewById(R.id.command_btn);
-view = findViewById(R.id.test_screen_view);
     }
 
     @Override
@@ -60,7 +57,7 @@ view = findViewById(R.id.test_screen_view);
     }
 
     private void startMotion() {
-        initState(new TestBody(3, Math.PI));
+        initState(new TestBody(10, 0, 0, 3, Math.PI/4));
         initiate();
     }
 }
