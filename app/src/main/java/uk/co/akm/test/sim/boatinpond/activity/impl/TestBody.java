@@ -9,8 +9,15 @@ import uk.co.akm.test.sim.boatinpond.phys.Body;
 public final class TestBody extends Body {
     private final double a;
 
-    TestBody(double x0, double y0, double vx0, double vy0, double hdn) {
-        super(0, 0, 0, hdn, 0, 0, vx0, vy0, 0, x0, y0, 0);
+    private static double omega(double x0, double y0, double vx0, double vy0) {
+        final double r = Math.sqrt(x0*x0 + y0*y0);
+        final double v = Math.sqrt(vx0*vx0 + vy0*vy0);
+
+        return v/r;
+    }
+
+    TestBody(double x0, double y0, double vx0, double vy0, double hdn0) {
+        super(omega(x0, y0, vx0, vy0), 0, 0, hdn0, 0, 0, vx0, vy0, 0, x0, y0, 0);
 
         final double r = Math.sqrt(x0*x0 + y0*y0);
         final double v = Math.sqrt(vx0*vx0 + vy0*vy0);

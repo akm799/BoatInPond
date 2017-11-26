@@ -47,7 +47,7 @@ public abstract class ViewBoxStateActivity<T extends UpdatableState, G extends V
 
     @Override
     public final G computeRenderingData(T state) {
-        viewBox.buildLines(state.x(), state.y(), state.aHdn());
+        viewBox.buildLines(state.x(), state.y(), state.hdn());
         return viewBox;
     }
 
