@@ -55,6 +55,11 @@ public abstract class AbstractStateActivity<T extends UpdatableState, G> extends
         }
     }
 
+    @Override
+    public final boolean isRunning() {
+        return (stateUpdateLoop != null && stateUpdateLoop.isRunning());
+    }
+
     private static final class RenderRunnable<G> implements Runnable {
         private final AbstractStateActivity<?, G> parent;
 

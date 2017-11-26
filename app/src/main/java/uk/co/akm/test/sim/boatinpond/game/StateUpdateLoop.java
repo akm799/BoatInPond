@@ -8,4 +8,6 @@ public interface StateUpdateLoop {
     void initiate();
 
     void terminate();
+
+    boolean isRunning();
 }

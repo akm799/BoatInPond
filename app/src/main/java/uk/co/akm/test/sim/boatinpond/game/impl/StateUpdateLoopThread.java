@@ -95,4 +95,9 @@ public final class StateUpdateLoopThread<T extends UpdatableState, G> extends Th
         loop = false;
         interrupt();
     }
+
+    @Override
+    public boolean isRunning() {
+        return loop;
+    }
 }
