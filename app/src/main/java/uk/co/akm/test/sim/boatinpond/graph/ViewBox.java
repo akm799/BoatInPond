@@ -4,7 +4,7 @@ package uk.co.akm.test.sim.boatinpond.graph;
 /**
  * Created by Thanos Mavroidis on 17/11/2017.
  */
-public final class ViewBox {
+public final class ViewBox implements ViewBoxLines {
     private final double side;
     private final double lineSpacing;
     private final int screenSide;
@@ -34,7 +34,7 @@ public final class ViewBox {
     private final double[] horizontal;
 
     private int nLines;
-    public final Line[] lines;
+    private final Line[] lines;
 
     public ViewBox(double side, double lineSpacing, int screenSide) {
         this.side = side;
@@ -47,6 +47,15 @@ public final class ViewBox {
         lines = initLines(maxDiv);
     }
 
+    @Override
+    public int numberOfSetLines() {
+        return nLines;
+    }
+
+    @Override
+    public Line[] allLines() {
+        return lines;
+    }
 
     private Line[] initLines(int maxDiv) {
         final Line[] lines = new Line[2*maxDiv]; // Double (1 for vertical + 1 for horizontal) the number.
