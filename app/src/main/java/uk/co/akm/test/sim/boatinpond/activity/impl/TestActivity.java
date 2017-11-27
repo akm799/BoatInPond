@@ -19,6 +19,8 @@ public final class TestActivity extends ViewBoxStateActivity<TestBody, TestViewB
     private TextView heading;
     private TextView location;
 
+    private int nTextSkip;
+
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -45,9 +47,14 @@ public final class TestActivity extends ViewBoxStateActivity<TestBody, TestViewB
 
     @Override
     protected void drawAdditionalData(TestViewBox renderingData) {
-        speed.setText(renderingData.getSpeed());
-        heading.setText(renderingData.getCompassHeading());
-        location.setText(renderingData.getCoordinates());
+        if (nTextSkip == 10) {
+            nTextSkip = 0;
+            speed.setText(renderingData.getSpeed());
+            heading.setText(renderingData.getCompassHeading());
+            location.setText(renderingData.getCoordinates());
+        } else {
+            nTextSkip++;
+        }
     }
 
     @Override
