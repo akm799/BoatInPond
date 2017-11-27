@@ -5,6 +5,7 @@ import java.text.NumberFormat;
 
 import uk.co.akm.test.sim.boatinpond.graph.Line;
 import uk.co.akm.test.sim.boatinpond.graph.ViewBox;
+import uk.co.akm.test.sim.boatinpond.math.Angle;
 import uk.co.akm.test.sim.boatinpond.math.Angles;
 import uk.co.akm.test.sim.boatinpond.view.ViewData;
 
@@ -12,15 +13,16 @@ import uk.co.akm.test.sim.boatinpond.view.ViewData;
  * Created by Thanos Mavroidis on 27/11/2017.
  */
 final class TestViewBox implements ViewData<TestBody> {
+    private static final double EARTH_RADIUS = 6371000;
     private static final double METRES_PER_SEC_TO_KNOTS = 1.94384;
 
     private final ViewBox viewBox;
 
-    private String longitude;
-    private String latitude;
+    private String coordinates;
     private String compassHeading;
     private String speed;
 
+    private NumberFormat latLongFormat = new DecimalFormat("0.0000");
     private NumberFormat speedFormat = new DecimalFormat("0.00");
     private NumberFormat compassFormat = new DecimalFormat("000");
 
@@ -45,14 +47,16 @@ final class TestViewBox implements ViewData<TestBody> {
 
     @Override
     public void additionalData(TestBody state) {
-        longitude = speedFormat.format(state.x());
-        latitude = speedFormat.format(state.y());
+        final Angle longitude = new Angle(state.x()/EARTH_RADIUS);
+        final Angle latitude = new Angle(state.y()/EARTH_RADIUS);
+        coordinates = (latitude.toLat(latLongFormat) + "   " + longitude.toLong(latLongFormat));
+
         compassHeading = compassFormat.format(Math.round(Angles.toCompassHeading(Angles.toDeg(state.hdnP()))));
         speed = speedFormat.format(METRES_PER_SEC_TO_KNOTS*state.v());
     }
 
     public String getCoordinates() {
-        return ("(" + longitude + ", " + latitude + ")");
+        return coordinates;
     }
 
     public String getCompassHeading() {

@@ -1,5 +1,7 @@
 package uk.co.akm.test.sim.boatinpond.math;
 
+import java.text.NumberFormat;
+
 /**
  * Created by Thanos Mavroidis on 27/11/2017.
  */
@@ -23,5 +25,17 @@ public final class Angle {
     @Override
     public String toString() {
         return ((positive ? "" : "- ") + degrees + " " + minutes + "' " + seconds + "''");
+    }
+
+    public String toLat(NumberFormat secondsFormat) {
+        return toLatOrLong(secondsFormat, (positive ? 'N' : 'S'));
+    }
+
+    public String toLong(NumberFormat secondsFormat) {
+        return toLatOrLong(secondsFormat, (positive ? 'E' : 'W'));
+    }
+
+    private String toLatOrLong(NumberFormat secondsFormat, char direction) {
+        return (degrees + " " + minutes + "' " + secondsFormat.format(seconds) + "'' " + direction);
     }
 }
