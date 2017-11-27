@@ -5,6 +5,7 @@ import java.text.NumberFormat;
 
 import uk.co.akm.test.sim.boatinpond.graph.Line;
 import uk.co.akm.test.sim.boatinpond.graph.ViewBox;
+import uk.co.akm.test.sim.boatinpond.math.Angles;
 import uk.co.akm.test.sim.boatinpond.view.ViewData;
 
 /**
@@ -20,7 +21,8 @@ final class TestViewBox implements ViewData<TestBody> {
     private String compassHeading;
     private String speed;
 
-    private NumberFormat speedFormat = new DecimalFormat("#.00");
+    private NumberFormat speedFormat = new DecimalFormat("0.00");
+    private NumberFormat compassFormat = new DecimalFormat("000");
 
     TestViewBox(double horizontalSide, double lineSpacing, int screenWidth, int screenHeight) {
         viewBox = new ViewBox(horizontalSide, lineSpacing, screenWidth, screenHeight);
@@ -45,18 +47,8 @@ final class TestViewBox implements ViewData<TestBody> {
     public void additionalData(TestBody state) {
         longitude = speedFormat.format(state.x());
         latitude = speedFormat.format(state.y());
-        compassHeading = speedFormat.format(toCompassHeading(180*state.hdnP()/Math.PI));
+        compassHeading = compassFormat.format(Math.round(Angles.toCompassHeading(Angles.toDeg(state.hdnP()))));
         speed = speedFormat.format(METRES_PER_SEC_TO_KNOTS*state.v());
-    }
-
-    private double toCompassHeading(double deg) {
-        if (deg < 0) {
-            return 90 - deg;
-        } else {
-            final double h = 90 - deg;
-
-            return (h >= 0 ? h : 360 + h);
-        }
     }
 
     public String getCoordinates() {
