@@ -6,14 +6,14 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 
 import uk.co.akm.test.sim.boatinpond.game.GameConstants;
-import uk.co.akm.test.sim.boatinpond.graph.ViewBoxLines;
 import uk.co.akm.test.sim.boatinpond.phys.UpdatableState;
 import uk.co.akm.test.sim.boatinpond.view.ScreenView;
+import uk.co.akm.test.sim.boatinpond.view.ViewData;
 
 /**
  * Created by Thanos Mavroidis on 26/11/2017.
  */
-public abstract class ViewBoxStateActivity<T extends UpdatableState, G extends ViewBoxLines> extends AbstractStateActivity<T, G> {
+public abstract class ViewBoxStateActivity<T extends UpdatableState, G extends ViewData> extends AbstractStateActivity<T, G> {
     private G viewBox;
     private ScreenView<G> screenView;
 
@@ -48,12 +48,13 @@ public abstract class ViewBoxStateActivity<T extends UpdatableState, G extends V
     @Override
     public final G computeRenderingData(T state) {
         viewBox.buildLines(state.x(), state.y(), state.hdn());
+        viewBox.additionalData(state);
         return viewBox;
     }
 
     @Override
     protected final void drawState(G renderingData) {
-        screenView.setViewBox(viewBox);
+        screenView.setViewData(viewBox);
         screenView.invalidate();
     }
 }

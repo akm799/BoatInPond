@@ -47,6 +47,8 @@ public abstract class AbstractStateActivity<T extends UpdatableState, G> extends
 
     protected abstract void drawState(G renderingData);
 
+    protected abstract void drawAdditionalData(G renderingData);
+
     @Override
     public final void terminate() {
         if (stateUpdateLoop != null) {
@@ -77,6 +79,7 @@ public abstract class AbstractStateActivity<T extends UpdatableState, G> extends
         public void run() {
             if (renderingData != null) {
                 parent.drawState(renderingData);
+                parent.drawAdditionalData(renderingData);
             }
         }
     }

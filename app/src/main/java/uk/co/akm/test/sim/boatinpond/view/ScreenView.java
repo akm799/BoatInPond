@@ -8,15 +8,18 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import uk.co.akm.test.sim.boatinpond.graph.Line;
-import uk.co.akm.test.sim.boatinpond.graph.ViewBoxLines;
 
 /**
  * Created by Thanos Mavroidis on 26/11/2017.
  */
-public abstract class ScreenView<G extends ViewBoxLines> extends View {
+public abstract class ScreenView<G extends ViewData> extends View {
     private final Paint linesPaint = new Paint();
+    private final Paint borderPaint = new Paint();
 
-    private G viewBox;
+    private int linesColour = 0xffff0000;
+    private int borderColour = 0xff000000;
+
+    private G viewData;
 
     public ScreenView(Context context) {
         super(context);
@@ -34,28 +37,42 @@ public abstract class ScreenView<G extends ViewBoxLines> extends View {
     }
 
     private void init() {
-        linesPaint.setColor(0xffff0000);
+        linesPaint.setColor(linesColour);
+        borderPaint.setColor(borderColour);
     }
 
-    public final void setViewBox(G viewBox) {
-        this.viewBox = viewBox;
+    public final void setViewData(G viewData) {
+        this.viewData = viewData;
     }
 
     @Override
     public final void draw(Canvas canvas) {
         super.draw(canvas);
 
-        if (viewBox != null) {
-            drawCentralShape(viewBox, canvas);
+        drawBorder(canvas);
+
+        if (viewData != null) {
+            drawCentralShape(viewData, canvas);
             drawViewBoxLines(canvas);
         }
+    }
+
+    private void drawBorder(Canvas canvas) {
+        final int xMax = getWidth() - 1;
+        final int yMax = getHeight() - 1;
+
+        canvas.drawLine(0, 0, xMax , 0, borderPaint);
+        canvas.drawLine(xMax, 0, xMax, yMax, borderPaint);
+        canvas.drawLine(xMax, yMax, 0, yMax, borderPaint);
+        canvas.drawLine(0, yMax, 0, 0, borderPaint);
+
     }
 
     protected abstract void drawCentralShape(G viewBox, Canvas canvas);
 
     private void drawViewBoxLines(Canvas canvas) {
-        final Line[] lines = viewBox.allLines();
-        for (int i=0 ; i<viewBox.numberOfSetLines() ; i++) {
+        final Line[] lines = viewData.allLines();
+        for (int i = 0; i< viewData.numberOfSetLines() ; i++) {
             final Line line = lines[i];
             canvas.drawLine(line.startPixel.x, line.startPixel.y, line.endPixel.x, line.endPixel.y, linesPaint);
         }

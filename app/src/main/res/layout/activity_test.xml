@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/location_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|top"
+        android:layout_marginTop="16dp"
+        tools:text="Coordinates"/>
+
+    <TextView
+        android:id="@+id/heading_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|top"
+        android:layout_marginTop="16dp"
+        tools:text="Heading"/>
 
     <uk.co.akm.test.sim.boatinpond.activity.impl.TestScreenView
         android:id="@+id/test_screen_view"
@@ -12,7 +30,15 @@
         android:id="@+id/command_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_gravity="left|bottom"
         android:text="Start"
         android:onClick="onCommand"/>
+
+    <TextView
+        android:id="@+id/speed_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="16dp"
+        tools:text="Speed"/>
 </FrameLayout>

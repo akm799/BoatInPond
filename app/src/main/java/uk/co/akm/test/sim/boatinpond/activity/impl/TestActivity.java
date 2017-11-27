@@ -2,23 +2,29 @@ package uk.co.akm.test.sim.boatinpond.activity.impl;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import uk.co.akm.test.sim.boatinpond.R;
 import uk.co.akm.test.sim.boatinpond.activity.ViewBoxStateActivity;
-import uk.co.akm.test.sim.boatinpond.graph.ViewBox;
 
 /**
  * Created by Thanos Mavroidis on 26/11/2017.
  */
-public final class TestActivity extends ViewBoxStateActivity<TestBody, ViewBox> {
+public final class TestActivity extends ViewBoxStateActivity<TestBody, TestViewBox> {
     private Button commandBtn;
+
+    private TextView speed;
+    private TextView heading;
+    private TextView location;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        speed = findViewById(R.id.speed_txt);
+        heading = findViewById(R.id.heading_txt);
+        location = findViewById(R.id.location_txt);
         commandBtn = findViewById(R.id.command_btn);
     }
 
@@ -33,8 +39,15 @@ public final class TestActivity extends ViewBoxStateActivity<TestBody, ViewBox> 
     }
 
     @Override
-    protected final ViewBox buildViewBox(int viewWidth, int viewHeight) {
-        return new ViewBox(30, 5, viewWidth, viewHeight);
+    protected final TestViewBox buildViewBox(int viewWidth, int viewHeight) {
+        return new TestViewBox(30, 5, viewWidth, viewHeight);
+    }
+
+    @Override
+    protected void drawAdditionalData(TestViewBox renderingData) {
+        speed.setText(renderingData.getSpeed());
+        heading.setText(renderingData.getCompassHeading());
+        location.setText(renderingData.getCoordinates());
     }
 
     @Override

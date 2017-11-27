@@ -6,13 +6,13 @@ import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
-import uk.co.akm.test.sim.boatinpond.graph.ViewBoxLines;
 import uk.co.akm.test.sim.boatinpond.view.ScreenView;
+import uk.co.akm.test.sim.boatinpond.view.ViewData;
 
 /**
  * Created by Thanos Mavroidis on 26/11/2017.
  */
-public final class TestScreenView extends ScreenView {
+final class TestScreenView extends ScreenView {
     private final Paint shapePaint = new Paint();
 
     public TestScreenView(Context context) {
@@ -36,7 +36,7 @@ public final class TestScreenView extends ScreenView {
     }
 
     @Override
-    protected void drawCentralShape(ViewBoxLines viewBox, Canvas canvas) {
+    protected void drawCentralShape(ViewData viewBox, Canvas canvas) {
         final int w = getWidth();
         final int h = getHeight();
         final float s = Math.min(w, h)/20;
