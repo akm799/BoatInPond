@@ -10,6 +10,7 @@ import org.junit.Test;
 
 public class AnglesTest {
     private final double accuracy = 0.000000000001;
+    private final double reducedAccuracy = 0.0000000001;
 
     @Test
     public void shouldConvertToProperRange() {
@@ -56,5 +57,37 @@ public class AnglesTest {
 
     private void testCompassHeadingConversion(double inputDeg, double expectedDeg) {
         Assert.assertEquals(expectedDeg, Angles.toCompassHeading(inputDeg), accuracy);
+    }
+
+    @Test
+    public void testAngle() {
+        final int degrees = 61;
+        final int minutes = 35;
+        final double seconds = 27.183;
+
+        final double deg = (degrees + minutes/60.0 + seconds/3600.0);
+        final double rad = Angles.toRad(deg);
+
+        final Angle underTest = new Angle(rad);
+        Assert.assertTrue(underTest.positive);
+        Assert.assertEquals(degrees, underTest.degrees);
+        Assert.assertEquals(minutes, underTest.minutes);
+        Assert.assertEquals(seconds, underTest.seconds, reducedAccuracy);
+    }
+
+    @Test
+    public void testNegativeAngle() {
+        final int degrees = 37;
+        final int minutes = 59;
+        final double seconds = 42.735;
+
+        final double deg = (degrees + minutes/60.0 + seconds/3600.0);
+        final double rad = Angles.toRad(deg);
+
+        final Angle underTest = new Angle(-rad);
+        Assert.assertFalse(underTest.positive);
+        Assert.assertEquals(degrees, underTest.degrees);
+        Assert.assertEquals(minutes, underTest.minutes);
+        Assert.assertEquals(seconds, underTest.seconds, reducedAccuracy);
     }
 }
