@@ -17,7 +17,7 @@ final class TestBody extends Body {
     }
 
     TestBody(double x0, double y0, double vx0, double vy0, double hdn0) {
-        super(omega(x0, y0, vx0, vy0), 0, 0, hdn0, 0, 0, vx0, vy0, 0, x0, y0, 0);
+        super(omega(x0, y0, vx0, vy0), 0, 0, hdn0 - Math.PI/2, 0, 0, vx0, vy0, 0, x0, y0, 0); // Coordinate system rotation is hdn0 - PI/2 since an unrotated coordinate system (hdn = 0) means our TestBody is pointing along the y-axis.
 
         final double r = Math.sqrt(x0*x0 + y0*y0);
         final double v = Math.sqrt(vx0*vx0 + vy0*vy0);

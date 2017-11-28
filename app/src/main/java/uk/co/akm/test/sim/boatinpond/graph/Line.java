@@ -4,7 +4,7 @@ package uk.co.akm.test.sim.boatinpond.graph;
 /**
  * Created by Thanos Mavroidis on 17/11/2017.
  */
-public final class Line implements Transformable {
+public final class Line implements Transformable, Nullable {
     private double slope;
     private double yIntercept;
     public final Point start;
@@ -28,11 +28,13 @@ public final class Line implements Transformable {
         this.end = end;
     }
 
-    boolean isNull() {
+    @Override
+    public boolean isNull() {
         return (start.isNull() || end.isNull());
     }
 
-    boolean isNotNull() {
+    @Override
+    public boolean isNotNull() {
         return !(isNull());
     }
 

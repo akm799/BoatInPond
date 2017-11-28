@@ -3,6 +3,8 @@ package uk.co.akm.test.sim.boatinpond.graph;
 
 import java.util.Arrays;
 
+import uk.co.akm.test.sim.boatinpond.env.Environment;
+
 /**
  * Created by Thanos Mavroidis on 17/11/2017.
  */
@@ -40,6 +42,21 @@ public final class ViewBox implements ViewBoxLines {
     private int nLines;
     private final Line[] lines;
 
+    private int nPoints;
+    private Point[] fixedPoints;
+    private Point[] fixedPossiblePoints;
+
+    private Environment environment;
+
+    private final Line utilityLine = new Line();
+
+    public ViewBox(Environment environment, double horizontalSide, double lineSpacing, int screenWidth, int screenHeight) {
+        this(horizontalSide, lineSpacing, screenWidth, screenHeight);
+
+        this.environment = environment;
+        initFixedPoints(environment);
+    }
+
     public ViewBox(double horizontalSide, double lineSpacing, int screenWidth, int screenHeight) {
         checkScreenDimensions(screenWidth, screenHeight);
 
@@ -70,6 +87,22 @@ public final class ViewBox implements ViewBoxLines {
         return lines;
     }
 
+    private void initFixedPoints(Environment environment) {
+        fixedPoints = new Point[environment.getNumberOfFixedPoints()];
+        fixedPossiblePoints = new Point[environment.getNumberOfFixedPoints()];
+        for (int i=0 ; i<environment.getNumberOfFixedPoints() ; i++) {
+            fixedPoints[i] = new Point();
+            fixedPossiblePoints[i] = new Point();
+        }
+    }
+
+    private void resetFixedPoints() {
+        for (int i=0 ; i<fixedPoints.length ; i++) {
+            fixedPoints[i].setNull();
+            fixedPossiblePoints[i].setNull();
+        }
+    }
+
     @Override
     public int numberOfSetLines() {
         return nLines;
@@ -81,15 +114,28 @@ public final class ViewBox implements ViewBoxLines {
     }
 
     @Override
+    public int numberOfSetFixedPoints() {
+        return nPoints;
+    }
+
+    @Override
+    public Point[] allFixedPoints() {
+        return fixedPoints;
+    }
+
+    @Override
     public int buildLines(double x, double y, double a) {
         placeAtOrigin();
         rotateAndTranslateBox(a, x, y);
 
-        setDivs();
+        setDivsAndFixedPoints();
         findIntercepts();
 
         translateAndRotateLines(-x, -y, -a);
         setLinePixels();
+        if (fixedPoints != null) {
+            setFixedPointPixels();
+        }
 
         return nLines;
     }
@@ -129,9 +175,12 @@ public final class ViewBox implements ViewBoxLines {
         }
     }
 
-    private void setDivs() {
+    private void setDivsAndFixedPoints() {
         setMinAndMax();
         findDivs();
+        if (fixedPoints != null) {
+            findPoints();
+        }
     }
 
     private void setMinAndMax() {
@@ -195,6 +244,65 @@ public final class ViewBox implements ViewBoxLines {
         }
 
         nHorizontal = i;
+    }
+
+    private void findPoints() {
+        resetFixedPoints();
+        findPossiblePoints();
+        selectPointsInBox();
+    }
+
+    private void findPossiblePoints() {
+        int i = 0;
+        final Point[] allPoints = environment.getFixedPoints();
+        for (Point p : allPoints) {
+            if (xMin < p.x && p.x < xMax && yMin < p.y && p.y < yMax) {
+                fixedPossiblePoints[i++].set(p.x, p.y);
+            }
+        }
+
+        nPoints = 0;
+    }
+
+    private void selectPointsInBox() {
+        int i = 0;
+        for (Point p : fixedPossiblePoints) {
+            if (p.isNotNull() && insideBox(p)) {
+                fixedPoints[i++].set(p.x, p.y);
+            }
+        }
+
+        nPoints = i;
+    }
+
+    private boolean insideBox(Point p) {
+        return xValueIsInsideBox(p) && yValueIsInsideBox(p);
+    }
+
+    private boolean yValueIsInsideBox(Point p) {
+        utilityLine.setNull();
+        findVerticalIntercept(p.x, utilityLine);
+        if (utilityLine.isNotNull()) {
+            final double min = Math.min(utilityLine.start.y, utilityLine.end.y);
+            final double max = Math.max(utilityLine.start.y, utilityLine.end.y);
+
+            return (min < p.y && p.y < max);
+        } else {
+            return false;
+        }
+    }
+
+    private boolean xValueIsInsideBox(Point p) {
+        utilityLine.setNull();
+        findHorizontalIntercept(p.y, utilityLine);
+        if (utilityLine.isNotNull()) {
+            final double min = Math.min(utilityLine.start.x, utilityLine.end.x);
+            final double max = Math.max(utilityLine.start.x, utilityLine.end.x);
+
+            return (min < p.x && p.x < max);
+        } else {
+            return false;
+        }
     }
 
     private void findIntercepts() {
@@ -267,12 +375,27 @@ public final class ViewBox implements ViewBoxLines {
 
     private void translateAndRotateLines(double dx, double dy, double a) {
         translateLines(dx, dy);
+        if (fixedPoints != null) {
+            translateFixedPoints(dx, dy);
+        }
+
         rotateLines(a);
+        if (fixedPoints != null) {
+            rotateFixedPoints(a);
+        }
     }
 
     private void rotateLines(double a) {
         for (Line line : lines) {
             line.rotate(a);
+        }
+    }
+
+    private void rotateFixedPoints(double a) {
+        for (Point p : fixedPoints) {
+            if (p.isNotNull()) {
+                p.rotate(a);
+            }
         }
     }
 
@@ -282,10 +405,26 @@ public final class ViewBox implements ViewBoxLines {
         }
     }
 
+    private void translateFixedPoints(double dx, double dy) {
+        for (Point p : fixedPoints) {
+            if (p.isNotNull()) {
+                p.translate(dx, dy);
+            }
+        }
+    }
+
     private void setLinePixels() {
         for (Line line : lines) {
             if (line.isNotNull()) {
                 line.setPixels(horizontalSide, verticalSide, screenWidth, screenHeight);
+            }
+        }
+    }
+
+    private void setFixedPointPixels() {
+        for (Point p : fixedPoints) {
+            if (p.isNotNull()) {
+                p.setPixel(horizontalSide, verticalSide, screenWidth, screenHeight);
             }
         }
     }

@@ -40,4 +40,8 @@ public interface ViewBoxLines {
      * drawn consist of the first {@link #numberOfSetLines()} lines in this array.
      */
     Line[] allLines();
+
+    int numberOfSetFixedPoints();
+
+    Point[] allFixedPoints();
 }

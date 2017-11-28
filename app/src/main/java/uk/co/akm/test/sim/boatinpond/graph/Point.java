@@ -3,24 +3,28 @@ package uk.co.akm.test.sim.boatinpond.graph;
 /**
  * Created by Thanos Mavroidis on 17/11/2017.
  */
-public final class Point implements Transformable {
-    double x;
-    double y;
+public final class Point implements Transformable, Nullable {
+    public double x;
+    public double y;
+
+    public final Pixel pixel = new Pixel();
 
     Point() {
         this(Double.NaN, Double.NaN);
     }
 
-    private Point(double x, double y) {
+    public Point(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
-    boolean isNull() {
+    @Override
+    public boolean isNull() {
         return (Double.isNaN(x) || Double.isNaN(y));
     }
 
-    boolean isNotNull() {
+    @Override
+    public boolean isNotNull() {
         return !(isNull());
     }
 
@@ -52,6 +56,10 @@ public final class Point implements Transformable {
             this.x = xr;
             this.y = yr;
         }
+    }
+
+    void setPixel(double boxHorizontalSide, double boxVerticalSide, int screenWidth, int screenHeight) {
+        pixel.fromPoint(this, boxHorizontalSide, boxVerticalSide, screenWidth, screenHeight);
     }
 
     @Override

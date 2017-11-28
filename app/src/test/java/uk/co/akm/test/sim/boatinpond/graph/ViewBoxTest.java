@@ -4,6 +4,8 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import uk.co.akm.test.sim.boatinpond.env.Environment;
+
 /**
  * Created by Thanos Mavroidis on 19/11/2017.
  */
@@ -139,6 +141,82 @@ public class ViewBoxTest {
                 isCloseEnough(yEnd, line.start.y);
 
         return (startToEnd || endToStart);
+    }
+
+    @Test
+    public void shouldSetFixedPointAtTheOrigin() {
+        final Environment env = new MockEnvironment(0, 0);
+        final ViewBoxLines underTest = new ViewBox(env,2, 5, 400, 400);
+
+        underTest.buildLines(0, 0, 0);
+        assertNumberOfFixedPoints(1, underTest);
+        Assert.assertTrue(pointExists(0, 0, underTest.allFixedPoints()));
+    }
+
+    @Test
+    public void shouldSetFixedPointAtTheOriginAfterTranslation() {
+        final Environment env = new MockEnvironment(0, 0);
+        final ViewBoxLines underTest = new ViewBox(env,2, 5, 400, 400);
+
+        underTest.buildLines(0.5, 0.5, 0);
+        assertNumberOfFixedPoints(1, underTest);
+        Assert.assertTrue(pointExists(-0.5, -0.5, underTest.allFixedPoints()));
+    }
+
+    @Test
+    public void shouldSetFixedPointAtTheOriginAfterRotation() {
+        final Environment env = new MockEnvironment(0, 0);
+        final ViewBoxLines underTest = new ViewBox(env,2, 5, 400, 400);
+
+        underTest.buildLines(0, 0, Math.PI/4);
+        assertNumberOfFixedPoints(1, underTest);
+        Assert.assertTrue(pointExists(0, 0, underTest.allFixedPoints()));
+    }
+
+    @Test
+    public void shouldSetFixedPointAfterRotation() {
+        final Environment env = new MockEnvironment(0, 0.5);
+        final ViewBoxLines underTest = new ViewBox(env,2, 5, 400, 400);
+
+        underTest.buildLines(0, 0, Math.PI/2);
+        assertNumberOfFixedPoints(1, underTest);
+        Assert.assertTrue(pointExists(0.5, 0, underTest.allFixedPoints()));
+    }
+
+    @Test
+    public void shouldSetFixedPointAfterRotationAndTranslation() {
+        final Environment env = new MockEnvironment(0, 0.3);
+        final ViewBoxLines underTest = new ViewBox(env,2, 5, 400, 400);
+
+        underTest.buildLines(0, -0.2, Math.PI/2);
+        assertNumberOfFixedPoints(1, underTest);
+        Assert.assertTrue(pointExists(0.5, 0, underTest.allFixedPoints()));
+    }
+
+    private void assertNumberOfFixedPoints(int expected, ViewBoxLines underTest) {
+        Assert.assertEquals(expected, underTest.numberOfSetFixedPoints());
+
+        final Point[] points = underTest.allFixedPoints();
+        Assert.assertNotNull(points);
+
+        int actual = 0;
+        for (Point p : points) {
+            if (p.isNotNull()) {
+                actual++;
+            }
+        }
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    private boolean pointExists(double x, double y, Point[] points) {
+        for (Point p : points) {
+            if (p.isNotNull() && isCloseEnough(x, p.x) && isCloseEnough(y, p.y)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private boolean isCloseEnough(double expected, double actual) {

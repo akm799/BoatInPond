@@ -74,4 +74,13 @@ public class PointTest {
         Assert.assertEquals( c, underTest.x, accuracy);
         Assert.assertEquals(-c, underTest.y, accuracy);
     }
+
+    @Test
+    public void shouldSetPixel() {
+        final Point underTest = new Point(0.5, 0.5);
+
+        underTest.setPixel(2, 2, 400, 400);
+        Assert.assertEquals(300, underTest.pixel.x);
+        Assert.assertEquals(100, underTest.pixel.y);
+    }
 }
