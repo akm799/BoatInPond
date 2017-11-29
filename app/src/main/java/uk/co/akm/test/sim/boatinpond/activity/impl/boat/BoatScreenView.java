@@ -10,11 +10,11 @@ import uk.co.akm.test.sim.boatinpond.view.ScreenView;
 import uk.co.akm.test.sim.boatinpond.view.ViewData;
 
 /**
- * Created by Thanos Mavroidis on 26/11/2017.
+ * Created by Thanos Mavroidis on 29/11/2017.
  */
 final class BoatScreenView extends ScreenView<BoatViewBox> {
     private final int iFr = 20;
-    private final int rFr = 4;
+    private final int rFr = 2;
     private final Paint shapePaint = new Paint();
 
     public BoatScreenView(Context context) {
@@ -45,14 +45,24 @@ final class BoatScreenView extends ScreenView<BoatViewBox> {
         final int cx = w/2;
         final int cy = h/2;
 
-        // Draw boat shape
-        canvas.drawLine(cx - s, cy + s, cx, cy - s, shapePaint);
-        canvas.drawLine(cx, cy - s, cx + s, cy + s, shapePaint);
-        canvas.drawLine(cx + s, cy + s, cx - s, cy + s, shapePaint);
+        drawBoatShape(cx, cy, s, canvas);
+        drawBoatRudder(cx, cy, s, viewBox.getRudderDeflectionFraction(), canvas);
+    }
 
-        // Draw rudder
+    private void drawBoatShape(float cx, float cy, float s, Canvas canvas) {
+        final float left = cx - s;
+        final float right = cx + s;
+        final float top = cy - s;
+        final float bottom = cy + s;
+        canvas.drawLine(left, bottom, cx, top, shapePaint);
+        canvas.drawLine(cx, top, right, bottom, shapePaint);
+        canvas.drawLine(right, bottom, left, bottom, shapePaint);
+    }
+
+    private void drawBoatRudder(float cx, float cy, float s, float fraction, Canvas canvas) {
         final float rds = s/rFr;
-        final float rdDfl = rds*viewBox.getRudderDeflectionFraction();
-        canvas.drawLine(cx, cy + s, cx - rds*rdDfl, cy + s + rds, shapePaint);
+        final float rdDfl = rds*fraction;
+        final float bottom = cy + s;
+        canvas.drawLine(cx, bottom, cx - rdDfl, bottom + rds, shapePaint);
     }
 }

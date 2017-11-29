@@ -12,7 +12,7 @@ import uk.co.akm.test.sim.boatinpond.boat.Boat;
 import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
 
 /**
- * Created by Thanos Mavroidis on 26/11/2017.
+ * Created by Thanos Mavroidis on 29/11/2017.
  */
 public final class BoatActivity extends ViewBoxStateActivity<Boat, BoatViewBox> {
     private Button commandBtn;
