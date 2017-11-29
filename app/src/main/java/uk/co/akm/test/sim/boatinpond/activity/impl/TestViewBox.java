@@ -41,11 +41,6 @@ final class TestViewBox implements ViewData<TestBody> {
     }
 
     @Override
-    public int buildLines(double x, double y, double a) {
-        return viewBox.buildLines(x, y, a);
-    }
-
-    @Override
     public int numberOfSetLines() {
         return viewBox.numberOfSetLines();
     }

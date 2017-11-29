@@ -131,13 +131,6 @@ public final class ViewBox implements ViewBoxLines {
         buildLinesAndPoints(state.x(), state.y(), a);
     }
 
-    @Deprecated
-    @Override
-    public int buildLines(double x, double y, double a) {
-        buildLinesAndPoints(x, y, a);
-        return nLines;
-    }
-
     /**
      * @param x the x-coordinate
      * @param y the y-coordinate

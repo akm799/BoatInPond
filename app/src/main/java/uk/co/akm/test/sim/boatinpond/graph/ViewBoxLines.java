@@ -10,25 +10,20 @@ import uk.co.akm.test.sim.boatinpond.phys.State;
  * heading of the body. For example if the body heading is parallel to the x-axis or the y-axis, then
  * the contour line will be horizontal and vertical wrt the screen orientation. However, if the body
  * heading is at some other angle, then the contour lines will be tilted, in order to visually
- * represent that heading.
+ * represent that heading. If specified, a set number of fixed points, that are within the view box
+ * in its current state, will also be build.
  *
  * Created by Thanos Mavroidis on 26/11/2017.
  */
 public interface ViewBoxLines {
 
-    void buildFeatures(State state);
-
     /**
-     * Builds the contour lines that can be drawn to represent a body at coordinates (x,y) with a
-     * heading represented by an angle a.
+     * Builds the contour lines and, if specified, fixed points that can be drawn to represent a body
+     * in the input state.
      *
-     * @param x the body x-coordinate
-     * @param y the body y-coordinate
-     * @param a the body heading in radians
-     * @return the number of contour lines to be drawn
+     * @param state the state of the body which is to be represented
      */
-    @Deprecated
-    int buildLines(double x, double y, double a);
+    void buildFeatures(State state);
 
     /**
      * Returns the number of contour lines to be drawn.

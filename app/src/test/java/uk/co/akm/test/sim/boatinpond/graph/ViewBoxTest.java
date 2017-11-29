@@ -5,6 +5,8 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import uk.co.akm.test.sim.boatinpond.env.Environment;
+import uk.co.akm.test.sim.boatinpond.math.MathConstants;
+import uk.co.akm.test.sim.boatinpond.phys.State;
 
 /**
  * Created by Thanos Mavroidis on 19/11/2017.
@@ -16,9 +18,8 @@ public class ViewBoxTest {
     public void shouldBuildLines() {
         final ViewBoxLines underTest = new ViewBox(2, 5, 400, 400);
 
-        final int nLines = underTest.buildLines(0, 0, 0);
-        Assert.assertEquals(2, nLines);
-        assertNumberOfSetLines(nLines, underTest);
+        buildFeatures(0, 0, 0, underTest);
+        assertNumberOfSetLines(2, underTest);
         Assert.assertTrue(lineExists(-1, 0, 1, 0, underTest.allLines()));
         Assert.assertTrue(lineExists(0, -1, 0, 1, underTest.allLines()));
     }
@@ -27,9 +28,8 @@ public class ViewBoxTest {
     public void shouldBuildMultipleLines() {
         final ViewBoxLines underTest = new ViewBox(3, 1, 400, 400);
 
-        final int nLines = underTest.buildLines(0, 0, 0);
-        Assert.assertEquals(6, nLines);
-        assertNumberOfSetLines(nLines, underTest);
+        buildFeatures(0, 0, 0, underTest);
+        assertNumberOfSetLines(6, underTest);
 
         Assert.assertTrue(lineExists(-1.5, -1, 1.5, -1, underTest.allLines()));
         Assert.assertTrue(lineExists(-1.5, 0, 1.5, 0, underTest.allLines()));
@@ -44,9 +44,8 @@ public class ViewBoxTest {
     public void shouldBuildMultipleLinesWhenBoxIsNotSquared() {
         final ViewBoxLines underTest = new ViewBox(3, 1, 400, 800);
 
-        final int nLines = underTest.buildLines(0, 0, 0);
-        Assert.assertEquals(8, nLines);
-        assertNumberOfSetLines(nLines, underTest);
+        buildFeatures(0, 0, 0, underTest);
+        assertNumberOfSetLines(8, underTest);
 
         Assert.assertTrue(lineExists(-1.5, -2, 1.5, -2, underTest.allLines()));
         Assert.assertTrue(lineExists(-1.5, -1, 1.5, -1, underTest.allLines()));
@@ -63,9 +62,8 @@ public class ViewBoxTest {
     public void shouldBuildLinesAfterRotation() {
         final ViewBoxLines underTest = new ViewBox(2, 5, 400, 400);
 
-        final int nLines = underTest.buildLines(0, 0, Math.PI/2);
-        Assert.assertEquals(2, nLines);
-        assertNumberOfSetLines(nLines, underTest);
+        buildFeatures(0, 0, Math.PI/2, underTest);
+        assertNumberOfSetLines(2, underTest);
         Assert.assertTrue(lineExists(-1, 0, 1, 0, underTest.allLines()));
         Assert.assertTrue(lineExists(0, -1, 0, 1, underTest.allLines()));
     }
@@ -74,9 +72,8 @@ public class ViewBoxTest {
     public void shouldBuildLinesAfter45DegreeRotation() {
         final ViewBoxLines underTest = new ViewBox(2, 5, 400, 400);
 
-        final int nLines = underTest.buildLines(0, 0, Math.PI/4);
-        Assert.assertEquals(2, nLines);
-        assertNumberOfSetLines(nLines, underTest);
+        buildFeatures(0, 0, Math.PI/4, underTest);
+        assertNumberOfSetLines(2, underTest);
         Assert.assertTrue(lineExists(1, -1, -1, 1, underTest.allLines()));
         Assert.assertTrue(lineExists(-1, -1, 1, 1, underTest.allLines()));
     }
@@ -85,9 +82,8 @@ public class ViewBoxTest {
     public void shouldBuildLinesAfterTranslation() {
         final ViewBoxLines underTest = new ViewBox(2, 5, 400, 400);
 
-        final int nLines = underTest.buildLines(5, 5, 0);
-        Assert.assertEquals(2, nLines);
-        assertNumberOfSetLines(nLines, underTest);
+        buildFeatures(5, 5, 0, underTest);
+        assertNumberOfSetLines(2, underTest);
         Assert.assertTrue(lineExists(-1, 0, 1, 0, underTest.allLines()));
         Assert.assertTrue(lineExists(0, -1, 0, 1, underTest.allLines()));
     }
@@ -96,9 +92,8 @@ public class ViewBoxTest {
     public void shouldBuildLinesAfterRotationAndRotation() {
         final ViewBoxLines underTest = new ViewBox(2, 5, 400, 400);
 
-        final int nLines = underTest.buildLines(5, 5, Math.PI/2);
-        Assert.assertEquals(2, nLines);
-        assertNumberOfSetLines(nLines, underTest);
+        buildFeatures(5, 5, Math.PI/2, underTest);
+        assertNumberOfSetLines(2, underTest);
         Assert.assertTrue(lineExists(-1, 0, 1, 0, underTest.allLines()));
         Assert.assertTrue(lineExists(0, -1, 0, 1, underTest.allLines()));
     }
@@ -148,7 +143,7 @@ public class ViewBoxTest {
         final Environment env = new MockEnvironment(0, 0);
         final ViewBoxLines underTest = new ViewBox(env,2, 5, 400, 400);
 
-        underTest.buildLines(0, 0, 0);
+        buildFeatures(0, 0, 0, underTest);
         assertNumberOfFixedPoints(1, underTest);
         Assert.assertTrue(pointExists(0, 0, underTest.allFixedPoints()));
     }
@@ -158,7 +153,7 @@ public class ViewBoxTest {
         final Environment env = new MockEnvironment(0, 0);
         final ViewBoxLines underTest = new ViewBox(env,2, 5, 400, 400);
 
-        underTest.buildLines(0.5, 0.5, 0);
+        buildFeatures(0.5, 0.5, 0, underTest);
         assertNumberOfFixedPoints(1, underTest);
         Assert.assertTrue(pointExists(-0.5, -0.5, underTest.allFixedPoints()));
     }
@@ -168,7 +163,7 @@ public class ViewBoxTest {
         final Environment env = new MockEnvironment(0, 0);
         final ViewBoxLines underTest = new ViewBox(env,2, 5, 400, 400);
 
-        underTest.buildLines(0, 0, Math.PI/4);
+        buildFeatures(0, 0, Math.PI/4, underTest);
         assertNumberOfFixedPoints(1, underTest);
         Assert.assertTrue(pointExists(0, 0, underTest.allFixedPoints()));
     }
@@ -178,7 +173,7 @@ public class ViewBoxTest {
         final Environment env = new MockEnvironment(0, 0.5);
         final ViewBoxLines underTest = new ViewBox(env,2, 5, 400, 400);
 
-        underTest.buildLines(0, 0, Math.PI/2);
+        buildFeatures(0, 0, Math.PI/2, underTest);
         assertNumberOfFixedPoints(1, underTest);
         Assert.assertTrue(pointExists(0.5, 0, underTest.allFixedPoints()));
     }
@@ -188,7 +183,7 @@ public class ViewBoxTest {
         final Environment env = new MockEnvironment(0, 0.3);
         final ViewBoxLines underTest = new ViewBox(env,2, 5, 400, 400);
 
-        underTest.buildLines(0, -0.2, Math.PI/2);
+        buildFeatures(0, -0.2, Math.PI/2, underTest);
         assertNumberOfFixedPoints(1, underTest);
         Assert.assertTrue(pointExists(0.5, 0, underTest.allFixedPoints()));
     }
@@ -217,6 +212,11 @@ public class ViewBoxTest {
         }
 
         return false;
+    }
+
+    private void buildFeatures(double x, double y, double a, ViewBoxLines underTest) {
+        final State state = new Mock2DState(x, y, a + MathConstants.PI_OVER_TWO);
+        underTest.buildFeatures(state);
     }
 
     private boolean isCloseEnough(double expected, double actual) {
