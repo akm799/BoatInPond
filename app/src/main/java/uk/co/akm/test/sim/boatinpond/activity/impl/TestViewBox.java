@@ -10,6 +10,7 @@ import uk.co.akm.test.sim.boatinpond.graph.ViewBox;
 import uk.co.akm.test.sim.boatinpond.graph.ViewBoxLines;
 import uk.co.akm.test.sim.boatinpond.math.Angle;
 import uk.co.akm.test.sim.boatinpond.math.Angles;
+import uk.co.akm.test.sim.boatinpond.phys.State;
 import uk.co.akm.test.sim.boatinpond.view.ViewData;
 
 /**
@@ -32,6 +33,11 @@ final class TestViewBox implements ViewData<TestBody> {
     TestViewBox(double horizontalSide, double lineSpacing, int screenWidth, int screenHeight) {
         final Environment env = new TestEnvironment();
         viewBox = new ViewBox(env, horizontalSide, lineSpacing, screenWidth, screenHeight);
+    }
+
+    @Override
+    public void buildFeatures(State state) {
+        viewBox.buildFeatures(state);
     }
 
     @Override
@@ -65,8 +71,7 @@ final class TestViewBox implements ViewData<TestBody> {
         final Angle latitude = new Angle(state.y()/EARTH_RADIUS);
         coordinates = (latitude.toLat(latLongFormat) + "   " + longitude.toLong(latLongFormat));
 
-        final double heading = Angles.toProperAngle(state.hdn() + Math.PI/2); // Translate the coordinate system rotation to the test body heading angle.
-        compassHeading = compassFormat.format(Math.round(Angles.toCompassHeading(Angles.toDeg(heading))));
+        compassHeading = compassFormat.format(Math.round(Angles.toCompassHeading(Angles.toDeg(state.hdnP()))));
         speed = speedFormat.format(METRES_PER_SEC_TO_KNOTS*state.v());
     }
 

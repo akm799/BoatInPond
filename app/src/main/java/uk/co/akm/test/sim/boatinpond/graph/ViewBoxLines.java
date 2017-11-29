@@ -1,5 +1,7 @@
 package uk.co.akm.test.sim.boatinpond.graph;
 
+import uk.co.akm.test.sim.boatinpond.phys.State;
+
 /**
  * Interface that builds contour lines for a state at coordinates (x,y) with a heading represented by
  * an angle a. The contour lines are equally spaced horizontal and vertical lines along the x-y plane.
@@ -14,6 +16,8 @@ package uk.co.akm.test.sim.boatinpond.graph;
  */
 public interface ViewBoxLines {
 
+    void buildFeatures(State state);
+
     /**
      * Builds the contour lines that can be drawn to represent a body at coordinates (x,y) with a
      * heading represented by an angle a.
@@ -23,6 +27,7 @@ public interface ViewBoxLines {
      * @param a the body heading in radians
      * @return the number of contour lines to be drawn
      */
+    @Deprecated
     int buildLines(double x, double y, double a);
 
     /**

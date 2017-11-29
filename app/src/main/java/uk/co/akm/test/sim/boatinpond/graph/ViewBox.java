@@ -4,6 +4,8 @@ package uk.co.akm.test.sim.boatinpond.graph;
 import java.util.Arrays;
 
 import uk.co.akm.test.sim.boatinpond.env.Environment;
+import uk.co.akm.test.sim.boatinpond.math.MathConstants;
+import uk.co.akm.test.sim.boatinpond.phys.State;
 
 /**
  * Created by Thanos Mavroidis on 17/11/2017.
@@ -124,7 +126,24 @@ public final class ViewBox implements ViewBoxLines {
     }
 
     @Override
+    public void buildFeatures(State state) {
+        final double a = state.hdn() - MathConstants.PI_OVER_TWO; // At a heading of 90 degrees we are pointing towards the y-axis. At this heading the angle that we need to rotate the coordinate axes by is zero. So to derive the rotation angle we must subtract 90 degrees (PI/2) from the heading angle.
+        buildLinesAndPoints(state.x(), state.y(), a);
+    }
+
+    @Deprecated
+    @Override
     public int buildLines(double x, double y, double a) {
+        buildLinesAndPoints(x, y, a);
+        return nLines;
+    }
+
+    /**
+     * @param x the x-coordinate
+     * @param y the y-coordinate
+     * @param a the angle in the clockwise direction that the x and y axes must be rotated (in radians)
+     */
+    private void buildLinesAndPoints(double x, double y, double a) {
         placeAtOrigin();
         rotateAndTranslateBox(a, x, y);
 
@@ -136,8 +155,6 @@ public final class ViewBox implements ViewBoxLines {
         if (fixedPoints != null) {
             setFixedPointPixels();
         }
-
-        return nLines;
     }
 
     private void placeAtOrigin() {
