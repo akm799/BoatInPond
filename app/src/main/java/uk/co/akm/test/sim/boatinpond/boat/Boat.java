@@ -88,4 +88,8 @@ public final class Boat extends Body {
             ay = aLon*sina + aLat*cosa; // Mass is 1
         }
     }
+
+    public double getRudderAngle() {
+        return ra;
+    }
 }
