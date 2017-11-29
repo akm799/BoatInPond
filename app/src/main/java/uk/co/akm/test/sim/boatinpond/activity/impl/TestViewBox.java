@@ -7,7 +7,7 @@ import uk.co.akm.test.sim.boatinpond.env.Environment;
 import uk.co.akm.test.sim.boatinpond.graph.Line;
 import uk.co.akm.test.sim.boatinpond.graph.Point;
 import uk.co.akm.test.sim.boatinpond.graph.ViewBox;
-import uk.co.akm.test.sim.boatinpond.graph.ViewBoxLines;
+import uk.co.akm.test.sim.boatinpond.graph.ViewBoxFeatures;
 import uk.co.akm.test.sim.boatinpond.math.Angle;
 import uk.co.akm.test.sim.boatinpond.math.Angles;
 import uk.co.akm.test.sim.boatinpond.phys.State;
@@ -20,7 +20,7 @@ final class TestViewBox implements ViewData<TestBody> {
     private static final double EARTH_RADIUS = 6371000;
     private static final double METRES_PER_SEC_TO_KNOTS = 1.94384;
 
-    private final ViewBoxLines viewBox;
+    private final ViewBoxFeatures viewBox;
 
     private String coordinates;
     private String compassHeading;

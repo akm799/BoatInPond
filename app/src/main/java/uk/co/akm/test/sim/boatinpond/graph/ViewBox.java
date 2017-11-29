@@ -10,7 +10,7 @@ import uk.co.akm.test.sim.boatinpond.phys.State;
 /**
  * Created by Thanos Mavroidis on 17/11/2017.
  */
-public final class ViewBox implements ViewBoxLines {
+public final class ViewBox implements ViewBoxFeatures {
     private final double horizontalSide;
     private final double verticalSide;
     private final double lineSpacing;

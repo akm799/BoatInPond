@@ -16,7 +16,7 @@ public class ViewBoxTest {
 
     @Test
     public void shouldBuildLines() {
-        final ViewBoxLines underTest = new ViewBox(2, 5, 400, 400);
+        final ViewBoxFeatures underTest = new ViewBox(2, 5, 400, 400);
 
         buildFeatures(0, 0, 0, underTest);
         assertNumberOfSetLines(2, underTest);
@@ -26,7 +26,7 @@ public class ViewBoxTest {
 
     @Test
     public void shouldBuildMultipleLines() {
-        final ViewBoxLines underTest = new ViewBox(3, 1, 400, 400);
+        final ViewBoxFeatures underTest = new ViewBox(3, 1, 400, 400);
 
         buildFeatures(0, 0, 0, underTest);
         assertNumberOfSetLines(6, underTest);
@@ -42,7 +42,7 @@ public class ViewBoxTest {
 
     @Test
     public void shouldBuildMultipleLinesWhenBoxIsNotSquared() {
-        final ViewBoxLines underTest = new ViewBox(3, 1, 400, 800);
+        final ViewBoxFeatures underTest = new ViewBox(3, 1, 400, 800);
 
         buildFeatures(0, 0, 0, underTest);
         assertNumberOfSetLines(8, underTest);
@@ -60,7 +60,7 @@ public class ViewBoxTest {
 
     @Test
     public void shouldBuildLinesAfterRotation() {
-        final ViewBoxLines underTest = new ViewBox(2, 5, 400, 400);
+        final ViewBoxFeatures underTest = new ViewBox(2, 5, 400, 400);
 
         buildFeatures(0, 0, Math.PI/2, underTest);
         assertNumberOfSetLines(2, underTest);
@@ -70,7 +70,7 @@ public class ViewBoxTest {
 
     @Test
     public void shouldBuildLinesAfter45DegreeRotation() {
-        final ViewBoxLines underTest = new ViewBox(2, 5, 400, 400);
+        final ViewBoxFeatures underTest = new ViewBox(2, 5, 400, 400);
 
         buildFeatures(0, 0, Math.PI/4, underTest);
         assertNumberOfSetLines(2, underTest);
@@ -80,7 +80,7 @@ public class ViewBoxTest {
 
     @Test
     public void shouldBuildLinesAfterTranslation() {
-        final ViewBoxLines underTest = new ViewBox(2, 5, 400, 400);
+        final ViewBoxFeatures underTest = new ViewBox(2, 5, 400, 400);
 
         buildFeatures(5, 5, 0, underTest);
         assertNumberOfSetLines(2, underTest);
@@ -90,7 +90,7 @@ public class ViewBoxTest {
 
     @Test
     public void shouldBuildLinesAfterRotationAndRotation() {
-        final ViewBoxLines underTest = new ViewBox(2, 5, 400, 400);
+        final ViewBoxFeatures underTest = new ViewBox(2, 5, 400, 400);
 
         buildFeatures(5, 5, Math.PI/2, underTest);
         assertNumberOfSetLines(2, underTest);
@@ -98,7 +98,7 @@ public class ViewBoxTest {
         Assert.assertTrue(lineExists(0, -1, 0, 1, underTest.allLines()));
     }
 
-    private void assertNumberOfSetLines(int expected, ViewBoxLines underTest) {
+    private void assertNumberOfSetLines(int expected, ViewBoxFeatures underTest) {
         Assert.assertEquals(expected, underTest.numberOfSetLines());
 
         final Line[] lines = underTest.allLines();
@@ -141,7 +141,7 @@ public class ViewBoxTest {
     @Test
     public void shouldSetFixedPointAtTheOrigin() {
         final Environment env = new MockEnvironment(0, 0);
-        final ViewBoxLines underTest = new ViewBox(env,2, 5, 400, 400);
+        final ViewBoxFeatures underTest = new ViewBox(env,2, 5, 400, 400);
 
         buildFeatures(0, 0, 0, underTest);
         assertNumberOfFixedPoints(1, underTest);
@@ -151,7 +151,7 @@ public class ViewBoxTest {
     @Test
     public void shouldSetFixedPointAtTheOriginAfterTranslation() {
         final Environment env = new MockEnvironment(0, 0);
-        final ViewBoxLines underTest = new ViewBox(env,2, 5, 400, 400);
+        final ViewBoxFeatures underTest = new ViewBox(env,2, 5, 400, 400);
 
         buildFeatures(0.5, 0.5, 0, underTest);
         assertNumberOfFixedPoints(1, underTest);
@@ -161,7 +161,7 @@ public class ViewBoxTest {
     @Test
     public void shouldSetFixedPointAtTheOriginAfterRotation() {
         final Environment env = new MockEnvironment(0, 0);
-        final ViewBoxLines underTest = new ViewBox(env,2, 5, 400, 400);
+        final ViewBoxFeatures underTest = new ViewBox(env,2, 5, 400, 400);
 
         buildFeatures(0, 0, Math.PI/4, underTest);
         assertNumberOfFixedPoints(1, underTest);
@@ -171,7 +171,7 @@ public class ViewBoxTest {
     @Test
     public void shouldSetFixedPointAfterRotation() {
         final Environment env = new MockEnvironment(0, 0.5);
-        final ViewBoxLines underTest = new ViewBox(env,2, 5, 400, 400);
+        final ViewBoxFeatures underTest = new ViewBox(env,2, 5, 400, 400);
 
         buildFeatures(0, 0, Math.PI/2, underTest);
         assertNumberOfFixedPoints(1, underTest);
@@ -181,14 +181,14 @@ public class ViewBoxTest {
     @Test
     public void shouldSetFixedPointAfterRotationAndTranslation() {
         final Environment env = new MockEnvironment(0, 0.3);
-        final ViewBoxLines underTest = new ViewBox(env,2, 5, 400, 400);
+        final ViewBoxFeatures underTest = new ViewBox(env,2, 5, 400, 400);
 
         buildFeatures(0, -0.2, Math.PI/2, underTest);
         assertNumberOfFixedPoints(1, underTest);
         Assert.assertTrue(pointExists(0.5, 0, underTest.allFixedPoints()));
     }
 
-    private void assertNumberOfFixedPoints(int expected, ViewBoxLines underTest) {
+    private void assertNumberOfFixedPoints(int expected, ViewBoxFeatures underTest) {
         Assert.assertEquals(expected, underTest.numberOfSetFixedPoints());
 
         final Point[] points = underTest.allFixedPoints();
@@ -214,7 +214,7 @@ public class ViewBoxTest {
         return false;
     }
 
-    private void buildFeatures(double x, double y, double a, ViewBoxLines underTest) {
+    private void buildFeatures(double x, double y, double a, ViewBoxFeatures underTest) {
         final State state = new Mock2DState(x, y, a + MathConstants.PI_OVER_TWO);
         underTest.buildFeatures(state);
     }

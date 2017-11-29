@@ -15,7 +15,7 @@ import uk.co.akm.test.sim.boatinpond.phys.State;
  *
  * Created by Thanos Mavroidis on 26/11/2017.
  */
-public interface ViewBoxLines {
+public interface ViewBoxFeatures {
 
     /**
      * Builds the contour lines and, if specified, fixed points that can be drawn to represent a body
@@ -41,7 +41,21 @@ public interface ViewBoxLines {
      */
     Line[] allLines();
 
+    /**
+     * Returns the number of fixed points set or zero if none are set or none are within the view l
+     * ayout out by the contour lines in the current state.
+     *
+     * @return the number of fixed points set or zero if none are set or none are within the view l
+     * ayout out by the contour lines in the current state
+     */
     int numberOfSetFixedPoints();
 
+    /**
+     * Returns all the possible fixed points or null if none are set. The actual fixed points that
+     * can be drawn consist of the first {@link #numberOfSetFixedPoints()} points in this array.
+     *
+     * @return all the possible fixed points or null if none are set. The actual fixed points that
+     * can be drawn consist of the first {@link #numberOfSetFixedPoints()} points in this array.
+     */
     Point[] allFixedPoints();
 }
