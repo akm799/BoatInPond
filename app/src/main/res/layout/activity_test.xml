@@ -20,7 +20,7 @@
         android:layout_marginTop="16dp"
         tools:text="Heading"/>
 
-    <uk.co.akm.test.sim.boatinpond.activity.impl.TestScreenView
+    <uk.co.akm.test.sim.boatinpond.activity.impl.test.TestScreenView
         android:id="@+id/test_screen_view"
         android:layout_width="match_parent"
         android:layout_height="400dp"

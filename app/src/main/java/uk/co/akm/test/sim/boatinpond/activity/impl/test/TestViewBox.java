@@ -1,4 +1,4 @@
-package uk.co.akm.test.sim.boatinpond.activity.impl;
+package uk.co.akm.test.sim.boatinpond.activity.impl.test;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -14,6 +14,8 @@ import uk.co.akm.test.sim.boatinpond.phys.State;
 import uk.co.akm.test.sim.boatinpond.view.ViewData;
 
 /**
+ * Normal view box with some fixed points for testing.
+ *
  * Created by Thanos Mavroidis on 27/11/2017.
  */
 final class TestViewBox implements ViewData<TestBody> {
@@ -82,6 +84,7 @@ final class TestViewBox implements ViewData<TestBody> {
         return speed;
     }
 
+    // Test reference points along the x-axis.
     private static final class TestEnvironment implements Environment {
         private final Point[] fixedPoints = {new Point(-10, 0), new Point(-5, 0), new Point(0, 0), new Point(5, 0), new Point(10, 0)};
 

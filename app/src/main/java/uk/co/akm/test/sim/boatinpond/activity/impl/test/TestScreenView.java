@@ -1,4 +1,4 @@
-package uk.co.akm.test.sim.boatinpond.activity.impl;
+package uk.co.akm.test.sim.boatinpond.activity.impl.test;
 
 import android.content.Context;
 import android.graphics.Canvas;

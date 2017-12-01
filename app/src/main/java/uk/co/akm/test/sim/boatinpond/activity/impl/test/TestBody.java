@@ -1,10 +1,12 @@
-package uk.co.akm.test.sim.boatinpond.activity.impl;
+package uk.co.akm.test.sim.boatinpond.activity.impl.test;
 
 
 import uk.co.akm.test.sim.boatinpond.phys.Body;
 import uk.co.akm.test.sim.boatinpond.phys.State;
 
 /**
+ * Simulating circular motion for testing.
+ *
  * Created by Thanos Mavroidis on 26/11/2017.
  */
 final class TestBody extends Body {
