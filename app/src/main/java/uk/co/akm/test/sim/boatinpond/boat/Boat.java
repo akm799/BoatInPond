@@ -2,6 +2,7 @@ package uk.co.akm.test.sim.boatinpond.boat;
 
 
 import uk.co.akm.test.sim.boatinpond.phys.Body;
+import uk.co.akm.test.sim.boatinpond.phys.State;
 
 /**
  * Simulates a propulsion-less boat gliding in a pond after some initial push. The simulation assumes
@@ -48,15 +49,15 @@ public final class Boat extends Body {
     }
 
     @Override
-    protected void updateAngularAcceleration(double dt) {
-        final double v = v();
+    protected void updateAngularAcceleration(State start, double dt) {
+        final double v = start.v();
         if (v > 0) {
-            final double a = hdn();
+            final double a = start.hdn();
             final double cosa = Math.cos(a);
             final double sina = Math.sin(a);
 
-            final double vx = vx();
-            final double vy = vy();
+            final double vx = start.vx();
+            final double vy = start.vy();
             final double vLon =  vx*cosa + vy*sina;
 
             aHdn = kRud*vLon*Math.sin(2*ra) - kAng*omgHdn(); // Moment of inertia is 1.
@@ -64,15 +65,15 @@ public final class Boat extends Body {
     }
 
     @Override
-    protected void updateAcceleration(double dt) {
-        final double v = v();
+    protected void updateAcceleration(State start, double dt) {
+        final double v = start.v();
         if (v > 0) {
-            final double a = hdn();
+            final double a = start.hdn();
             final double cosa = Math.cos(a);
             final double sina = Math.sin(a);
 
-            final double vx = vx();
-            final double vy = vy();
+            final double vx = start.vx();
+            final double vy = start.vy();
             // Rotate an angle -a to be able to decompose the velocity along the wrt the boat heading.
             final double vLon =  vx*cosa + vy*sina;
             final double vLat = -vx*sina + vy*cosa;

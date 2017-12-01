@@ -46,6 +46,9 @@ public abstract class Body implements UpdatableState {
 
     private double t; // current time
 
+    // The body state before the integration step, i.e. the starting point of the integration step.
+    private final StateData startState = new StateData();
+
     /**
      * Creates a body in some initial state defined by the constructor arguments.
      *
@@ -90,9 +93,10 @@ public abstract class Body implements UpdatableState {
      * @param dt the small time increment
      */
     public final void update(double dt) {
-        updateAngularAcceleration(dt);
+        startState.set(this); // Save the state before we start the integration step.
+        updateAngularAcceleration(startState, dt);
         updateAngularVelocityAndAngles(dt);
-        updateAcceleration(dt);
+        updateAcceleration(startState, dt);
         updateVelocityAndPosition(dt);
         t += dt;
     }
@@ -104,18 +108,22 @@ public abstract class Body implements UpdatableState {
      * fixed axis in the body and not wrt to the coordinate system. In many cases, the velocity
      * vector can be used as a reference wrt which we will define the axes of angular velocities.
      *
+     * @param start the body state before any angular or linear acceleration update (i.e. the
+     *              starting point for this update)
      * @param dt the small time increment
      */
-    protected abstract void updateAngularAcceleration(double dt);
+    protected abstract void updateAngularAcceleration(State start, double dt);
 
     /**
      * Implemented by the user to update acceleration data over a small time increment.
      * The velocity and position information will be updated subsequently with a very
      * basic numerical integration.
      *
+     * @param start the body state before any angular or linear acceleration update (i.e. the
+     *              starting point for this update)
      * @param dt the small time increment
      */
-    protected abstract void updateAcceleration(double dt);
+    protected abstract void updateAcceleration(State start, double dt);
 
     private void updateAngularVelocityAndAngles(double dt) {
         omgHdn += aHdn * dt;

@@ -2,6 +2,7 @@ package uk.co.akm.test.sim.boatinpond.activity.impl;
 
 
 import uk.co.akm.test.sim.boatinpond.phys.Body;
+import uk.co.akm.test.sim.boatinpond.phys.State;
 
 /**
  * Created by Thanos Mavroidis on 26/11/2017.
@@ -25,10 +26,10 @@ final class TestBody extends Body {
     }
 
     @Override
-    protected void updateAngularAcceleration(double dt) {}
+    protected void updateAngularAcceleration(State start, double dt) {}
 
     @Override
-    protected void updateAcceleration(double dt) {
+    protected void updateAcceleration(State start, double dt) {
         final double x = x();
         final double y = y();
         final double r = Math.sqrt(x*x + y*y);
