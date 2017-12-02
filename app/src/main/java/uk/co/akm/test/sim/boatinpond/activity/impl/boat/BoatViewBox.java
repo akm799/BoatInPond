@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import uk.co.akm.test.sim.boatinpond.boat.Boat;
+import uk.co.akm.test.sim.boatinpond.boat.Rudder;
 import uk.co.akm.test.sim.boatinpond.graph.Line;
 import uk.co.akm.test.sim.boatinpond.graph.Point;
 import uk.co.akm.test.sim.boatinpond.graph.ViewBox;
@@ -62,7 +63,8 @@ final class BoatViewBox implements ViewData<Boat> {
 
     @Override
     public void additionalData(Boat state) {
-        rudderDeflectionFraction = (float)(4*state.getRudderAngle()/Math.PI); // Max rudder angle is PI/4. //TODO Move this in some constants.
+        final Rudder rudder = state.getRudder();
+        rudderDeflectionFraction = (float)(4*rudder.getRudderAngle()/rudder.getMaxRudderAngle());
 
         final Angle longitude = new Angle(state.x()/EARTH_RADIUS);
         final Angle latitude = new Angle(state.y()/EARTH_RADIUS);

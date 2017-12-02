@@ -10,6 +10,7 @@ import uk.co.akm.test.sim.boatinpond.R;
 import uk.co.akm.test.sim.boatinpond.activity.ViewBoxStateActivity;
 import uk.co.akm.test.sim.boatinpond.boat.Boat;
 import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
+import uk.co.akm.test.sim.boatinpond.boat.impl.BoatImpl;
 
 /**
  * Created by Thanos Mavroidis on 29/11/2017.
@@ -90,7 +91,8 @@ public final class BoatActivity extends ViewBoxStateActivity<Boat, BoatViewBox> 
 
         final BoatConstants constants = new BoatConstants(v0, frVFinal, tv, kLatOverKLon, omgMax, frOmgFinal, tOmg);
 
-        initState(new Boat(constants, Math.PI/2, 3, Math.PI/32));
+        final double rudderAngle = Math.PI/32;
+        initState(new BoatImpl(constants, Math.PI/2, 3));
         initiate();
     }
 }

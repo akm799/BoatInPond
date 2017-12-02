@@ -3,6 +3,7 @@ package uk.co.akm.test.sim.boatinpond.boat;
 import org.junit.Assert;
 import org.junit.Test;
 
+import uk.co.akm.test.sim.boatinpond.boat.impl.BoatImpl;
 import uk.co.akm.test.sim.boatinpond.math.Angles;
 import uk.co.akm.test.sim.boatinpond.phys.State;
 import uk.co.akm.test.sim.boatinpond.phys.UpdatableState;
@@ -28,9 +29,11 @@ public class BoatTest {
 
     private final BoatConstants constants = new BoatConstants(v0, frVFinal, tv, kLatOverKLon, omgMax, frOmgFinal, tOmg);
 
+    enum RudderState {FULL_LEFT_RUDDER, FULL_RIGHT_RUDDER}
+
     @Test
     public void shouldComeToRest() {
-        final UpdatableState underTest = new Boat(constants, 0, v0, 0);
+        final UpdatableState underTest = new BoatImpl(constants, 0, v0);
         Assert.assertEquals(v0, underTest.v(), accuracy);
         Assert.assertEquals(v0, underTest.vx(), accuracy);
 
@@ -45,7 +48,7 @@ public class BoatTest {
     public void shouldTurnLeftFromZeroDeg() {
         final double hdn0 = 0;
         final double fullLeftRudder = Math.PI/4;
-        final UpdatableState underTest = new Boat(constants, hdn0, v0, fullLeftRudder);
+        final UpdatableState underTest = boatInstance(hdn0, v0, RudderState.FULL_LEFT_RUDDER);
         Assert.assertEquals(v0, underTest.v(), accuracy);
         Assert.assertEquals(v0, underTest.vx(), accuracy);
         Assert.assertEquals(0, underTest.vy(), accuracy);
@@ -69,7 +72,7 @@ public class BoatTest {
     public void shouldTurnRightFromZeroDeg() {
         final double hdn0 = 0;
         final double fullRightRudder = -Math.PI/4;
-        final UpdatableState underTest = new Boat(constants, hdn0, v0, fullRightRudder);
+        final UpdatableState underTest = boatInstance(hdn0, v0, RudderState.FULL_RIGHT_RUDDER);
         Assert.assertEquals(v0, underTest.v(), accuracy);
         Assert.assertEquals(v0, underTest.vx(), accuracy);
         Assert.assertEquals(0, underTest.vy(), accuracy);
@@ -93,7 +96,7 @@ public class BoatTest {
     public void shouldTurnLeftFrom90Deg() {
         final double hdn0 = Math.PI/2;
         final double fullLeftRudder = Math.PI/4;
-        final UpdatableState underTest = new Boat(constants, hdn0, v0, fullLeftRudder);
+        final UpdatableState underTest = boatInstance(hdn0, v0, RudderState.FULL_LEFT_RUDDER);
         Assert.assertEquals(v0, underTest.v(), accuracy);
         Assert.assertEquals(v0, underTest.vy(), accuracy);
         Assert.assertEquals(0, underTest.vx(), accuracy);
@@ -117,7 +120,7 @@ public class BoatTest {
     public void shouldTurnRightFrom90Deg() {
         final double hdn0 = Math.PI/2;
         final double fullRightRudder = -Math.PI/4;
-        final UpdatableState underTest = new Boat(constants, hdn0, v0, fullRightRudder);
+        final UpdatableState underTest = boatInstance(hdn0, v0, RudderState.FULL_RIGHT_RUDDER);
         Assert.assertEquals(v0, underTest.v(), accuracy);
         Assert.assertEquals(v0, underTest.vy(), accuracy);
         Assert.assertEquals(0, underTest.vx(), accuracy);
@@ -141,7 +144,7 @@ public class BoatTest {
     public void shouldTurnRightFromZeroDegAndThenBackLeft() {
         final double hdn0 = 0;
         final double fullRightRudder = -Math.PI/4; // First turn right ...
-        final UpdatableState underTest1 = new Boat(constants, hdn0, v0, fullRightRudder);
+        final UpdatableState underTest1 = boatInstance(hdn0, v0, RudderState.FULL_RIGHT_RUDDER);
         Assert.assertEquals(v0, underTest1.v(), accuracy);
         Assert.assertEquals(v0, underTest1.vx(), accuracy);
         Assert.assertEquals(0, underTest1.vy(), accuracy);
@@ -157,7 +160,7 @@ public class BoatTest {
         }
 
         final double fullLeftRudder = Math.PI/4; // ... and then turn back left ...
-        final UpdatableState underTest2 = new Boat(constants, underTest1.hdn(), v0, fullLeftRudder); // ... from the last heading with the same speed ...
+        final UpdatableState underTest2 = boatInstance(underTest1.hdn(), v0, RudderState.FULL_LEFT_RUDDER); // ... from the last heading with the same speed ...
         Updater.update(underTest2, tOmg, nSteps);
         Assert.assertEquals(hdn0, underTest2.hdn(), accuracy); // ... and end up back at the heading where we started.
         Assert.assertTrue(underTest2.v() < v0);
@@ -170,7 +173,7 @@ public class BoatTest {
     public void shouldTurnRightFromZeroDegAndThenLeft() {
         final double hdn0 = 0;
         final double fullRightRudder = -Math.PI/4; // First turn right ...
-        final UpdatableState underTest1 = new Boat(constants, hdn0, v0, fullRightRudder);
+        final UpdatableState underTest1 = boatInstance(hdn0, v0, RudderState.FULL_RIGHT_RUDDER);
         Assert.assertEquals(v0, underTest1.v(), accuracy);
         Assert.assertEquals(v0, underTest1.vx(), accuracy);
         Assert.assertEquals(0, underTest1.vy(), accuracy);
@@ -186,13 +189,42 @@ public class BoatTest {
         }
 
         final double fullLeftRudder = Math.PI/4; // ... and then turn back left ...
-        final UpdatableState underTest2 = new Boat(constants, underTest1.hdn(), underTest1.v(), fullLeftRudder); // ... from the last heading at the current (reduced) speed ...
+        final UpdatableState underTest2 = boatInstance(underTest1.hdn(), underTest1.v(), RudderState.FULL_LEFT_RUDDER); // ... from the last heading at the current (reduced) speed ...
         Updater.update(underTest2, tOmg, nSteps);
         Assert.assertTrue(underTest2.hdn() > underTest1.hdn()); // ... and end up a bit to the left from our last heading ...
         Assert.assertTrue(underTest2.hdn() < hdn0); // ... but not all the way back from where we started.
         Assert.assertTrue(underTest2.v() < underTest1.v());
         if (underTest2.v() > 0) {
             Assert.assertEquals(underTest2.hdn(), velocityAngle(underTest2), angleAccuracy);
+        }
+    }
+
+    private UpdatableState boatInstance(double hdn0, double v0, RudderState rudderState) {
+        final Boat boat = new BoatImpl(constants, hdn0, v0);
+        if (rudderState != null) {
+            setFullRudder(rudderState, boat.getRudder());
+        }
+
+        return boat;
+    }
+
+    private void setFullRudder(RudderState rudderState, Rudder rudder) {
+        switch (rudderState) {
+            case FULL_LEFT_RUDDER:
+                rudder.leftControlInput();
+                break;
+
+            case FULL_RIGHT_RUDDER:
+                rudder.rightControlInput();
+                break;
+
+            default: throw new IllegalArgumentException("Unrecognized rudder state: " + rudderState);
+        }
+
+        double a = 0;
+        while (a < rudder.getMaxRudderAngle()) {
+            rudder.update(0.1);
+            a = Math.abs(rudder.getRudderAngle());
         }
     }
 
