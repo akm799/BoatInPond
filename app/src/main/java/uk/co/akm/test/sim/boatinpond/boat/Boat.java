@@ -29,6 +29,15 @@ public final class Boat extends Body {
     // Rudder angle.
     private final double ra;
 
+    // Variables for the update steps, held here for optimization purposes.
+    private double cosa; // The cosine of the heading angle.
+    private double sina; // The sine of the heading angle.
+
+    private double v;    // The boat speed.
+    private double vx;   // The x-axis velocity component.
+    private double vy;   // The y-axis velocity component.
+    private double vLon; // The component of the velocity vector along the boat axis.
+
     /**
      * Boat constructor specifying the boat characteristics and the initial conditions.
      *
@@ -49,45 +58,35 @@ public final class Boat extends Body {
     }
 
     @Override
+    protected void initUpdate(State start, double dt) {
+        final double a = start.hdn();
+        cosa = Math.cos(a);
+        sina = Math.sin(a);
+
+        v = start.v();
+        vx = start.vx();
+        vy = start.vy();
+        vLon = vx*cosa + vy*sina;
+    }
+
+    @Override
     protected void updateAngularAcceleration(State start, double dt) {
-        final double v = start.v();
-        if (v > 0) {
-            final double a = start.hdn();
-            final double cosa = Math.cos(a);
-            final double sina = Math.sin(a);
-
-            final double vx = start.vx();
-            final double vy = start.vy();
-            final double vLon =  vx*cosa + vy*sina;
-
-            aHdn = kRud*vLon*Math.sin(2*ra) - kAng*omgHdn(); // Moment of inertia is 1.
-        }
+        aHdn = kRud*vLon*Math.sin(2*ra) - kAng*omgHdn(); // Moment of inertia is 1.
     }
 
     @Override
     protected void updateAcceleration(State start, double dt) {
-        final double v = start.v();
-        if (v > 0) {
-            final double a = start.hdn();
-            final double cosa = Math.cos(a);
-            final double sina = Math.sin(a);
+        final double vLat = -vx*sina + vy*cosa;
 
-            final double vx = start.vx();
-            final double vy = start.vy();
-            // Rotate an angle -a to be able to decompose the velocity along the wrt the boat heading.
-            final double vLon =  vx*cosa + vy*sina;
-            final double vLat = -vx*sina + vy*cosa;
+        //TODO Simulate increased longitudinal resistance due to rudder use (kLonEffective = kLon*kRat*sin(ra) where kRat ~ rudderArea/totalBoatFrontalArea)
 
-            //TODO Simulate increased longitudinal resistance due to rudder use (kLonEffective = kLon*kRat*sin(ra) where kRat ~ rudderArea/totalBoatFrontalArea)
+        // Evaluate the acceleration wrt the boat heading.
+        final double aLon = -kLon*vLon; // Mass is 1
+        final double aLat = -kLat*vLat; // Mass is 1
 
-            // Evaluate the acceleration wrt the boat heading.
-            final double aLon = -kLon*vLon; // Mass is 1
-            final double aLat = -kLat*vLat; // Mass is 1
-
-            // Rotate the acceleration wrt the boat heading an angle a (i.e. the reverse of our previous rotation) to get the acceleration wrt our normal coordinate system.
-            ax = aLon*cosa - aLat*sina; // Mass is 1
-            ay = aLon*sina + aLat*cosa; // Mass is 1
-        }
+        // Rotate the acceleration wrt the boat heading an angle a (i.e. the reverse of our previous rotation) to get the acceleration wrt our normal coordinate system.
+        ax = aLon*cosa - aLat*sina; // Mass is 1
+        ay = aLon*sina + aLat*cosa; // Mass is 1
     }
 
     public double getRudderAngle() {

@@ -94,12 +94,26 @@ public abstract class Body implements UpdatableState {
      */
     public final void update(double dt) {
         startState.set(this); // Save the state before we start the integration step.
+        initUpdate(startState, dt);
+
         updateAngularAcceleration(startState, dt);
         updateAngularVelocityAndAngles(dt);
+
         updateAcceleration(startState, dt);
         updateVelocityAndPosition(dt);
+
         t += dt;
     }
+
+    /**
+     * This method can be used for optimization purposes. Common variables, that are used repeatedly,
+     * for the linear and angular acceleration updates, can be calculated if this method is overriden.
+     *
+     * @param start the body state before any angular or linear acceleration update (i.e. the
+     *              starting point for this update)
+     * @param dt the small time increment
+     */
+    protected void initUpdate(State start, double dt) {}
 
     /**
      * Implemented by the user to update angular acceleration data over a small time increment.
