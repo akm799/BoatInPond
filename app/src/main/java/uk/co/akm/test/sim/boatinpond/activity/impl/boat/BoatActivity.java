@@ -2,6 +2,7 @@ package uk.co.akm.test.sim.boatinpond.activity.impl.boat;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import uk.co.akm.test.sim.boatinpond.R;
 import uk.co.akm.test.sim.boatinpond.activity.ViewBoxStateActivity;
 import uk.co.akm.test.sim.boatinpond.boat.Boat;
 import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
+import uk.co.akm.test.sim.boatinpond.boat.Rudder;
 import uk.co.akm.test.sim.boatinpond.boat.impl.BoatImpl;
 
 /**
@@ -31,6 +33,13 @@ public final class BoatActivity extends ViewBoxStateActivity<Boat, BoatViewBox> 
         heading = findViewById(R.id.heading_txt);
         location = findViewById(R.id.location_txt);
         commandBtn = findViewById(R.id.command_btn);
+
+        setListeners();
+    }
+
+    private void setListeners() {
+        findViewById(R.id.rudder_left_btn).setOnTouchListener(new RudderListener(this, Rudder.LEFT));
+        findViewById(R.id.rudder_right_btn).setOnTouchListener(new RudderListener(this, Rudder.RIGHT));
     }
 
     @Override
@@ -90,9 +99,39 @@ public final class BoatActivity extends ViewBoxStateActivity<Boat, BoatViewBox> 
         final double tOmg = 5;
 
         final BoatConstants constants = new BoatConstants(v0, frVFinal, tv, kLatOverKLon, omgMax, frOmgFinal, tOmg);
-
-        final double rudderAngle = Math.PI/32;
         initState(new BoatImpl(constants, Math.PI/2, 3));
+
         initiate();
+    }
+
+    private static final class RudderListener implements View.OnTouchListener {
+        private final int direction;
+        private final BoatActivity parent;
+
+        RudderListener(BoatActivity parent, int direction) {
+            this.parent = parent;
+            this.direction = direction;
+        }
+
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                final Boat boat = parent.getStateReference();
+                if (boat != null) {
+                    if (direction == Rudder.LEFT) {
+                        boat.getRudder().leftControlInput();
+                    } else if (direction == Rudder.RIGHT) {
+                        boat.getRudder().rightControlInput();
+                    }
+                }
+            } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                final Boat boat = parent.getStateReference();
+                if (boat != null) {
+                    boat.getRudder().noControlInput();
+                }
+            }
+
+            return true;
+        }
     }
 }

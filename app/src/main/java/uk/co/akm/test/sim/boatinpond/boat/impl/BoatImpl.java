@@ -57,6 +57,15 @@ public final class BoatImpl extends Body implements Boat {
 
     @Override
     protected void initUpdate(State start, double dt) {
+        updateControls(dt);
+        computeVariables(start);
+    }
+
+    private void updateControls(double dt) {
+        rudder.update(dt);
+    }
+
+    private void computeVariables(State start) {
         final double a = start.hdn();
         cosa = Math.cos(a);
         sina = Math.sin(a);
