@@ -46,7 +46,7 @@ public final class PowerRudder implements Rudder {
 
     @Override
     public void update(double dt) {
-        if (lastInput != NONE && Math.abs(angle) < maxAngle) {
+        if (lastInput != NONE && Math.abs(angle) <= maxAngle) {
             angle += lastInput*updateFraction*dt;
 
             if (angle > maxAngle) {

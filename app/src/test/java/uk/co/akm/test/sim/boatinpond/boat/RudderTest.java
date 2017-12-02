@@ -76,4 +76,19 @@ public class RudderTest {
         }
         Assert.assertEquals(-maxAngle, underTest.getRudderAngle());
     }
+
+    @Test
+    public void shouldApplyFullLeftAndRightRudder() {
+        underTest.leftControlInput();
+        for (int i=1 ; i<=2*nSteps ; i++) {
+            underTest.update(dt);
+        }
+        Assert.assertEquals(maxAngle, underTest.getRudderAngle());
+
+        underTest.rightControlInput();
+        for (int i=1 ; i<=4*nSteps ; i++) {
+            underTest.update(dt);
+        }
+        Assert.assertEquals(-maxAngle, underTest.getRudderAngle());
+    }
 }
