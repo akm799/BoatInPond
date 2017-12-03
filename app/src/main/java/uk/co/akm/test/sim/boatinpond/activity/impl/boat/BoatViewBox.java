@@ -23,10 +23,10 @@ final class BoatViewBox implements ViewData<Boat> {
 
     private final ViewBoxFeatures viewBox;
 
-    private float rudderDeflectionFraction;
     private String coordinates;
     private String compassHeading;
     private String speed;
+    private final float[] rudderPlotFractions = new float[2];
 
     private NumberFormat latLongFormat = new DecimalFormat("0.0000");
     private NumberFormat speedFormat = new DecimalFormat("0.00");
@@ -63,8 +63,7 @@ final class BoatViewBox implements ViewData<Boat> {
 
     @Override
     public void additionalData(Boat state) {
-        final Rudder rudder = state.getRudder();
-        rudderDeflectionFraction = (float)(4*rudder.getRudderAngle()/rudder.getMaxRudderAngle());
+        setRudderPlotFractions(state.getRudder().getRudderAngle());
 
         final Angle longitude = new Angle(state.x()/EARTH_RADIUS);
         final Angle latitude = new Angle(state.y()/EARTH_RADIUS);
@@ -74,8 +73,13 @@ final class BoatViewBox implements ViewData<Boat> {
         speed = speedFormat.format(METRES_PER_SEC_TO_KNOTS*state.v());
     }
 
-    public float getRudderDeflectionFraction() {
-        return rudderDeflectionFraction;
+    private void setRudderPlotFractions(double rudderAngle) {
+        rudderPlotFractions[0] = (float)Math.sin(rudderAngle);
+        rudderPlotFractions[1] = (float)Math.cos(rudderAngle);
+    }
+
+    public float[] getRudderPlotFractions() {
+        return rudderPlotFractions;
     }
 
     public String getCoordinates() {

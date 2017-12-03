@@ -46,7 +46,7 @@ final class BoatScreenView extends ScreenView<BoatViewBox> {
         final int cy = h/2;
 
         drawBoatShape(cx, cy, s, canvas);
-        drawBoatRudder(cx, cy, s, viewBox.getRudderDeflectionFraction(), canvas);
+        drawBoatRudder(cx, cy, s, viewBox.getRudderPlotFractions(), canvas);
     }
 
     private void drawBoatShape(float cx, float cy, float s, Canvas canvas) {
@@ -59,10 +59,11 @@ final class BoatScreenView extends ScreenView<BoatViewBox> {
         canvas.drawLine(right, bottom, left, bottom, shapePaint);
     }
 
-    private void drawBoatRudder(float cx, float cy, float s, float fraction, Canvas canvas) {
+    private void drawBoatRudder(float cx, float cy, float s, float[] fractions, Canvas canvas) {
         final float rds = s/rFr;
-        final float rdDfl = rds*fraction;
+        final float dx = rds*fractions[0];
+        final float dy = rds*fractions[1];
         final float bottom = cy + s;
-        canvas.drawLine(cx, bottom, cx - rdDfl, bottom + rds, shapePaint);
+        canvas.drawLine(cx, bottom, cx - dx, bottom + dy, shapePaint);
     }
 }
