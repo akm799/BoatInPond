@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
 import uk.co.akm.test.sim.boatinpond.activity.OnceOnlyLayoutListener;
+import uk.co.akm.test.sim.boatinpond.game.GameConstants;
 import uk.co.akm.test.sim.boatinpond.view.ScreenView;
 import uk.co.akm.test.sim.boatinpond.view.ViewData;
 
@@ -85,8 +86,8 @@ final class BoatScreenView extends ScreenView<BoatViewBox> {
     }
 
     private void drawBoatRudder(float[] fractions, Canvas canvas) {
-        final float dx = rds*fractions[0];
-        final float dy = rds*fractions[1];
+        final float dx = rds*fractions[GameConstants.X_INDEX];
+        final float dy = rds*fractions[GameConstants.Y_INDEX];
         canvas.drawLine(cx, bottom, cx - dx, bottom + dy, shapePaint);
     }
 }

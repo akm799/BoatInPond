@@ -5,6 +5,7 @@ import java.text.NumberFormat;
 
 import uk.co.akm.test.sim.boatinpond.boat.Boat;
 import uk.co.akm.test.sim.boatinpond.boat.Rudder;
+import uk.co.akm.test.sim.boatinpond.game.GameConstants;
 import uk.co.akm.test.sim.boatinpond.graph.Line;
 import uk.co.akm.test.sim.boatinpond.graph.Point;
 import uk.co.akm.test.sim.boatinpond.graph.ViewBox;
@@ -26,7 +27,7 @@ final class BoatViewBox implements ViewData<Boat> {
     private String coordinates;
     private String compassHeading;
     private String speed;
-    private final float[] rudderPlotFractions = new float[2];
+    private final float[] rudderPlotFractions = new float[GameConstants.LEN_2D];
 
     private NumberFormat latLongFormat = new DecimalFormat("0.0000");
     private NumberFormat speedFormat = new DecimalFormat("0.00");
@@ -74,8 +75,8 @@ final class BoatViewBox implements ViewData<Boat> {
     }
 
     private void setRudderPlotFractions(double rudderAngle) {
-        rudderPlotFractions[0] = (float)Math.sin(rudderAngle);
-        rudderPlotFractions[1] = (float)Math.cos(rudderAngle);
+        rudderPlotFractions[GameConstants.X_INDEX] = (float)Math.sin(rudderAngle);
+        rudderPlotFractions[GameConstants.Y_INDEX] = (float)Math.cos(rudderAngle);
     }
 
     public float[] getRudderPlotFractions() {
