@@ -35,9 +35,9 @@ public abstract class ViewBoxStateActivity<T extends UpdatableState, G extends V
     }
 
     private void addLayoutListener(View view) {
-        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        view.getViewTreeObserver().addOnGlobalLayoutListener(new OnceOnlyLayoutListener(view) {
             @Override
-            public void onGlobalLayout() {
+            protected void onGlobalLayoutSingleAction() {
                 viewBox = buildViewBox(screenView.getWidth(), screenView.getHeight());
             }
         });

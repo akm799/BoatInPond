@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
+import uk.co.akm.test.sim.boatinpond.activity.OnceOnlyLayoutListener;
 import uk.co.akm.test.sim.boatinpond.view.ScreenView;
 import uk.co.akm.test.sim.boatinpond.view.ViewData;
 
@@ -16,6 +17,17 @@ final class BoatScreenView extends ScreenView<BoatViewBox> {
     private final int iFr = 20;
     private final int rFr = 2;
     private final Paint shapePaint = new Paint();
+
+    private int cx;
+    private int cy;
+    private float s;
+
+    private float left;
+    private float right;
+    private float top;
+    private float bottom;
+
+    private float rds;
 
     public BoatScreenView(Context context) {
         super(context);
@@ -35,35 +47,46 @@ final class BoatScreenView extends ScreenView<BoatViewBox> {
     private void init() {
         shapePaint.setStrokeWidth(8);
         shapePaint.setColor(0xff000000);
+
+        getViewTreeObserver().addOnGlobalLayoutListener(new OnceOnlyLayoutListener(this) {
+            @Override
+            protected void onGlobalLayoutSingleAction() {
+                initConstants();
+            }
+        });
+    }
+
+    private void initConstants() {
+        final int w = getWidth();
+        final int h = getHeight();
+
+        s = Math.min(w, h)/iFr;
+        cx = w/2;
+        cy = h/2;
+
+        left = cx - s;
+        right = cx + s;
+        top = cy - s;
+        bottom = cy + s;
+
+        rds = s/rFr;
     }
 
     @Override
     protected void drawCentralShape(BoatViewBox viewBox, Canvas canvas) {
-        final int w = getWidth();
-        final int h = getHeight();
-        final float s = Math.min(w, h)/iFr;
-        final int cx = w/2;
-        final int cy = h/2;
-
-        drawBoatShape(cx, cy, s, canvas);
-        drawBoatRudder(cx, cy, s, viewBox.getRudderPlotFractions(), canvas);
+        drawBoatShape(canvas);
+        drawBoatRudder(viewBox.getRudderPlotFractions(), canvas);
     }
 
-    private void drawBoatShape(float cx, float cy, float s, Canvas canvas) {
-        final float left = cx - s;
-        final float right = cx + s;
-        final float top = cy - s;
-        final float bottom = cy + s;
+    private void drawBoatShape(Canvas canvas) {
         canvas.drawLine(left, bottom, cx, top, shapePaint);
         canvas.drawLine(cx, top, right, bottom, shapePaint);
         canvas.drawLine(right, bottom, left, bottom, shapePaint);
     }
 
-    private void drawBoatRudder(float cx, float cy, float s, float[] fractions, Canvas canvas) {
-        final float rds = s/rFr;
+    private void drawBoatRudder(float[] fractions, Canvas canvas) {
         final float dx = rds*fractions[0];
         final float dy = rds*fractions[1];
-        final float bottom = cy + s;
         canvas.drawLine(cx, bottom, cx - dx, bottom + dy, shapePaint);
     }
 }
