@@ -4,6 +4,9 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import uk.co.akm.test.sim.boatinpond.math.TestTrigAnglesFactory;
+import uk.co.akm.test.sim.boatinpond.math.TrigValues;
+
 /**
  * Created by Thanos Mavroidis on 19/11/2017.
  */
@@ -73,11 +76,42 @@ public class LineTest {
     }
 
     @Test
+    public void shouldFastRotateLine() {
+        final double d = Math.sqrt(2);
+        final double invD = 1/d;
+        final TrigValues deg45 = TestTrigAnglesFactory.instance(invD, invD);
+        final TrigValues degMinus135 = TestTrigAnglesFactory.instance(-invD, -invD);
+
+        final Line underTest = new Line();
+        underTest.set(-1, -1, 1, 1);
+
+        underTest.fastRotate(deg45);
+        assertLine(0, -d, 0, d, underTest);
+
+        underTest.fastRotate(deg45);
+        assertLine(1, -1, -1, 1, underTest);
+
+        underTest.fastRotate(degMinus135);
+        assertLine(-d, 0, d, 0, underTest);
+    }
+
+    @Test
     public void shouldRotateVerticalLineByMinus90Degrees() {
         final Line underTest = new Line();
         underTest.set(0, -1, 0, 1);
 
         underTest.rotate(-Math.PI/2);
+        assertLine(-1, 0, 1, 0, underTest);
+    }
+
+    @Test
+    public void shouldFastRotateVerticalLineByMinus90Degrees() {
+        final Line underTest = new Line();
+        underTest.set(0, -1, 0, 1);
+
+        final TrigValues degMinus90 = TestTrigAnglesFactory.instance(0, -1);
+
+        underTest.fastRotate(degMinus90);
         assertLine(-1, 0, 1, 0, underTest);
     }
 
