@@ -4,11 +4,9 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import uk.co.akm.test.sim.boatinpond.boat.Boat;
-import uk.co.akm.test.sim.boatinpond.boat.Rudder;
 import uk.co.akm.test.sim.boatinpond.game.GameConstants;
 import uk.co.akm.test.sim.boatinpond.graph.Line;
 import uk.co.akm.test.sim.boatinpond.graph.Point;
-import uk.co.akm.test.sim.boatinpond.graph.ViewBox;
 import uk.co.akm.test.sim.boatinpond.graph.ViewBoxFast;
 import uk.co.akm.test.sim.boatinpond.graph.ViewBoxFeatures;
 import uk.co.akm.test.sim.boatinpond.math.Angle;
