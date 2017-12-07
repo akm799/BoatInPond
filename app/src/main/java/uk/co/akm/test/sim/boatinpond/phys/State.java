@@ -1,5 +1,7 @@
 package uk.co.akm.test.sim.boatinpond.phys;
 
+import uk.co.akm.test.sim.boatinpond.math.TrigValues;
+
 /**
  * Reflects the angular and positional state of a body.
  *
@@ -48,6 +50,11 @@ public interface State {
     double hdnP();
 
     /**
+     * @return the cosine and sine values of the current heading angle
+     */
+    TrigValues hdnTrig();
+
+    /**
      * @return the current azimuth angle
      */
     double azm();
@@ -58,6 +65,11 @@ public interface State {
     double azmP();
 
     /**
+     * @return the cosine and sine values of the current azimuth angle
+     */
+    TrigValues azmTrig();
+
+    /**
      * @return the current roll angle
      */
     double rll();
@@ -66,6 +78,11 @@ public interface State {
      * @return the current roll angle converted to a (proper) range from -pi to pi
      */
     double rllP();
+
+    /**
+     * @return the cosine and sine values of the current roll angle
+     */
+    TrigValues rllTrig();
 
     /**
      * @return the current acceleration component along the x-axis

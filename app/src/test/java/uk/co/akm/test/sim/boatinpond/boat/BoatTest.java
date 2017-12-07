@@ -32,6 +32,20 @@ public class BoatTest {
     enum RudderState {FULL_LEFT_RUDDER, FULL_RIGHT_RUDDER}
 
     @Test
+    public void shouldSetInitialConditions() {
+        final UpdatableState underTest = new BoatImpl(constants, Math.PI/2, v0);
+        Assert.assertEquals(Math.PI/2, underTest.hdn(), accuracy);
+        Assert.assertEquals(Math.PI/2, underTest.hdnP(), accuracy);
+        Assert.assertNotNull(underTest.hdnTrig());
+        Assert.assertEquals(0, underTest.hdnTrig().cos(), accuracy);
+        Assert.assertEquals(1, underTest.hdnTrig().sin(), accuracy);
+
+        Assert.assertEquals(v0, underTest.v(), accuracy);
+        Assert.assertEquals(0, underTest.vx(), accuracy);
+        Assert.assertEquals(v0, underTest.vy(), accuracy);
+    }
+
+    @Test
     public void shouldComeToRest() {
         final UpdatableState underTest = new BoatImpl(constants, 0, v0);
         Assert.assertEquals(v0, underTest.v(), accuracy);
@@ -47,7 +61,6 @@ public class BoatTest {
     @Test
     public void shouldTurnLeftFromZeroDeg() {
         final double hdn0 = 0;
-        final double fullLeftRudder = Math.PI/4;
         final UpdatableState underTest = boatInstance(hdn0, v0, RudderState.FULL_LEFT_RUDDER);
         Assert.assertEquals(v0, underTest.v(), accuracy);
         Assert.assertEquals(v0, underTest.vx(), accuracy);
@@ -71,7 +84,6 @@ public class BoatTest {
     @Test
     public void shouldTurnRightFromZeroDeg() {
         final double hdn0 = 0;
-        final double fullRightRudder = -Math.PI/4;
         final UpdatableState underTest = boatInstance(hdn0, v0, RudderState.FULL_RIGHT_RUDDER);
         Assert.assertEquals(v0, underTest.v(), accuracy);
         Assert.assertEquals(v0, underTest.vx(), accuracy);
@@ -95,7 +107,6 @@ public class BoatTest {
     @Test
     public void shouldTurnLeftFrom90Deg() {
         final double hdn0 = Math.PI/2;
-        final double fullLeftRudder = Math.PI/4;
         final UpdatableState underTest = boatInstance(hdn0, v0, RudderState.FULL_LEFT_RUDDER);
         Assert.assertEquals(v0, underTest.v(), accuracy);
         Assert.assertEquals(v0, underTest.vy(), accuracy);
@@ -119,7 +130,6 @@ public class BoatTest {
     @Test
     public void shouldTurnRightFrom90Deg() {
         final double hdn0 = Math.PI/2;
-        final double fullRightRudder = -Math.PI/4;
         final UpdatableState underTest = boatInstance(hdn0, v0, RudderState.FULL_RIGHT_RUDDER);
         Assert.assertEquals(v0, underTest.v(), accuracy);
         Assert.assertEquals(v0, underTest.vy(), accuracy);
@@ -143,8 +153,7 @@ public class BoatTest {
     @Test
     public void shouldTurnRightFromZeroDegAndThenBackLeft() {
         final double hdn0 = 0;
-        final double fullRightRudder = -Math.PI/4; // First turn right ...
-        final UpdatableState underTest1 = boatInstance(hdn0, v0, RudderState.FULL_RIGHT_RUDDER);
+        final UpdatableState underTest1 = boatInstance(hdn0, v0, RudderState.FULL_RIGHT_RUDDER); // First turn right ...
         Assert.assertEquals(v0, underTest1.v(), accuracy);
         Assert.assertEquals(v0, underTest1.vx(), accuracy);
         Assert.assertEquals(0, underTest1.vy(), accuracy);
@@ -159,8 +168,7 @@ public class BoatTest {
             Assert.assertEquals(underTest1.hdn(), velocityAngle(underTest1), angleAccuracy);
         }
 
-        final double fullLeftRudder = Math.PI/4; // ... and then turn back left ...
-        final UpdatableState underTest2 = boatInstance(underTest1.hdn(), v0, RudderState.FULL_LEFT_RUDDER); // ... from the last heading with the same speed ...
+        final UpdatableState underTest2 = boatInstance(underTest1.hdn(), v0, RudderState.FULL_LEFT_RUDDER); // ... and then turn back left from the last heading with the same speed ...
         Updater.update(underTest2, tOmg, nSteps);
         Assert.assertEquals(hdn0, underTest2.hdn(), accuracy); // ... and end up back at the heading where we started.
         Assert.assertTrue(underTest2.v() < v0);
@@ -172,8 +180,7 @@ public class BoatTest {
     @Test
     public void shouldTurnRightFromZeroDegAndThenLeft() {
         final double hdn0 = 0;
-        final double fullRightRudder = -Math.PI/4; // First turn right ...
-        final UpdatableState underTest1 = boatInstance(hdn0, v0, RudderState.FULL_RIGHT_RUDDER);
+        final UpdatableState underTest1 = boatInstance(hdn0, v0, RudderState.FULL_RIGHT_RUDDER); // First turn right ...
         Assert.assertEquals(v0, underTest1.v(), accuracy);
         Assert.assertEquals(v0, underTest1.vx(), accuracy);
         Assert.assertEquals(0, underTest1.vy(), accuracy);
@@ -188,8 +195,7 @@ public class BoatTest {
             Assert.assertEquals(underTest1.hdn(), velocityAngle(underTest1), angleAccuracy);
         }
 
-        final double fullLeftRudder = Math.PI/4; // ... and then turn back left ...
-        final UpdatableState underTest2 = boatInstance(underTest1.hdn(), underTest1.v(), RudderState.FULL_LEFT_RUDDER); // ... from the last heading at the current (reduced) speed ...
+        final UpdatableState underTest2 = boatInstance(underTest1.hdn(), underTest1.v(), RudderState.FULL_LEFT_RUDDER); // ... and then turn back left from the last heading at the current (reduced) speed ...
         Updater.update(underTest2, tOmg, nSteps);
         Assert.assertTrue(underTest2.hdn() > underTest1.hdn()); // ... and end up a bit to the left from our last heading ...
         Assert.assertTrue(underTest2.hdn() < hdn0); // ... but not all the way back from where we started.

@@ -9,6 +9,7 @@ import uk.co.akm.test.sim.boatinpond.game.GameConstants;
 import uk.co.akm.test.sim.boatinpond.graph.Line;
 import uk.co.akm.test.sim.boatinpond.graph.Point;
 import uk.co.akm.test.sim.boatinpond.graph.ViewBox;
+import uk.co.akm.test.sim.boatinpond.graph.ViewBoxFast;
 import uk.co.akm.test.sim.boatinpond.graph.ViewBoxFeatures;
 import uk.co.akm.test.sim.boatinpond.math.Angle;
 import uk.co.akm.test.sim.boatinpond.math.Angles;
@@ -34,7 +35,7 @@ final class BoatViewBox implements ViewData<Boat> {
     private NumberFormat compassFormat = new DecimalFormat("000");
 
     BoatViewBox(double horizontalSide, double lineSpacing, int screenWidth, int screenHeight) {
-        viewBox = new ViewBox(horizontalSide, lineSpacing, screenWidth, screenHeight);
+        viewBox = new ViewBoxFast(horizontalSide, lineSpacing, screenWidth, screenHeight);
     }
 
     @Override

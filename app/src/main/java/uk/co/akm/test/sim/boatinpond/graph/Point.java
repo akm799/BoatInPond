@@ -1,5 +1,7 @@
 package uk.co.akm.test.sim.boatinpond.graph;
 
+import uk.co.akm.test.sim.boatinpond.math.TrigValues;
+
 /**
  * Created by Thanos Mavroidis on 17/11/2017.
  */
@@ -45,6 +47,7 @@ public final class Point implements Transformable, Nullable {
         }
     }
 
+    @Override
     public void rotate(double a) {
         if (isNotNull()) {
             final double cosa = Math.cos(a);
@@ -52,6 +55,17 @@ public final class Point implements Transformable, Nullable {
 
             final double xr = x*cosa - y*sina;
             final double yr = x*sina + y*cosa;
+
+            this.x = xr;
+            this.y = yr;
+        }
+    }
+
+    @Override
+    public void fastRotate(TrigValues a) {
+        if (isNotNull()) {
+            final double xr = x*a.cos() - y*a.sin();
+            final double yr = x*a.sin() + y*a.cos();
 
             this.x = xr;
             this.y = yr;

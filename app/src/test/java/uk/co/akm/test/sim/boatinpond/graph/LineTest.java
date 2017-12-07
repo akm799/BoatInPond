@@ -112,6 +112,24 @@ public class LineTest {
     }
 
     @Test
+    public void shouldFindVerticalInterceptWhenLineIsAlmostHorizontal() {
+        final Line underTest = new Line();
+        final double y = 1;
+        final double yStart = y - accuracy/1000;
+        final double yEnd = y + accuracy/1000;
+        underTest.set(1, yStart, 3, yEnd);
+
+        final Point intercept = new Point();
+
+        underTest.resetParameters();
+        underTest.verticalIntercept(2, intercept);
+        Assert.assertFalse(intercept.isNull());
+        Assert.assertTrue(intercept.isNotNull());
+        Assert.assertEquals(2, intercept.x, accuracy);
+        Assert.assertEquals(y, intercept.y, accuracy);
+    }
+
+    @Test
     public void shouldNotFindVerticalIntercept() {
         final Line underTest = new Line();
         underTest.set(1, 1, 3, 3);
@@ -169,6 +187,24 @@ public class LineTest {
         Assert.assertFalse(intercept.isNull());
         Assert.assertTrue(intercept.isNotNull());
         Assert.assertEquals(1, intercept.x, accuracy);
+        Assert.assertEquals(2, intercept.y, accuracy);
+    }
+
+    @Test
+    public void shouldFindHorizontalInterceptWhenLineIsAlmostVertical() {
+        final Line underTest = new Line();
+        final double x = 1;
+        final double xStart = x + accuracy/1000;
+        final double xEnd = x - accuracy/1000;
+        underTest.set(xStart, 1, xEnd, 3);
+
+        final Point intercept = new Point();
+
+        underTest.resetParameters();
+        underTest.horizontalIntercept(2, intercept);
+        Assert.assertFalse(intercept.isNull());
+        Assert.assertTrue(intercept.isNotNull());
+        Assert.assertEquals(x, intercept.x, accuracy);
         Assert.assertEquals(2, intercept.y, accuracy);
     }
 

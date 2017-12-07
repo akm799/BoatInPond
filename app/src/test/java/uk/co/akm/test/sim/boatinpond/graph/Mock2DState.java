@@ -1,5 +1,7 @@
 package uk.co.akm.test.sim.boatinpond.graph;
 
+import uk.co.akm.test.sim.boatinpond.math.TrigAngle;
+import uk.co.akm.test.sim.boatinpond.math.TrigValues;
 import uk.co.akm.test.sim.boatinpond.phys.State;
 
 /**
@@ -9,11 +11,13 @@ public class Mock2DState implements State {
     private double x;
     private double y;
     private double hdn;
+    private TrigAngle hdnTrig = new TrigAngle();
 
     Mock2DState(double x, double y, double hdn) {
         this.x = x;
         this.y = y;
         this.hdn = hdn;
+        hdnTrig.set(hdn);
     }
 
     @Override
@@ -57,6 +61,11 @@ public class Mock2DState implements State {
     }
 
     @Override
+    public TrigValues hdnTrig() {
+        return hdnTrig;
+    }
+
+    @Override
     public double azm() {
         return 0;
     }
@@ -67,6 +76,11 @@ public class Mock2DState implements State {
     }
 
     @Override
+    public TrigValues azmTrig() {
+        return null;
+    }
+
+    @Override
     public double rll() {
         return 0;
     }
@@ -74,6 +88,11 @@ public class Mock2DState implements State {
     @Override
     public double rllP() {
         return 0;
+    }
+
+    @Override
+    public TrigValues rllTrig() {
+        return null;
     }
 
     @Override

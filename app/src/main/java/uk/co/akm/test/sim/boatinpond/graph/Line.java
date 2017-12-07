@@ -1,6 +1,8 @@
 package uk.co.akm.test.sim.boatinpond.graph;
 
 
+import uk.co.akm.test.sim.boatinpond.math.TrigValues;
+
 /**
  * Created by Thanos Mavroidis on 17/11/2017.
  */
@@ -84,9 +86,18 @@ public final class Line implements Transformable, Nullable {
      * Rotates the start and end points of the line.
      * @param a the angle of rotation
      */
+    @Override
     public void rotate(double a) {
         start.rotate(a);
         end.rotate(a);
+
+        resetParameters();
+    }
+
+    @Override
+    public void fastRotate(TrigValues a) {
+        start.fastRotate(a);
+        end.fastRotate(a);
 
         resetParameters();
     }
@@ -98,6 +109,8 @@ public final class Line implements Transformable, Nullable {
             final double y = y(x);
             if (yMin <= y && y <= yMax) {
                 intercept.set(x, y);
+            } else if (xMin <= x && x <= xMax) {
+                intercept.set(x, yMin + (yMax - yMin)/2); // We definitely have a vertical intercept in this near-horizontal line, but we missed it due to small numerical inaccuracies. So set it here.
             } else {
                 intercept.setNull();
             }
@@ -117,6 +130,8 @@ public final class Line implements Transformable, Nullable {
             final double x = x(y);
             if (xMin <= x && x <= xMax) {
                 intercept.set(x, y);
+            } else if (yMin <= y && y <= yMax) {
+                intercept.set(xMin + (xMax - xMin)/2, y); // We definitely have a horizontal intercept in this near-vertical line, but we missed it due to small numerical inaccuracies. So set it here.
             } else {
                 intercept.setNull();
             }

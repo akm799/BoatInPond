@@ -1,6 +1,8 @@
 package uk.co.akm.test.sim.boatinpond.phys;
 
 import uk.co.akm.test.sim.boatinpond.math.Angles;
+import uk.co.akm.test.sim.boatinpond.math.TrigAngle;
+import uk.co.akm.test.sim.boatinpond.math.TrigValues;
 
 /**
  * Abstraction of physical body with two evolving states:
@@ -46,6 +48,10 @@ public abstract class Body implements UpdatableState {
 
     private double t; // current time
 
+    private final TrigAngle hdnTrig = new TrigAngle(); // the cosine and sine values of the current heading angle
+    private final TrigAngle azmTrig = new TrigAngle(); // the cosine and sine values of the current azimuth angle
+    private final TrigAngle rllTrig = new TrigAngle(); // the cosine and sine values of the current roll angle
+
     // The body state before the integration step, i.e. the starting point of the integration step.
     private final StateData startState = new StateData();
 
@@ -85,6 +91,10 @@ public abstract class Body implements UpdatableState {
         this.y = y0;
         this.z = z0;
         this.t = 0;
+
+        hdnTrig.set(hdn);
+        azmTrig.set(azm);
+        rllTrig.set(rll);
     }
 
     /**
@@ -147,6 +157,18 @@ public abstract class Body implements UpdatableState {
         hdn += omgHdn * dt;
         azm += omgAzm * dt;
         rll += omgRll * dt;
+
+        if (omgHdn != 0.0) {
+            hdnTrig.set(hdn);
+        }
+
+        if (omgAzm != 0.0) {
+            azmTrig.set(azm);
+        }
+
+        if (omgRll != 0.0) {
+            rllTrig.set(rll);
+        }
     }
 
     private void updateVelocityAndPosition(double dt) {
@@ -200,6 +222,11 @@ public abstract class Body implements UpdatableState {
     }
 
     @Override
+    public TrigValues hdnTrig() {
+        return hdnTrig;
+    }
+
+    @Override
     public final double azm() {
         return azm;
     }
@@ -210,6 +237,11 @@ public abstract class Body implements UpdatableState {
     }
 
     @Override
+    public TrigValues azmTrig() {
+        return azmTrig;
+    }
+
+    @Override
     public final double rll() {
         return rll;
     }
@@ -217,6 +249,11 @@ public abstract class Body implements UpdatableState {
     @Override
     public final double rllP() {
         return Angles.toProperAngle(rll);
+    }
+
+    @Override
+    public TrigValues rllTrig() {
+        return rllTrig;
     }
 
     @Override

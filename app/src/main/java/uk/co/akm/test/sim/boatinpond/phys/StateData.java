@@ -1,6 +1,8 @@
 package uk.co.akm.test.sim.boatinpond.phys;
 
 import uk.co.akm.test.sim.boatinpond.math.Angles;
+import uk.co.akm.test.sim.boatinpond.math.TrigAngle;
+import uk.co.akm.test.sim.boatinpond.math.TrigValues;
 
 /**
  * Created by Thanos Mavroidis on 01/12/2017.
@@ -32,6 +34,10 @@ final class StateData implements State {
 
     private double t; // time
 
+    private final TrigAngle hdnTrig = new TrigAngle(); // the cosine and sine values of the heading angle
+    private final TrigAngle azmTrig = new TrigAngle(); // the cosine and sine values of the azimuth angle
+    private final TrigAngle rllTrig = new TrigAngle(); // the cosine and sine values of the roll angle
+
     StateData() {}
 
     void set(State state) {
@@ -46,6 +52,10 @@ final class StateData implements State {
         hdn = state.hdn();
         azm = state.azm();
         rll = state.rll();
+
+        hdnTrig.copy(state.hdnTrig());
+        azmTrig.copy(state.azmTrig());
+        rllTrig.copy(state.rllTrig());
 
         ax = state.ax();
         ay = state.ay();
@@ -101,6 +111,11 @@ final class StateData implements State {
     }
 
     @Override
+    public TrigValues hdnTrig() {
+        return hdnTrig;
+    }
+
+    @Override
     public double azm() {
         return azm;
     }
@@ -111,6 +126,11 @@ final class StateData implements State {
     }
 
     @Override
+    public TrigValues azmTrig() {
+        return azmTrig;
+    }
+
+    @Override
     public double rll() {
         return rll;
     }
@@ -118,6 +138,11 @@ final class StateData implements State {
     @Override
     public double rllP() {
         return Angles.toProperAngle(rll);
+    }
+
+    @Override
+    public TrigValues rllTrig() {
+        return rllTrig;
     }
 
     @Override

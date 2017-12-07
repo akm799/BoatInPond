@@ -4,6 +4,7 @@ package uk.co.akm.test.sim.boatinpond.boat.impl;
 import uk.co.akm.test.sim.boatinpond.boat.Boat;
 import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.Rudder;
+import uk.co.akm.test.sim.boatinpond.math.TrigValues;
 import uk.co.akm.test.sim.boatinpond.phys.Body;
 import uk.co.akm.test.sim.boatinpond.phys.State;
 
@@ -66,9 +67,9 @@ public final class BoatImpl extends Body implements Boat {
     }
 
     private void computeVariables(State start) {
-        final double a = start.hdn();
-        cosa = Math.cos(a);
-        sina = Math.sin(a);
+        final TrigValues hdn = start.hdnTrig();
+        cosa = hdn.cos();
+        sina = hdn.sin();
 
         vx = start.vx();
         vy = start.vy();
