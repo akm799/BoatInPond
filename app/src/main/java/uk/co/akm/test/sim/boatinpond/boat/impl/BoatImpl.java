@@ -119,7 +119,7 @@ public final class BoatImpl extends Body implements Boat {
   v: speed over water
   r: water density
   A: rudder surface area below the water line
-  k: k = vd/v where vd is the speed of water deflected by the rudder (asuming that vd , v).
+  k: k = vd/v where vd is the speed of water deflected by the rudder (assuming that vd , v).
 
   This assumes that the force of water stream  moving at speed v through a surface area A is: F = 0.5*r*A*v^2
 */
