@@ -101,3 +101,25 @@ public final class BoatImpl extends Body implements Boat {
         return rudder;
     }
 }
+
+/*
+  Useful links:
+
+  http://hyperphysics.phy-astr.gsu.edu/hbase/mi2.html#irod3
+
+  http://eodg.atm.ox.ac.uk/user/dudhia/rowing/physics/rowing.pdf
+
+  https://en.wikipedia.org/wiki/Drag_coefficient
+
+
+  Rudder force computation result:
+
+  F(a, v) = 0.5*r*A*v^2*k^2*sin(a)*cos^2(pi/2 - 2*a)
+  a: rudder angle
+  v: speed over water
+  r: water density
+  A: rudder surface area below the water line
+  k: k = vd/v where vd is the speed of water deflected by the rudder (asuming that vd , v).
+
+  This assumes that the force of water stream  moving at speed v through a surface area A is: F = 0.5*r*A*v^2
+*/
