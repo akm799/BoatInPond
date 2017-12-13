@@ -91,7 +91,7 @@ public final class BoatImpl extends Body implements Boat {
         final double aLon = -kLon*vLon; // Mass is 1
         final double aLat = -kLat*vLat; // Mass is 1
 
-        // Rotate the acceleration wrt the boat heading an angle a (i.e. the reverse of our previous rotation) to get the acceleration wrt our normal coordinate system.
+        // Rotate the acceleration wrt the boat heading an angle a (i.e. the reverse of our previous rotation) to get the acceleration wrt our coordinate system.
         ax = aLon*cosa - aLat*sina; // Mass is 1
         ay = aLon*sina + aLat*cosa; // Mass is 1
     }
@@ -112,14 +112,17 @@ public final class BoatImpl extends Body implements Boat {
   https://en.wikipedia.org/wiki/Drag_coefficient
 
 
-  Rudder force computation result:
-
+  Rudder torque-force (lateral) computation result:
   F(a, v) = 0.5*r*A*v^2*k^2*sin(a)*cos^2(pi/2 - 2*a)
+
+  Rudder restistance-force (longitudinal) computation result:
+  F(a, v) = 0.5*r*A*v^2*k^2*sin(a)*[1 - sin^2(pi/2 - 2*a)]
+
   a: rudder angle
   v: speed over water
   r: water density
   A: rudder surface area below the water line
-  k: k = vd/v where vd is the speed of water deflected by the rudder (assuming that vd , v).
+  k: k = vd/v where vd is the speed of water deflected by the rudder (assuming that vd < v).
 
   This assumes that the force of water stream  moving at speed v through a surface area A is: F = 0.5*r*A*v^2
 */
