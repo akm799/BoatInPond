@@ -6,11 +6,14 @@ import uk.co.akm.test.sim.boatinpond.math.helper.Integrator;
 /**
  * Created by Thanos Mavroidis on 13/12/2017.
  */
-
 public final class SimpsonRuleIntegrator implements Integrator {
     private final int n;
 
     public SimpsonRuleIntegrator(int n) {
+        if (n <= 0 || n%2 != 0) {
+            throw new IllegalArgumentException("Error: number of steps " + n + " zero, negative or odd.");
+        }
+
         this.n = n;
     }
 
