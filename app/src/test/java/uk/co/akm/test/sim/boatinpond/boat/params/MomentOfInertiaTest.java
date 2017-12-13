@@ -4,31 +4,47 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import uk.co.akm.test.sim.boatinpond.math.helper.Function;
+import uk.co.akm.test.sim.boatinpond.math.helper.Integrator;
+import uk.co.akm.test.sim.boatinpond.math.helper.impl.SimpsonRuleIntegrator;
+
 /**
  * Created by Thanos Mavroidis on 10/12/2017.
  */
 public class MomentOfInertiaTest {
+    private final double accuracy = 0.00000000000022;
+
+    private final double l = 5;
+    private final double b = 1;
+    private final double f = 0.8;
+    private final double mass = 168; // Mass of Bosun dinghy.
+    private final double lambda0 = evaluateMainMassDensity(l, b, f, mass);
 
     @Test
     public void shouldCalculateMomentOfInertia() {
-        final double l = 5;
-        final double b = 1;
-        final double f = 0.8;
-        final double mass = 168; // Mass of Bosun dinghy.
-        final double lambda0 = evaluateMainMassDensity(l, b, f, mass);
-
         final double moi = momentOfIntertia(lambda0, l, b, f);
         Assert.assertTrue(moi > 0);
     }
 
     @Test
-    public void shouldCalculateMomentOfInertiaWithoutBowStructure() {
-        final double l = 5;
-        final double b = 1;
-        final double f = 0.8;
-        final double mass = 168; // Mass of Bosun dinghy.
-        final double lambda0 = evaluateMainMassDensity(l, b, f, mass);
+    public void shouldCalculateMomentOfInertiaAccurately() {
+        final double ls = f*l;
+        final double h = l - ls;
+        final double c = centreOfMassLengthFromStern(l, b, f);
+        final Function moment = new MomentDerivative(lambda0, h, ls, c);
+        final Integrator integrator = new SimpsonRuleIntegrator(1000);
 
+        final double moiNum = integrator.integrate(moment, -c, l - c);
+        Assert.assertTrue(moiNum > 0);
+
+        final double moi = momentOfIntertia(lambda0, l, b, f);
+        Assert.assertTrue(moi > 0);
+
+        Assert.assertEquals(moiNum, moi, accuracy);
+    }
+
+    @Test
+    public void shouldCalculateMomentOfInertiaWithoutBowStructure() {
         final double moi = momentOfIntertia(lambda0, l, b, f);
         Assert.assertTrue(moi > 0);
 
@@ -41,10 +57,6 @@ public class MomentOfInertiaTest {
 
     @Test
     public void shouldCalculateMomentOfInertiaForDifferentBowSizes() {
-        final double l = 5;
-        final double b = 1;
-        final double mass = 168; // Mass of Bosun dinghy.
-
         final double f1 = 0.8;
         final double lambda01 = evaluateMainMassDensity(l, b, f1, mass);
         final double moi1 = momentOfIntertia(lambda01, l, b, f1);
@@ -58,6 +70,7 @@ public class MomentOfInertiaTest {
         Assert.assertTrue(moi2 < moi1);
     }
 
+    // The mass density on the main section (i.e. before the bow section).
     private double evaluateMainMassDensity(double l, double b, double f, double mass) {
         final double ls = f*l;
         final double h = l - ls;
@@ -69,7 +82,7 @@ public class MomentOfInertiaTest {
     }
 
     private double momentOfInertiaWithoutBowStructure(double lambda, double l) {
-        final Fnc main = new MainMoment(lambda);
+        final Function main = new MainMoment(lambda);
 
         return evaluate(main, -l/2, l/2);
     }
@@ -88,8 +101,8 @@ public class MomentOfInertiaTest {
         final double h = l - ls;
         final double c = centreOfMassLengthFromStern(l, b, f);
 
-        final Fnc main = new MainMoment(lambda0);
-        final Fnc bow = new BowMoment(lambda0, h, ls, c);
+        final Function main = new MainMoment(lambda0);
+        final Function bow = new BowMoment(lambda0, h, ls, c);
 
         return evaluate(main, -c, ls - c) + evaluate(bow, ls - c, l - c);
     }
@@ -117,15 +130,11 @@ public class MomentOfInertiaTest {
         return (bowCoM*bowArea + mainCoM*mainArea)/(bowArea + mainArea);
     }
 
-    private double evaluate(Fnc function, double xMin, double xMax) {
+    private double evaluate(Function function, double xMin, double xMax) {
         return function.f(xMax) - function.f(xMin);
     }
 
-    interface Fnc {
-        double f(double x);
-    }
-
-    private static final class MainMoment implements Fnc {
+    private static final class MainMoment implements Function {
         private final double lambda0;
 
         MainMoment(double lambda0) {
@@ -138,12 +147,12 @@ public class MomentOfInertiaTest {
         }
     }
 
-    private static final class BowMoment implements Fnc {
+    private static final class BowMoment implements Function {
         private final double h;
         private final double ko3;
         private final double lambda0;
 
-        public BowMoment(double lambda0, double h, double ls, double c) {
+        BowMoment(double lambda0, double h, double ls, double c) {
             this.lambda0 = lambda0;
             this.h = h;
             this.ko3 = (h + ls - c)/3;
@@ -153,6 +162,49 @@ public class MomentOfInertiaTest {
         public double f(double x) {
             final double p = ko3 - x/4;
             return lambda0*p*x*x*x/h;
+        }
+    }
+
+    /**
+     * The function which needs to be integrated to give the moment of inertia.
+     */
+    private static final class MomentDerivative implements Function {
+        private final Function massDensity;
+
+        MomentDerivative(double lambda0, double h, double ls, double c) {
+            massDensity = new MassDensity(lambda0, h, ls, c);
+        }
+
+        @Override
+        public double f(double x) {
+            return x*x*massDensity.f(x);
+        }
+    }
+
+    /**
+     * The mass density function for the whole boat (including the bow structure).
+     */
+    private static final class MassDensity implements Function {
+        private final double h;
+        private final double k;
+        private final double lambda0;
+
+        private final double p;
+
+        MassDensity(double lambda0, double h, double ls, double c) {
+            this.lambda0 = lambda0;
+            this.h = h;
+            this.p = ls - c;
+            this.k = h + p;
+        }
+
+        @Override
+        public double f(double x) {
+            if (x <= p) {
+                return lambda0; // Main section (constant).
+            } else {
+                return lambda0 * (k - x) / h; // Bow section.
+            }
         }
     }
 }
