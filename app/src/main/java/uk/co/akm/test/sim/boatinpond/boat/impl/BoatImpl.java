@@ -50,10 +50,10 @@ public final class BoatImpl extends Body implements Boat {
     public BoatImpl(BoatConstants constants, double hdn0, double v0) {
         super(0, 0, 0, hdn0, 0, 0, v0*Math.cos(hdn0), v0*Math.sin(hdn0), 0, 0, 0, 0);
 
-        this.kLon = constants.kLon;
-        this.kLat = constants.kLat;
-        this.kRud = constants.kRud;
-        this.kAng = constants.kAng;
+        this.kLon = constants.getkLon();
+        this.kLat = constants.getkLat();
+        this.kRud = constants.getkRud();
+        this.kAng = constants.getkAng();
     }
 
     @Override
