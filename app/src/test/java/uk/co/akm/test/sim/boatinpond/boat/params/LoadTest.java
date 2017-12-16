@@ -8,6 +8,7 @@ import org.junit.Test;
 /**
  * Created by Thanos Mavroidis on 15/12/2017.
  */
+@Deprecated
 public class LoadTest {
     // Approximate parameters for a Bosun dinghy.
     private final double length = 4.27;

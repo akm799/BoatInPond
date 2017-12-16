@@ -7,6 +7,7 @@ import org.junit.Test;
 /**
  * Created by Thanos Mavroidis on 10/12/2017.
  */
+@Deprecated
 public class CentreOfMassTest {
 
     @Test
