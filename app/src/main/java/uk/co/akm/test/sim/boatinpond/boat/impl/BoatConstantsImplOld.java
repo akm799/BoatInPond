@@ -9,6 +9,7 @@ import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
  *
  * Created by Thanos Mavroidis on 16/12/2017.
  */
+@Deprecated
 public final class BoatConstantsImplOld implements BoatConstants {
     // Resistance coefficient across the axis of the boat heading.
     private final double kLon;
