@@ -17,13 +17,22 @@ public final class SimpleBoatStructure implements BoatConstants {
     private final double height;
     private final double mass;
 
+    private final double mainBodyLength;
+    private final double bowSectionLength;
+
+    private final double longitudinalDragCoefficient = 0.58;
+    private final double lateralDragCoefficient;
+
     private final double area;
     private final double maxLoad;
     private final double centreOfMassFromStern;
-    private final double momentOfIntertia;
+    private final double momentOfInertia;
 
     private double sideIncidenceArea;
     private double frontalIncidenceArea;
+
+    private double totalLongitudinalResistanceCoefficient;
+    private double totalLateralResistanceCoefficient;
 
     public SimpleBoatStructure(double length, double beam, double height, double mainBodyFraction, double mass) {
         this.length = length;
@@ -31,24 +40,44 @@ public final class SimpleBoatStructure implements BoatConstants {
         this.height = height;
         this.mass = mass;
 
-        final double mainBodyLength = mainBodyFraction*length;
-        final double bowSectionLength = length - mainBodyLength;
+        this.mainBodyLength = mainBodyFraction*length;
+        this.bowSectionLength = length - mainBodyLength;
+        this.lateralDragCoefficient = (1.28*mainBodyLength + 0.8*bowSectionLength)/length;
         final double mainSectionMassDensity = computeMainSectionMassDensity(length, beam, mainBodyFraction, mass);
 
         this.area = beam*(mainBodyLength + bowSectionLength/2);
         this.maxLoad = height* PhysicsConstants.WATER_DENSITY*area - mass;
         this.centreOfMassFromStern = centreOfMassLengthFromStern(length, beam, mainBodyFraction);
-        this.momentOfIntertia = momentOfInertia(mainSectionMassDensity, length, mainBodyFraction, centreOfMassFromStern);
+        this.momentOfInertia = momentOfInertia(mainSectionMassDensity, length, mainBodyFraction, centreOfMassFromStern);
     }
 
-    void setIncidenceAreas(double load) {
+    void setLoad(double load) {
+        final double draught = computeDraught(load);
+        computeIncidenceAreas(draught);
+        computeTotalResistanceCoefficients();
+    }
+
+    private double computeDraught(double load) {
         final double draught = (mass + load) / (PhysicsConstants.WATER_DENSITY*area);
         if (draught > height) {
             throw new IllegalStateException("Max load exceeded.");
         }
 
-        sideIncidenceArea = draught*length;
+        return draught;
+    }
+
+    private void computeIncidenceAreas(double draught) {
         frontalIncidenceArea = draught*beam;
+        sideIncidenceArea = draught*length;
+    }
+
+    /**
+     * https://en.wikipedia.org/wiki/Drag_coefficient
+     */
+    private void computeTotalResistanceCoefficients() {
+        final double halfWaterDensity = 0.5*PhysicsConstants.WATER_DENSITY;
+        totalLongitudinalResistanceCoefficient = halfWaterDensity*longitudinalDragCoefficient*frontalIncidenceArea;
+        totalLateralResistanceCoefficient = halfWaterDensity*lateralDragCoefficient*sideIncidenceArea;
     }
 
     /**
@@ -63,7 +92,6 @@ public final class SimpleBoatStructure implements BoatConstants {
         final double ls = length*mainBodyFraction;
         final double h = length - ls;
         final double ho2 = h/2;
-        final double cf = 1 - 1/Math.sqrt(2);
 
         final double bowArea = beam*ho2;
         final double bowCoM = ls + h*cf;
@@ -143,8 +171,8 @@ public final class SimpleBoatStructure implements BoatConstants {
     }
 
     // This method is only for test purposes.
-    public double getMomentOfIntertia() {
-        return momentOfIntertia;
+    public double getMomentOfInertia() {
+        return momentOfInertia;
     }
 
     private static final class MainMoment implements Function {
@@ -180,12 +208,12 @@ public final class SimpleBoatStructure implements BoatConstants {
 
     @Override
     public double getkLon() {
-        throw new UnsupportedOperationException("Deprated method.");
+        return totalLongitudinalResistanceCoefficient;
     }
 
     @Override
     public double getkLat() {
-        throw new UnsupportedOperationException("Deprated method.");
+        return totalLateralResistanceCoefficient;
     }
 
     @Override

@@ -25,7 +25,7 @@ public class LoadTest {
 
     @Test
     public void shouldComputeIncidenceAreas() {
-        underTest.setIncidenceAreas(150);
+        underTest.setLoad(150);
         Assert.assertTrue(underTest.getSideIncidenceArea() > 0);
         Assert.assertTrue(underTest.getFrontalIncidenceArea() > 0);
         Assert.assertTrue(underTest.getSideIncidenceArea() > underTest.getFrontalIncidenceArea());
@@ -42,7 +42,7 @@ public class LoadTest {
         final double maxLoad = underTest.getMaxLoad();
 
         try {
-            underTest.setIncidenceAreas(maxLoad + 0.001);
+            underTest.setLoad(maxLoad + 0.001);
             Assert.fail();
         } catch (IllegalStateException ise) {
             Assert.assertEquals("Max load exceeded.", ise.getMessage());

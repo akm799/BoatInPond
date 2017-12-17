@@ -5,7 +5,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.co.akm.test.sim.boatinpond.math.helper.Function;
+import uk.co.akm.test.sim.boatinpond.math.Function;
 import uk.co.akm.test.sim.boatinpond.math.helper.Integrator;
 import uk.co.akm.test.sim.boatinpond.math.helper.impl.SimpsonRuleIntegrator;
 
@@ -21,16 +21,18 @@ public class MomentOfInertiaTest {
     private final double mass = 168; // Mass of Bosun dinghy.
     private final double lambda0 = evaluateMainMassDensity(length, beam, mainBodyFraction, mass);
 
+    private final double dummyHeight = 1;
+
     private SimpleBoatStructure underTest;
 
     @Before
     public void setUp() {
-        underTest = new SimpleBoatStructure(length, beam, 1, mainBodyFraction, mass);
+        underTest = new SimpleBoatStructure(length, beam, dummyHeight, mainBodyFraction, mass);
     }
 
     @Test
     public void shouldCalculateMomentOfInertia() {
-        final double moi = underTest.getMomentOfIntertia();
+        final double moi = underTest.getMomentOfInertia();
         Assert.assertTrue(moi > 0);
     }
 
@@ -45,7 +47,7 @@ public class MomentOfInertiaTest {
         final double expected = integrator.integrate(moment, -c, length - c);
         Assert.assertTrue(expected > 0);
 
-        final double actual = underTest.getMomentOfIntertia();
+        final double actual = underTest.getMomentOfInertia();
         Assert.assertTrue(actual > 0);
 
         Assert.assertEquals(expected, actual, accuracy);
@@ -53,15 +55,16 @@ public class MomentOfInertiaTest {
 
     @Test
     public void shouldCalculateMomentOfInertiaWithoutBowStructure() {
-        final double moi = underTest.getMomentOfIntertia();
+        final double moi = underTest.getMomentOfInertia();
         Assert.assertTrue(moi > 0);
 
         final double lambda = mass/ length;
         final double moiNoBowExpected = momentOfInertiaWithoutBowStructure(lambda, length);
         Assert.assertTrue(moiNoBowExpected > 0);
 
-        final SimpleBoatStructure underTestWithoutBow = new SimpleBoatStructure(length, beam, 1, 1, mass);
-        final double moiNoBowActual = underTestWithoutBow.getMomentOfIntertia();
+        final double noBowFraction = 1;
+        final SimpleBoatStructure underTestWithoutBow = new SimpleBoatStructure(length, beam, dummyHeight, noBowFraction, mass);
+        final double moiNoBowActual = underTestWithoutBow.getMomentOfInertia();
         Assert.assertTrue(moiNoBowActual > 0);
 
         Assert.assertTrue(moi < moiNoBowActual);
@@ -71,13 +74,13 @@ public class MomentOfInertiaTest {
     @Test
     public void shouldCalculateMomentOfInertiaForDifferentBowSizes() {
         final double f1 = 0.8;
-        final SimpleBoatStructure underTest1 = new SimpleBoatStructure(length, beam, 1, f1, mass);
-        final double moi1 = underTest1.getMomentOfIntertia();
+        final SimpleBoatStructure underTest1 = new SimpleBoatStructure(length, beam, dummyHeight, f1, mass);
+        final double moi1 = underTest1.getMomentOfInertia();
         Assert.assertTrue(moi1 > 0);
 
         final double f2 = 0.5;
-        final SimpleBoatStructure underTest2 = new SimpleBoatStructure(length, beam, 1, f2, mass);
-        final double moi2 = underTest2.getMomentOfIntertia();
+        final SimpleBoatStructure underTest2 = new SimpleBoatStructure(length, beam, dummyHeight, f2, mass);
+        final double moi2 = underTest2.getMomentOfInertia();
         Assert.assertTrue(moi2 > 0);
 
         Assert.assertTrue(moi2 < moi1);

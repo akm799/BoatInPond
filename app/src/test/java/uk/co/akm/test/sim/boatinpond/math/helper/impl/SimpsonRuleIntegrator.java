@@ -1,6 +1,6 @@
 package uk.co.akm.test.sim.boatinpond.math.helper.impl;
 
-import uk.co.akm.test.sim.boatinpond.math.helper.Function;
+import uk.co.akm.test.sim.boatinpond.math.Function;
 import uk.co.akm.test.sim.boatinpond.math.helper.Integrator;
 
 /**

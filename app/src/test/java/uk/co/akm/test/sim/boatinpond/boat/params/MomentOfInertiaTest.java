@@ -4,7 +4,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import uk.co.akm.test.sim.boatinpond.math.helper.Function;
+import uk.co.akm.test.sim.boatinpond.math.Function;
 import uk.co.akm.test.sim.boatinpond.math.helper.Integrator;
 import uk.co.akm.test.sim.boatinpond.math.helper.impl.SimpsonRuleIntegrator;
 
