@@ -51,6 +51,8 @@ public final class SimpleBoatStructure implements BoatConstants {
         this.maxLoad = height* PhysicsConstants.WATER_DENSITY*area - mass;
         this.centreOfMassFromStern = centreOfMassLengthFromStern(length, beam, mainBodyFraction);
         this.momentOfInertia = momentOfInertia(mainSectionMassDensity, length, mainBodyFraction, centreOfMassFromStern);
+
+        setLoad(0);
     }
 
     private double estimateTheLongitudinalDragCoefficient() {
@@ -71,16 +73,17 @@ public final class SimpleBoatStructure implements BoatConstants {
     }
 
     private double estimateTheLateralDragCoefficient() {
-        final double noBow = estimateTheLateralDragCoefficientWithoutBow();
+        final double mainSectionDragCoefficient = estimateTheLateralDragCoefficientWithoutBow();
         if (bowSectionLength == 0) {
-            return noBow;
+            return mainSectionDragCoefficient;
         }
 
         final double deg45ReductionFraction = 0.238;
         final double bowAngle = Math.atan(bowSectionLength/beam/2);
-        final double reductionFraction = deg45ReductionFraction*MathConstants.ROOT_TWO*Math.sin(bowAngle + Math.PI/4);
+        final double reductionFraction = deg45ReductionFraction*MathConstants.ROOT_TWO*Math.cos(bowAngle);
+        final double bowSectionDragCoefficient = (1 - reductionFraction)*mainSectionDragCoefficient;
 
-        return (1 - reductionFraction)*noBow;
+        return (mainSectionDragCoefficient*mainBodyLength + bowSectionDragCoefficient*bowSectionLength)/length;
     }
 
     private double estimateTheLateralDragCoefficientWithoutBow() {
@@ -219,6 +222,16 @@ public final class SimpleBoatStructure implements BoatConstants {
     // This method is only for test purposes.
     public double getMomentOfInertia() {
         return momentOfInertia;
+    }
+
+    // This method is only for test purposes.
+    public double getLongitudinalDragCoefficient() {
+        return longitudinalDragCoefficient;
+    }
+
+    // This method is only for test purposes.
+    public double getLateralDragCoefficient() {
+        return lateralDragCoefficient;
     }
 
     private static final class MainMoment implements Function {

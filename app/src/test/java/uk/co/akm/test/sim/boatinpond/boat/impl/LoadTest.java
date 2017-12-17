@@ -24,6 +24,13 @@ public class LoadTest {
     }
 
     @Test
+    public void shouldComputeDefaultIncidenceAreas() {
+        Assert.assertTrue(underTest.getSideIncidenceArea() > 0);
+        Assert.assertTrue(underTest.getFrontalIncidenceArea() > 0);
+        Assert.assertTrue(underTest.getSideIncidenceArea() > underTest.getFrontalIncidenceArea());
+    }
+
+    @Test
     public void shouldComputeIncidenceAreas() {
         underTest.setLoad(150);
         Assert.assertTrue(underTest.getSideIncidenceArea() > 0);
