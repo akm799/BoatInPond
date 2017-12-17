@@ -3,6 +3,7 @@ package uk.co.akm.test.sim.boatinpond.boat.impl;
 
 import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
 import uk.co.akm.test.sim.boatinpond.math.Function;
+import uk.co.akm.test.sim.boatinpond.math.MathConstants;
 import uk.co.akm.test.sim.boatinpond.phys.PhysicsConstants;
 
 
@@ -10,7 +11,7 @@ import uk.co.akm.test.sim.boatinpond.phys.PhysicsConstants;
  * Created by Thanos Mavroidis on 16/12/2017.
  */
 public final class SimpleBoatStructure implements BoatConstants {
-    private final double cf = 1 - 1/Math.sqrt(2);
+    private final double cf = 1 - 1/ MathConstants.ROOT_TWO;
 
     private final double length;
     private final double beam;
@@ -20,7 +21,7 @@ public final class SimpleBoatStructure implements BoatConstants {
     private final double mainBodyLength;
     private final double bowSectionLength;
 
-    private final double longitudinalDragCoefficient = 0.58;
+    private final double longitudinalDragCoefficient;
     private final double lateralDragCoefficient;
 
     private final double area;
@@ -42,13 +43,58 @@ public final class SimpleBoatStructure implements BoatConstants {
 
         this.mainBodyLength = mainBodyFraction*length;
         this.bowSectionLength = length - mainBodyLength;
-        this.lateralDragCoefficient = (1.28*mainBodyLength + 0.8*bowSectionLength)/length;
+        this.longitudinalDragCoefficient = estimateTheLongitudinalDragCoefficient();
+        this.lateralDragCoefficient = estimateTheLateralDragCoefficient();
         final double mainSectionMassDensity = computeMainSectionMassDensity(length, beam, mainBodyFraction, mass);
 
         this.area = beam*(mainBodyLength + bowSectionLength/2);
         this.maxLoad = height* PhysicsConstants.WATER_DENSITY*area - mass;
         this.centreOfMassFromStern = centreOfMassLengthFromStern(length, beam, mainBodyFraction);
         this.momentOfInertia = momentOfInertia(mainSectionMassDensity, length, mainBodyFraction, centreOfMassFromStern);
+    }
+
+    private double estimateTheLongitudinalDragCoefficient() {
+        final double noBow = estimateTheLongitudinalDragCoefficientWithoutBow();
+        if (bowSectionLength == 0) {
+            return noBow;
+        }
+
+        final double deg45ReductionFraction = 0.2;
+        final double bowAngle = Math.atan(bowSectionLength/beam/2);
+        final double reductionFraction = deg45ReductionFraction*MathConstants.ROOT_TWO*Math.sin(bowAngle);
+
+        return (1 - reductionFraction)*noBow;
+    }
+
+    private double estimateTheLongitudinalDragCoefficientWithoutBow() {
+        return estimateTheDragCoefficientWithoutBow(length/beam);
+    }
+
+    private double estimateTheLateralDragCoefficient() {
+        final double noBow = estimateTheLateralDragCoefficientWithoutBow();
+        if (bowSectionLength == 0) {
+            return noBow;
+        }
+
+        final double deg45ReductionFraction = 0.238;
+        final double bowAngle = Math.atan(bowSectionLength/beam/2);
+        final double reductionFraction = deg45ReductionFraction*MathConstants.ROOT_TWO*Math.sin(bowAngle + Math.PI/4);
+
+        return (1 - reductionFraction)*noBow;
+    }
+
+    private double estimateTheLateralDragCoefficientWithoutBow() {
+        return estimateTheDragCoefficientWithoutBow(beam/length);
+    }
+
+    private double estimateTheDragCoefficientWithoutBow(double ratio) {
+        final double max = 1.28; // No bow section and very short, i.e. a flat plate.
+        final double mid = 1.05; // No bow section and square.
+        final double min = 0.82; // No bow section and very long.
+        final double maxDiff = max - min;
+        final double a = maxDiff/(mid - min)/Math.E;
+
+        return maxDiff*Math.exp(-a*ratio) + min;
     }
 
     void setLoad(double load) {
