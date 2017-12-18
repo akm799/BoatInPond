@@ -95,7 +95,7 @@ public final class SimpleBoatStructure implements BoatConstants {
         final double mid = 1.05; // No bow section and square.
         final double min = 0.82; // No bow section and very long.
         final double maxDiff = max - min;
-        final double a = maxDiff/(mid - min)/Math.E;
+        final double a = Math.log(maxDiff/(mid - min));
 
         return maxDiff*Math.exp(-a*ratio) + min;
     }

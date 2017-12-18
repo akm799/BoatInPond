@@ -115,7 +115,7 @@ public final class BoatImpl extends Body implements Boat {
   Rudder torque-force (lateral) computation result:
   F(a, v) = 0.5*r*A*v^2*k^2*sin(a)*cos^2(pi/2 - 2*a)
 
-  Rudder restistance-force (longitudinal) computation result:
+  Rudder resistance-force (longitudinal) computation result:
   F(a, v) = 0.5*r*A*v^2*k^2*sin(a)*[1 - sin^2(pi/2 - 2*a)]
 
   a: rudder angle

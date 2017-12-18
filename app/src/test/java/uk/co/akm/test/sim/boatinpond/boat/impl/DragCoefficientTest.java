@@ -47,4 +47,31 @@ public class DragCoefficientTest {
         Assert.assertTrue(cdLon2 > 0);
         Assert.assertTrue(cdLon1 > cdLon2);
     }
+
+    @Test
+    public void shouldCalculateDragCoefficientsWhenBoatIsVeryLong() {
+        final SimpleBoatStructure underTest = new SimpleBoatStructure(10000*beam, beam, height, 1, mass);
+
+        final double cdLon = underTest.getLongitudinalDragCoefficient();
+        final double cdLat = underTest.getLateralDragCoefficient();
+
+        Assert.assertTrue(cdLon > 0);
+        Assert.assertTrue(cdLat > 0);
+        Assert.assertTrue(cdLat > cdLon);
+        Assert.assertEquals(0.82, cdLon, 0);
+        Assert.assertEquals(1.28, cdLat, 0.0001);
+    }
+
+    @Test
+    public void shouldCalculateDragCoefficientsWhenBoatIsPerfectSquare() {
+        final SimpleBoatStructure underTest = new SimpleBoatStructure(beam, beam, height, 1, mass);
+
+        final double cdLon = underTest.getLongitudinalDragCoefficient();
+        final double cdLat = underTest.getLateralDragCoefficient();
+
+        Assert.assertTrue(cdLon > 0);
+        Assert.assertTrue(cdLat > 0);
+        Assert.assertTrue(cdLat == cdLon);
+        Assert.assertEquals(1.05, cdLat, 0);
+    }
 }
