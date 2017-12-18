@@ -20,6 +20,13 @@ public class RudderConstantsTest {
     private final double cf = 0.5*0.9*0.9*PhysicsConstants.WATER_DENSITY;
 
     @Test
+    public void shouldGetBoatLength() {
+        final double rudderArea= 1;
+        final BoatConstants underTest = new SimpleBoatStructure(length, beam, height, mainBodyFraction, mass, rudderArea);
+        Assert.assertEquals(length, underTest.getLength());
+    }
+
+    @Test
     public void shouldCalculateTheRudderCoefficient() {
         final double rudderArea1= 1;
         final double expectedKRud1 = cf*rudderArea1;

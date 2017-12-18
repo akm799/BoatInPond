@@ -40,6 +40,20 @@ public interface BoatConstants {
     double getMomentOfInertia();
 
     /**
+     * Returns the boat length.
+     *
+     * @return the boat length
+     */
+    double getLength();
+
+    /**
+     * Returns the distance of the boat centre of mass from the stern.
+     *
+     * @return the distance of the boat centre of mass from the stern
+     */
+    double getCentreOfMassFromStern();
+
+    /**
      * Returns the product: 0.5*r*A*k*k where:
      * r: the water density
      * A: the rudder surface area exposed to the water flow

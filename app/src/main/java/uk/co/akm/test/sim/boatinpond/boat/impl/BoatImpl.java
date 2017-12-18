@@ -78,6 +78,33 @@ public final class BoatImpl extends Body implements Boat {
 
     @Override
     protected void updateAngularAcceleration(State start, double dt) {
+        /*
+        final double length = 1; //TODO
+        final double cFromStern = 1; //TODO
+
+        final double rFront = (length - cFromStern)/2;
+        final double rBack = cFromStern/2;
+
+        final double moi = 1; //TODO From existing constant.
+        final double omg = omgHdn();
+        final double vFront = omg*rFront;
+        final double vBack = omg*rBack;
+        final double rCombined = (rFront + rBack)/2;
+        final double vCombined = (vFront*rFront + vBack*rBack)/(rFront + rBack);
+
+        final double a = rudder.getRudderAngle();
+        final double cs = Math.cos(MathConstants.PI_OVER_TWO - 2*a);
+        final double fRud = kRud*vLon*vLon*Math.sin(a)+cs*cs;
+        final double tRud = fRud*cFromStern;
+
+        final double fTurnResistance = kLat*vCombined*vCombined;
+        final double tTurnResistance = fTurnResistance*rCombined;
+
+        final double sgn = (tRud >=0 ? 1 : -1);
+        final double totalTorque = tRud - sgn*tTurnResistance;
+
+        aHdn = totalTorque/moi;
+        */
         aHdn = kRud*vLon*Math.sin(2*rudder.getRudderAngle()) - kAng*omgHdn(); // Moment of inertia is 1.
     }
 

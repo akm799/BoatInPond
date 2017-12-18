@@ -229,11 +229,6 @@ public final class SimpleBoatStructure implements BoatConstants {
     }
 
     // This method is only for test purposes.
-    double getCentreOfMassFromStern() {
-        return centreOfMassFromStern;
-    }
-
-    // This method is only for test purposes.
     public double getLongitudinalDragCoefficient() {
         return longitudinalDragCoefficient;
     }
@@ -292,6 +287,16 @@ public final class SimpleBoatStructure implements BoatConstants {
     @Override
     public double getMomentOfInertia() {
         return momentOfInertia;
+    }
+
+    @Override
+    public double getLength() {
+        return length;
+    }
+
+    @Override
+    public double getCentreOfMassFromStern() {
+        return centreOfMassFromStern;
     }
 
     @Override

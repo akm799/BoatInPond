@@ -124,4 +124,14 @@ public final class BoatConstantsImplOld implements BoatConstants {
     public double getMomentOfInertia() {
         return 1;
     }
+
+    @Override
+    public double getLength() {
+        return 1;
+    }
+
+    @Override
+    public double getCentreOfMassFromStern() {
+        return 1;
+    }
 }
