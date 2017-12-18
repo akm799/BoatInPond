@@ -24,6 +24,11 @@ public class LoadTest {
     }
 
     @Test
+    public void shouldComputeDefaultMass() {
+        Assert.assertEquals(mass, underTest.getMass());
+    }
+
+    @Test
     public void shouldComputeDefaultIncidenceAreas() {
         Assert.assertTrue(underTest.getSideIncidenceArea() > 0);
         Assert.assertTrue(underTest.getFrontalIncidenceArea() > 0);
@@ -54,5 +59,11 @@ public class LoadTest {
         } catch (IllegalStateException ise) {
             Assert.assertEquals("Max load exceeded.", ise.getMessage());
         }
+    }
+
+    @Test
+    public void shouldCalculateTotalMass() {
+        underTest.setLoad(32);
+        Assert.assertEquals(200.0, underTest.getMass());
     }
 }

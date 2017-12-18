@@ -114,4 +114,9 @@ public final class BoatConstantsImplOld implements BoatConstants {
     public double getkAng() {
         return kAng;
     }
+
+    @Override
+    public double getMass() {
+        throw new UnsupportedOperationException("This class is deprecated.");
+    }
 }

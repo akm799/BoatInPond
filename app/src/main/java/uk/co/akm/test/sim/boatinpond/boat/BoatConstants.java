@@ -8,22 +8,31 @@ package uk.co.akm.test.sim.boatinpond.boat;
 public interface BoatConstants {
 
     /**
-     * The total resistance coefficient kLon along the boat direction such that if vLon is the boat
-     * velocity along that direction, then the resistance force frLon along the boat direction is
-     * frLon = -kLon*vLon^2
+     * Returns the total resistance coefficient kLon along the boat direction such that if vLon is
+     * the boat velocity along that direction, then the resistance force frLon along the boat direction
+     * is frLon = -kLon*vLon^2
      *
      * @return the total resistance coefficient along the boat direction
      */
     double getkLon();
 
     /**
-     * The total resistance coefficient kLat perpendicular to the boat direction such that if vLat is
-     * the boat velocity along that direction, then the resistance force frLat perpendicular to the
-     * boat direction is frLat = -kLat*vLat^2
+     * Returns the total resistance coefficient kLat perpendicular to the boat direction such that if
+     * vLat is the boat velocity along that direction, then the resistance force frLat perpendicular
+     * to the boat direction is frLat = -kLat*vLat^2
      *
      * @return the total resistance coefficient perpendicular to the boat direction
      */
     double getkLat();
+
+    /**
+     * Returns the total mass of the boat (empty mass plus load).
+     *
+     * @return the total mass of the boat (empty mass plus load)
+     */
+    double getMass();
+
+
 
     @Deprecated
     double getkRud();

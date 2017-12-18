@@ -29,6 +29,7 @@ public final class SimpleBoatStructure implements BoatConstants {
     private final double centreOfMassFromStern;
     private final double momentOfInertia;
 
+    private double load;
     private double sideIncidenceArea;
     private double frontalIncidenceArea;
 
@@ -102,6 +103,7 @@ public final class SimpleBoatStructure implements BoatConstants {
 
     void setLoad(double load) {
         final double draught = computeDraught(load);
+        this.load = load;
         computeIncidenceAreas(draught);
         computeTotalResistanceCoefficients();
     }
@@ -273,6 +275,11 @@ public final class SimpleBoatStructure implements BoatConstants {
     @Override
     public double getkLat() {
         return totalLateralResistanceCoefficient;
+    }
+
+    @Override
+    public double getMass() {
+        return (mass + load);
     }
 
     @Override
