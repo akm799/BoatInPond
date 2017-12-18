@@ -15,12 +15,13 @@ public class DragCoefficientTest {
     private final double height = 0.5;
     private final double mainBodyFraction = 0.75;
     private final double mass = 168;
+    private final double dummyRudderArea = 1;
 
     private SimpleBoatStructure underTest;
 
     @Before
     public void setUp() {
-        underTest = new SimpleBoatStructure(length, beam, height, mainBodyFraction, mass);
+        underTest = new SimpleBoatStructure(length, beam, height, mainBodyFraction, mass, dummyRudderArea);
     }
 
     @Test
@@ -36,11 +37,11 @@ public class DragCoefficientTest {
     @Test
     public void shouldCalculateLongitudinalDragCoefficient() {
         final double f1 = 0.75;
-        final SimpleBoatStructure underTest1 = new SimpleBoatStructure(length, beam, height, f1, mass);
+        final SimpleBoatStructure underTest1 = new SimpleBoatStructure(length, beam, height, f1, mass, dummyRudderArea);
         final double cdLon1 = underTest1.getLongitudinalDragCoefficient();
 
         final double f2 = 0.4;
-        final SimpleBoatStructure underTest2 = new SimpleBoatStructure(length, beam, height, f2, mass);
+        final SimpleBoatStructure underTest2 = new SimpleBoatStructure(length, beam, height, f2, mass, dummyRudderArea);
         final double cdLon2 = underTest2.getLongitudinalDragCoefficient();
 
         Assert.assertTrue(cdLon1 > 0);
@@ -50,7 +51,7 @@ public class DragCoefficientTest {
 
     @Test
     public void shouldCalculateDragCoefficientsWhenBoatIsVeryLong() {
-        final SimpleBoatStructure underTest = new SimpleBoatStructure(10000*beam, beam, height, 1, mass);
+        final SimpleBoatStructure underTest = new SimpleBoatStructure(10000*beam, beam, height, 1, mass, dummyRudderArea);
 
         final double cdLon = underTest.getLongitudinalDragCoefficient();
         final double cdLat = underTest.getLateralDragCoefficient();
@@ -64,7 +65,7 @@ public class DragCoefficientTest {
 
     @Test
     public void shouldCalculateDragCoefficientsWhenBoatIsPerfectSquare() {
-        final SimpleBoatStructure underTest = new SimpleBoatStructure(beam, beam, height, 1, mass);
+        final SimpleBoatStructure underTest = new SimpleBoatStructure(beam, beam, height, 1, mass, dummyRudderArea);
 
         final double cdLon = underTest.getLongitudinalDragCoefficient();
         final double cdLat = underTest.getLateralDragCoefficient();

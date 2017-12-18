@@ -13,6 +13,8 @@ import uk.co.akm.test.sim.boatinpond.phys.PhysicsConstants;
 public final class SimpleBoatStructure implements BoatConstants {
     private final double cf = 1 - 1/ MathConstants.ROOT_TWO;
 
+    private final double rudderDeflectionCoefficient = 0.9;
+
     private final double length;
     private final double beam;
     private final double height;
@@ -29,6 +31,8 @@ public final class SimpleBoatStructure implements BoatConstants {
     private final double centreOfMassFromStern;
     private final double momentOfInertia;
 
+    private final double rudderCoefficient;
+
     private double load;
     private double sideIncidenceArea;
     private double frontalIncidenceArea;
@@ -36,7 +40,13 @@ public final class SimpleBoatStructure implements BoatConstants {
     private double totalLongitudinalResistanceCoefficient;
     private double totalLateralResistanceCoefficient;
 
-    public SimpleBoatStructure(double length, double beam, double height, double mainBodyFraction, double mass) {
+    public SimpleBoatStructure(
+            double length,
+            double beam,
+            double height,
+            double mainBodyFraction,
+            double mass,
+            double rudderArea) {
         this.length = length;
         this.beam = beam;
         this.height = height;
@@ -52,6 +62,8 @@ public final class SimpleBoatStructure implements BoatConstants {
         this.maxLoad = height* PhysicsConstants.WATER_DENSITY*area - mass;
         this.centreOfMassFromStern = centreOfMassLengthFromStern(length, beam, mainBodyFraction);
         this.momentOfInertia = momentOfInertia(mainSectionMassDensity, length, mainBodyFraction, centreOfMassFromStern);
+
+        this.rudderCoefficient = 0.5*PhysicsConstants.WATER_DENSITY*rudderArea*rudderDeflectionCoefficient*rudderDeflectionCoefficient;
 
         setLoad(0);
     }
@@ -222,11 +234,6 @@ public final class SimpleBoatStructure implements BoatConstants {
     }
 
     // This method is only for test purposes.
-    public double getMomentOfInertia() {
-        return momentOfInertia;
-    }
-
-    // This method is only for test purposes.
     public double getLongitudinalDragCoefficient() {
         return longitudinalDragCoefficient;
     }
@@ -283,8 +290,13 @@ public final class SimpleBoatStructure implements BoatConstants {
     }
 
     @Override
+    public double getMomentOfInertia() {
+        return momentOfInertia;
+    }
+
+    @Override
     public double getkRud() {
-        throw new UnsupportedOperationException("Deprated method.");
+        return rudderCoefficient;
     }
 
     @Override

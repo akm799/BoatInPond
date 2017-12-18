@@ -117,6 +117,11 @@ public final class BoatConstantsImplOld implements BoatConstants {
 
     @Override
     public double getMass() {
-        throw new UnsupportedOperationException("This class is deprecated.");
+        return 1;
+    }
+
+    @Override
+    public double getMomentOfInertia() {
+        return 1;
     }
 }

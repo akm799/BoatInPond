@@ -15,12 +15,13 @@ public class LoadTest {
     private final double height = 0.5;
     private final double mainBodyFraction = 0.75;
     private final double mass = 168;
+    private final double dummyRudderArea = 1;
 
     private SimpleBoatStructure underTest;
 
     @Before
     public void setUp() {
-        underTest = new SimpleBoatStructure(length, beam, height, mainBodyFraction, mass);
+        underTest = new SimpleBoatStructure(length, beam, height, mainBodyFraction, mass, dummyRudderArea);
     }
 
     @Test

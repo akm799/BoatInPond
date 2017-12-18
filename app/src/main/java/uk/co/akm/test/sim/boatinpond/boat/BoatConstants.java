@@ -32,9 +32,21 @@ public interface BoatConstants {
      */
     double getMass();
 
+    /**
+     * Returns the boat moment of inertia.
+     *
+     * @return the boat moment of inertia
+     */
+    double getMomentOfInertia();
 
-
-    @Deprecated
+    /**
+     * Returns the product: 0.5*r*A*k*k where:
+     * r: the water density
+     * A: the rudder surface area exposed to the water flow
+     * k: the ratio of the water speed after rudder deflection over the water speed before rudder deflection
+     *
+     * @return a coefficient used in the rudder force calculation.
+     */
     double getkRud();
 
     @Deprecated
