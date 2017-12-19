@@ -35,6 +35,41 @@ public class DragCoefficientTest {
     }
 
     @Test
+    public void shouldCalculateTotalResistanceCoefficients() {
+        final double kLon = underTest.getkLon();
+        final double kLat = underTest.getkLat();
+
+        Assert.assertTrue(kLon > 0);
+        Assert.assertTrue(kLat > 0);
+        Assert.assertTrue(kLat > kLon);
+        Assert.assertTrue(kLat/kLon > length/beam);
+    }
+
+    @Test
+    public void shouldCalculateTotalResistanceCoefficientsForDifferentLoads() {
+        final double load1 = 65;
+        final double load2 = 150;
+        Assert.assertTrue(load1 < load2);
+
+        final double kLon0 = underTest.getkLon();
+        final double kLat0 = underTest.getkLat();
+
+        underTest.setLoad(load1);
+        final double kLon1 = underTest.getkLon();
+        final double kLat1 = underTest.getkLat();
+
+        underTest.setLoad(load2);
+        final double kLon2 = underTest.getkLon();
+        final double kLat2 = underTest.getkLat();
+
+        Assert.assertTrue(kLon0 < kLon1);
+        Assert.assertTrue(kLon1 < kLon2);
+
+        Assert.assertTrue(kLat0 < kLat1);
+        Assert.assertTrue(kLat1 < kLat2);
+    }
+
+    @Test
     public void shouldCalculateLongitudinalDragCoefficient() {
         final double f1 = 0.75;
         final SimpleBoatStructure underTest1 = new SimpleBoatStructure(length, beam, height, f1, mass, dummyRudderArea);

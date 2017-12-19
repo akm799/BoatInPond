@@ -10,6 +10,8 @@ import uk.co.akm.test.sim.boatinpond.phys.Body;
 import uk.co.akm.test.sim.boatinpond.phys.State;
 
 /**
+ * //TODO Investigate errors in the class with angular parameter oscillations and exponential increases during turns.
+ *
  * Simulates a propulsion-less boat gliding in a pond after some initial push. The simulation assumes
  * that the boat is pushed from the centre of the pond with some initial speed along some heading.
  * Before this initial push, the boat rudder is fixed at some angle. Due to the water resistance, the
@@ -18,7 +20,7 @@ import uk.co.akm.test.sim.boatinpond.phys.State;
  *
  * Please note that the mass of the boat as well as its moment of inertia are both assumed to be 1.
  *
- * Created by Thanos Mavroidis on 02/12/2017.
+ * Created by Thanos Mavroidis on 18/12/2017.
  */
 public final class BoatImplNew extends Body implements Boat {
     // Resistance coefficient across the axis of the boat heading.
