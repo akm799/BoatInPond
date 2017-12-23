@@ -113,7 +113,7 @@ public final class SimpleBoatStructure implements BoatConstants {
         return maxDiff*Math.exp(-a*ratio) + min;
     }
 
-    void setLoad(double load) {
+    public void setLoad(double load) {
         final double draught = computeDraught(load);
         this.load = load;
         computeIncidenceAreas(draught);

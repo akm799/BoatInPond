@@ -59,7 +59,9 @@ public final class BoatImplNew extends Body implements Boat {
     private double sina; // The sine of the heading angle.
 
     private double vLonSq; // The component of the velocity vector along the boat axis, squared.
-    private double vLatSq; // The component of the velocity vector along the boat axis, squared.
+    private double vLatSq; // The component of the velocity vector perpendicular to the boat axis, squared.
+    private int signLon; // The sign of the velocity along the boat axis (1 if vLon >= 0 or -1 if vLon < 0)
+    private int signLat; // The sign of the velocity perpendicular to the boat axis (1 if vLat >= 0 or -1 if vLat < 0)
 
     private double sinRa; // The sine of the rudder angle.
     private double rdAngTrans; // PI/2 - 2*rudderAngle
@@ -108,6 +110,8 @@ public final class BoatImplNew extends Body implements Boat {
         final double vLat = -vx*sina + vy*cosa;
         vLonSq = vLon*vLon;
         vLatSq = vLat*vLat;
+        signLon = (vLon >= 0 ? 1 : -1);
+        signLat = (vLat >= 0 ? 1 : -1);
 
         final double ra = rudder.getRudderAngle();
         sinRa = Math.sin(ra);
@@ -135,19 +139,19 @@ public final class BoatImplNew extends Body implements Boat {
     @Override
     protected void updateAcceleration(State start, double dt) {
         final double sn = Math.sin(rdAngTrans);
-        final double fRestRud = -kRud*vLonSq*sinRa*(1 - sn*sn);
-        final double fRestWater = -kLon*vLonSq;
+        final double fRestRud = -signLon*kRud*vLonSq*sinRa*(1 - sn*sn);
+        final double fRestWater = -signLon*kLon*vLonSq;
         final double fLon = fRestWater + fRestRud;
 
-        final double fLat = -kLat*vLatSq;
+        final double fLat = -signLat*kLat*vLatSq;
 
         // Evaluate the acceleration wrt the boat heading.
         final double aLon = fLon/mass;
         final double aLat = fLat/mass;
 
         // Rotate the acceleration wrt the boat heading an angle a (i.e. the reverse of our previous rotation) to get the acceleration wrt our coordinate system.
-        ax = aLon*cosa - aLat*sina; // Mass is 1
-        ay = aLon*sina + aLat*cosa; // Mass is 1
+        ax = aLon*cosa - aLat*sina;
+        ay = aLon*sina + aLat*cosa;
     }
 
     @Override
