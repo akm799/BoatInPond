@@ -36,8 +36,6 @@ public final class BoatImpl extends Body implements Boat {
     private double cosa; // The cosine of the heading angle.
     private double sina; // The sine of the heading angle.
 
-    private double vx;   // The x-axis velocity component.
-    private double vy;   // The y-axis velocity component.
     private double vLon; // The component of the velocity vector along the boat axis.
     private double vLat; // The component of the velocity vector perpendicular to the boat axis.
 
@@ -72,15 +70,15 @@ public final class BoatImpl extends Body implements Boat {
         cosa = hdn.cos();
         sina = hdn.sin();
 
-        vx = start.vx();
-        vy = start.vy();
+        final double vx = start.vx();
+        final double vy = start.vy();
         vLon =  vx*cosa + vy*sina;
         vLat = -vx*sina + vy*cosa;
     }
 
     @Override
     protected void updateAngularAcceleration(State start, double dt) {
-        aHdn = kRud*vLon*Math.sin(2*rudder.getRudderAngle()) - kAng*omgHdn(); // Moment of inertia is 1.
+        aHdn = kRud*vLon*Math.sin(2*rudder.getRudderAngle()) - kAng*start.omgHdn(); // Moment of inertia is 1.
     }
 
     @Override
@@ -92,8 +90,8 @@ public final class BoatImpl extends Body implements Boat {
         final double aLat = -kLat*vLat; // Mass is 1
 
         // Rotate the acceleration wrt the boat heading an angle a (i.e. the reverse of our previous rotation) to get the acceleration wrt our coordinate system.
-        ax = aLon*cosa - aLat*sina; // Mass is 1
-        ay = aLon*sina + aLat*cosa; // Mass is 1
+        ax = aLon*cosa - aLat*sina;
+        ay = aLon*sina + aLat*cosa;
     }
 
     @Override
