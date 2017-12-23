@@ -39,6 +39,7 @@ public final class BoatImpl extends Body implements Boat {
     private double vx;   // The x-axis velocity component.
     private double vy;   // The y-axis velocity component.
     private double vLon; // The component of the velocity vector along the boat axis.
+    private double vLat; // The component of the velocity vector perpendicular to the boat axis.
 
     /**
      * Boat constructor specifying the boat characteristics and the initial conditions.
@@ -73,7 +74,8 @@ public final class BoatImpl extends Body implements Boat {
 
         vx = start.vx();
         vy = start.vy();
-        vLon = vx*cosa + vy*sina;
+        vLon =  vx*cosa + vy*sina;
+        vLat = -vx*sina + vy*cosa;
     }
 
     @Override
@@ -83,8 +85,6 @@ public final class BoatImpl extends Body implements Boat {
 
     @Override
     protected void updateAcceleration(State start, double dt) {
-        final double vLat = -vx*sina + vy*cosa;
-
         //TODO Simulate increased longitudinal resistance due to rudder use (kLonEffective = kLon*kRat*sin(ra) where kRat ~ rudderArea/totalBoatFrontalArea)
 
         // Evaluate the acceleration wrt the boat heading.
