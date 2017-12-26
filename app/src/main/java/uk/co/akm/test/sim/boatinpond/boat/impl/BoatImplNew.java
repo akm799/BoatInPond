@@ -25,11 +25,15 @@ import uk.co.akm.test.sim.boatinpond.phys.State;
 public final class BoatImplNew extends Body implements Boat {
     // Resistance coefficient across the axis of the boat heading.
     private final double kLon;
+
     // Resistance coefficient perpendicular to the axis of the boat heading.
     private final double kLat;
 
     // Rudder deflection coefficient.
     private final double kRud;
+
+    // Angular motion resistance coefficient.
+    private final double kAng;
 
     // The boat total mass.
     private final double mass;
@@ -40,17 +44,6 @@ public final class BoatImplNew extends Body implements Boat {
     // The distance of the centre of gravity from the stern.
     private final double cgFromStern;
 
-    // The distance of the front from the centre of gravity divided by two.
-    private final double rFront;
-
-    // The distance of the centre of gravity from the stern divided by two.
-    private final double rBack;
-
-    // rFront + rBack
-    private final double rSum;
-
-    // rSum/2
-    private final double rAvg;
 
     private final Rudder rudder = new PowerRudder(Math.PI/4, 2);
 
@@ -62,6 +55,9 @@ public final class BoatImplNew extends Body implements Boat {
     private double vLatSq; // The component of the velocity vector perpendicular to the boat axis, squared.
     private int signLon; // The sign of the velocity along the boat axis (1 if vLon >= 0 or -1 if vLon < 0)
     private int signLat; // The sign of the velocity perpendicular to the boat axis (1 if vLat >= 0 or -1 if vLat < 0)
+
+    private double omgSq; // The heading angular velocity squared.
+    private int signOmg; // The sign of the heading angular velocity (1 if omgHdn >= 0 or -1 if omgHdn < 0)
 
     private double sinRa; // The sine of the rudder angle.
     private double rdAngTrans; // PI/2 - 2*rudderAngle
@@ -79,14 +75,10 @@ public final class BoatImplNew extends Body implements Boat {
         this.kLon = constants.getkLon();
         this.kLat = constants.getkLat();
         this.kRud = constants.getkRud();
+        this.kAng = constants.getkAng();
         this.mass = constants.getMass();
         this.moi = constants.getMomentOfInertia();
-
-        cgFromStern = constants.getCentreOfMassFromStern();
-        rFront = (constants.getLength() - cgFromStern)/2;
-        rBack = cgFromStern/2;
-        rSum = rFront + rBack;
-        rAvg = rSum/2;
+        this.cgFromStern = constants.getCentreOfMassFromStern();
     }
 
     @Override
@@ -113,6 +105,10 @@ public final class BoatImplNew extends Body implements Boat {
         signLon = (vLon >= 0 ? 1 : -1);
         signLat = (vLat >= 0 ? 1 : -1);
 
+        final double omg = start.omgHdn();
+        omgSq = omg*omg;
+        signOmg = (omg >= 0 ? 1 : -1);
+
         final double ra = rudder.getRudderAngle();
         sinRa = Math.sin(ra);
         rdAngTrans = MathConstants.PI_OVER_TWO - 2*ra;
@@ -121,19 +117,12 @@ public final class BoatImplNew extends Body implements Boat {
     @Override
     protected void updateAngularAcceleration(State start, double dt) {
         final double cs = Math.cos(rdAngTrans);
-        final double fRud = kRud*vLonSq*sinRa*cs*cs;
-        final double tRud = fRud*cgFromStern;
+        final double rudderForce = kRud*vLonSq*sinRa*cs*cs;
+        final double turningTorque = rudderForce*cgFromStern;
 
-        final double omg = Math.abs(omgHdn());
-        final double vFront = omg*rFront;
-        final double vBack = omg*rBack;
-        final double vCombined = (vFront*rFront + vBack*rBack)/rSum;
-        final double fTurnResistance = kLat*vCombined*vCombined;
-        final double tTurnResistance = fTurnResistance*rAvg;
+        final double turningResistanceTorque = -signOmg*kAng*omgSq;
 
-        final double totalTorque = (tRud >= 0 ? tRud - tTurnResistance : tRud + tTurnResistance);
-
-        aHdn = totalTorque/moi;
+        aHdn = (turningTorque + turningResistanceTorque)/moi;
     }
 
     @Override

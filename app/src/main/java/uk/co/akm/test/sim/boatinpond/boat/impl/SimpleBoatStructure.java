@@ -306,7 +306,7 @@ public final class SimpleBoatStructure implements BoatConstants {
 
     @Override
     public double getkAng() {
-        throw new UnsupportedOperationException("Deprated method.");
+        return 1; //TODO
     }
 }
 

@@ -63,6 +63,12 @@ public interface BoatConstants {
      */
     double getkRud();
 
-    @Deprecated
+    /**
+     * Returns the total torque resistance coefficient of the boat. This coefficient multiplied by the
+     * square of the angular velocity (of the heading angle) gives the total magnitude of the torque
+     * resisting the turn of the boat.
+     *
+     * @return the total torque resistance coefficient of the boat
+     */
     double getkAng();
 }
