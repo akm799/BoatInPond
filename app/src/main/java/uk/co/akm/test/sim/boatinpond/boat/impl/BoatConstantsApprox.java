@@ -9,8 +9,7 @@ import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
  *
  * Created by Thanos Mavroidis on 16/12/2017.
  */
-@Deprecated
-public final class BoatConstantsImplOld implements BoatConstants {
+public final class BoatConstantsApprox implements BoatConstants {
     // Resistance coefficient across the axis of the boat heading.
     private final double kLon;
     // Resistance coefficient perpendicular to the axis of the boat heading.
@@ -57,7 +56,7 @@ public final class BoatConstantsImplOld implements BoatConstants {
      * @param tOmg the time taken to reach the reach the turn rate, derived from #frOmgFinal, starting
      *             from a zero turn rate and applying full maximum rudder at a speed #v0
      */
-    public BoatConstantsImplOld(double v0, double frVFinal, double tv, double kLatOverKLon, double omgMax, double frOmgFinal, double tOmg) {
+    public BoatConstantsApprox(double v0, double frVFinal, double tv, double kLatOverKLon, double omgMax, double frOmgFinal, double tOmg) {
         checkArguments(v0, frVFinal, tv, kLatOverKLon, omgMax, frOmgFinal, tOmg);
 
         kLon = -Math.log(frVFinal)/tv;

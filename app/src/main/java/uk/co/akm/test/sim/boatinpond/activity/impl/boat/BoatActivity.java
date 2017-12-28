@@ -12,7 +12,7 @@ import uk.co.akm.test.sim.boatinpond.activity.ViewBoxStateActivity;
 import uk.co.akm.test.sim.boatinpond.boat.Boat;
 import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.Rudder;
-import uk.co.akm.test.sim.boatinpond.boat.impl.BoatConstantsImplOld;
+import uk.co.akm.test.sim.boatinpond.boat.impl.BoatConstantsApprox;
 import uk.co.akm.test.sim.boatinpond.boat.impl.BoatImpl;
 
 /**
@@ -99,7 +99,7 @@ public final class BoatActivity extends ViewBoxStateActivity<Boat, BoatViewBox> 
         final double frOmgFinal = 0.999999;
         final double tOmg = 5;
 
-        final BoatConstants constants = new BoatConstantsImplOld(v0, frVFinal, tv, kLatOverKLon, omgMax, frOmgFinal, tOmg);
+        final BoatConstants constants = new BoatConstantsApprox(v0, frVFinal, tv, kLatOverKLon, omgMax, frOmgFinal, tOmg);
         initState(new BoatImpl(constants, Math.PI/2, 3));
 
         initiate();

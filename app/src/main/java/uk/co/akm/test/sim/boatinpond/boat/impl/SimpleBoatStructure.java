@@ -319,4 +319,21 @@ public final class SimpleBoatStructure implements BoatConstants {
  * m:  boat mass
  * rw: water density
  * A:  boat horizontal cross-sectional area (i.e. when viewed vertically from above).
+ *
+ *
+ *
+ *
+ *
+ * For total lateral resistance coefficient estimation try:
+ *
+ * cdLat = (2*m*omg)/(v*rw*A)
+ * m:  boat mass
+ * rw: water density
+ * A:  boat side incidence area (i.e. when viewed vertically from above).
+ *
+ * The omg and v parameters are target boat performance parameters for the turning performance of the
+ * boat at constant speed (i.e. assuming a propulsion force along the boat axis that keeps the boat
+ * speed constant).
+ * omg: constant angular velocity at a fixed boat speed v
+ * v:   constant boat speed v
  */
