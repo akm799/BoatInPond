@@ -1,0 +1,57 @@
+Boat Performance
+Trolling motors: https://en.wikipedia.org/wiki/Trolling_motor
+Outboard motor propulsion efficiency: https://www.boatdesign.net/threads/how-many-lbs-of-thrust-is-equal-to-1-hp.24964/
+Outboard motor performance test: http://www.mby.com/gear/ultimate-10hp-outboard-engine-group-test-51978
+
+Boat Structure:
+Moment of inertia calculation: http://hyperphysics.phy-astr.gsu.edu/hbase/mi2.html#irod3
+Rowing power: http://eodg.atm.ox.ac.uk/user/dudhia/rowing/physics/rowing.pdf
+Drug coefficient (non-low speed): https://en.wikipedia.org/wiki/Drag_coefficient
+
+
+
+
+Rudder forces basic approximation (non hydrodynamic computation).
+Rudder torque-force (lateral) computation result:
+F(a, v) = 0.5*r*A*v^2*k^2*sin(a)*cos^2(pi/2 - 2*a)
+
+Rudder resistance-force (longitudinal) computation result:
+F(a, v) = 0.5*r*A*v^2*k^2*sin(a)*[1 - sin^2(pi/2 - 2*a)]
+
+a: rudder angle
+v: speed over water
+r: water density
+A: rudder surface area below the water line
+k: k = vd/v where vd is the speed of water deflected by the rudder (assuming that vd < v).
+
+This assumes that the force of water stream  moving at speed v through a surface area A is: F = 0.5*r*A*v^2
+
+
+
+
+Submerged Volume:
+V(d) = A*d
+
+rw*V(d) = m + ld => rw*A*d = m + ld => d = (m + ld) / (rw*A)
+
+d:  boat draught
+m:  boat mass
+rw: water density
+A:  boat horizontal cross-sectional area (i.e. when viewed vertically from above).
+
+
+
+
+Lateral resistance cofficient estimation:
+For total lateral resistance coefficient estimation try:
+
+cdLat = (2*m*omg)/(v*rw*A)
+m:  boat mass
+rw: water density
+A:  boat side incidence area (i.e. when viewed vertically from above).
+
+The omg and v parameters are target boat performance parameters for the turning performance of the
+boat at constant speed (i.e. assuming a propulsion force along the boat axis that keeps the boat
+speed constant).
+omg: constant angular velocity at a fixed boat speed v
+v:   constant boat speed v
