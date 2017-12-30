@@ -40,6 +40,11 @@ public final class SimpleBoatStructure implements BoatConstants {
     private double totalLongitudinalResistanceCoefficient;
     private double totalLateralResistanceCoefficient;
 
+    // Approximate parameters for a Bosun dinghy.
+    public SimpleBoatStructure() {
+        this(4.27, 1.68, 0.5, 0.75, 168, 0.35);
+    }
+
     public SimpleBoatStructure(
             double length,
             double beam,
@@ -59,7 +64,7 @@ public final class SimpleBoatStructure implements BoatConstants {
         final double mainSectionMassDensity = computeMainSectionMassDensity(length, beam, mainBodyFraction, mass);
 
         this.area = beam*(mainBodyLength + bowSectionLength/2);
-        this.maxLoad = height* PhysicsConstants.WATER_DENSITY*area - mass;
+        this.maxLoad = height*PhysicsConstants.WATER_DENSITY*area - mass;
         this.centreOfMassFromStern = centreOfMassLengthFromStern(length, beam, mainBodyFraction);
         this.momentOfInertia = momentOfInertia(mainSectionMassDensity, length, mainBodyFraction, centreOfMassFromStern);
 
