@@ -23,6 +23,9 @@ import uk.co.akm.test.sim.boatinpond.phys.State;
  * Created by Thanos Mavroidis on 18/12/2017.
  */
 public final class BoatImplNew extends Body implements Boat {
+    private static final double V_TRANSITION = 1;
+    private static final double OMG_TRANSITION = 1;
+
     // Resistance coefficient across the axis of the boat heading.
     private final double kLon;
 
@@ -51,12 +54,18 @@ public final class BoatImplNew extends Body implements Boat {
     private double cosa; // The cosine of the heading angle.
     private double sina; // The sine of the heading angle.
 
+    private double vLon; // The component of the velocity vector along the boat axis.
+    private double vLat; // The component of the velocity vector perpendicular to the boat axis.
+    private double vLonAbs; // The boat speed along the boat axis.
+    private double vLatAbs; // The boat speed perpendicular to the boat axis.
     private double vLonSq; // The component of the velocity vector along the boat axis, squared.
     private double vLatSq; // The component of the velocity vector perpendicular to the boat axis, squared.
     private int signLon; // The sign of the velocity along the boat axis (1 if vLon >= 0 or -1 if vLon < 0)
     private int signLat; // The sign of the velocity perpendicular to the boat axis (1 if vLat >= 0 or -1 if vLat < 0)
 
-    private double omgSq; // The heading angular velocity squared.
+    private double omg; // The heading angular velocity.
+    private double omgSq; // The heading angular velocity, squared.
+    private double omgAbs; // The absolute value of the heading angular velocity.
     private int signOmg; // The sign of the heading angular velocity (1 if omgHdn >= 0 or -1 if omgHdn < 0)
 
     private double sinRa; // The sine of the rudder angle.
@@ -98,15 +107,18 @@ public final class BoatImplNew extends Body implements Boat {
 
         final double vx = start.vx();
         final double vy = start.vy();
-        final double vLon = vx*cosa + vy*sina;
-        final double vLat = -vx*sina + vy*cosa;
+        vLon = vx*cosa + vy*sina;
+        vLat = -vx*sina + vy*cosa;
         vLonSq = vLon*vLon;
         vLatSq = vLat*vLat;
+        vLonAbs = Math.abs(vLon);
+        vLatAbs = Math.abs(vLat);
         signLon = (vLon >= 0 ? 1 : -1);
         signLat = (vLat >= 0 ? 1 : -1);
 
-        final double omg = start.omgHdn();
+        omg = start.omgHdn();
         omgSq = omg*omg;
+        omgAbs = Math.abs(omg);
         signOmg = (omg >= 0 ? 1 : -1);
 
         final double ra = rudder.getRudderAngle();
@@ -117,22 +129,21 @@ public final class BoatImplNew extends Body implements Boat {
     @Override
     protected void updateAngularAcceleration(State start, double dt) {
         final double cs = Math.cos(rdAngTrans);
-        final double rudderForce = kRud*vLonSq*sinRa*cs*cs;
+        final double rudderForce = (vLonAbs > V_TRANSITION ? kRud*vLonSq*sinRa*cs*cs : kRud*vLonAbs*sinRa*cs*cs);
         final double turningTorque = rudderForce*cgFromStern;
 
-        final double turningResistanceTorque = -signOmg*kAng*omgSq;
+        final double turningResistanceTorque = (omgAbs > OMG_TRANSITION ? -signOmg*kAng*omgSq : -kAng*omg);
 
         aHdn = (turningTorque + turningResistanceTorque)/moi;
     }
 
     @Override
     protected void updateAcceleration(State start, double dt) {
-        final double sn = Math.sin(rdAngTrans);
-        final double fRestRud = -signLon*kRud*vLonSq*sinRa*(1 - sn*sn);
-        final double fRestWater = -signLon*kLon*vLonSq;
+        final double fRestRud = estimateBoatRudderResistance();
+        final double fRestWater = computeBoatLongitudinalResistance();
         final double fLon = fRestWater + fRestRud;
 
-        final double fLat = -signLat*kLat*vLatSq;
+        final double fLat = computeBoatLateralResistance();
 
         // Evaluate the acceleration wrt the boat heading.
         final double aLon = fLon/mass;
@@ -141,6 +152,31 @@ public final class BoatImplNew extends Body implements Boat {
         // Rotate the acceleration wrt the boat heading an angle a (i.e. the reverse of our previous rotation) to get the acceleration wrt our coordinate system.
         ax = aLon*cosa - aLat*sina;
         ay = aLon*sina + aLat*cosa;
+    }
+
+    private double computeBoatLateralResistance() {
+        if (vLatAbs > V_TRANSITION) {
+            return -signLat*kLat*vLatSq;
+        } else {
+            return -kLat*vLat;
+        }
+    }
+
+    private double estimateBoatRudderResistance() {
+        final double sn = Math.sin(rdAngTrans);
+        if (vLonAbs > V_TRANSITION) {
+            return -signLon*kRud*vLonSq*sinRa*(1 - sn*sn);
+        } else {
+            return -kRud*vLon*sinRa*(1 - sn*sn);
+        }
+    }
+
+    private double computeBoatLongitudinalResistance() {
+        if (vLonAbs > V_TRANSITION) {
+            return -signLon*kLon*vLonSq;
+        } else {
+            return -kLon*vLon;
+        }
     }
 
     @Override
