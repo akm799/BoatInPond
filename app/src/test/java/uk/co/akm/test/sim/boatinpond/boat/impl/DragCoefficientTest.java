@@ -24,7 +24,22 @@ public class DragCoefficientTest {
         underTest = new SimpleBoatStructure(length, beam, height, mainBodyFraction, mass, dummyRudderArea);
     }
 
+    //TODO Move temporary stopping distance computation.
     @Test
+    public void shouldCalculateStoppingDistance() {
+        final double k = 10; // Total longitudinal resistance coefficient.
+
+        final double m = 168; // Boat mass
+        final double v0 = 2.5; // Boat initial velocity.
+        final double c = k/m;
+        final double s = (1 + Math.log(1 + (v0 - 1)/c))/c; // Stopping distance.
+        System.out.println("s=" + s);
+        Assert.assertTrue(s > 0);
+        Assert.assertTrue(s < 71.6648);
+    }
+
+    @Test
+    @Deprecated
     public void shouldCalculateDragCoefficients() {
         final double cdLon = underTest.getLongitudinalDragCoefficient();
         final double cdLat = underTest.getLateralDragCoefficient();
@@ -35,6 +50,7 @@ public class DragCoefficientTest {
     }
 
     @Test
+    @Deprecated
     public void shouldCalculateTotalResistanceCoefficients() {
         final double kLon = underTest.getkLon();
         final double kLat = underTest.getkLat();
@@ -46,6 +62,7 @@ public class DragCoefficientTest {
     }
 
     @Test
+    @Deprecated
     public void shouldCalculateTotalResistanceCoefficientsForDifferentLoads() {
         final double load1 = 65;
         final double load2 = 150;
@@ -70,6 +87,7 @@ public class DragCoefficientTest {
     }
 
     @Test
+    @Deprecated
     public void shouldCalculateLongitudinalDragCoefficient() {
         final double f1 = 0.75;
         final SimpleBoatStructure underTest1 = new SimpleBoatStructure(length, beam, height, f1, mass, dummyRudderArea);
@@ -85,6 +103,7 @@ public class DragCoefficientTest {
     }
 
     @Test
+    @Deprecated
     public void shouldCalculateDragCoefficientsWhenBoatIsVeryLong() {
         final SimpleBoatStructure underTest = new SimpleBoatStructure(10000*beam, beam, height, 1, mass, dummyRudderArea);
 
@@ -99,6 +118,7 @@ public class DragCoefficientTest {
     }
 
     @Test
+    @Deprecated
     public void shouldCalculateDragCoefficientsWhenBoatIsPerfectSquare() {
         final SimpleBoatStructure underTest = new SimpleBoatStructure(beam, beam, height, 1, mass, dummyRudderArea);
 
