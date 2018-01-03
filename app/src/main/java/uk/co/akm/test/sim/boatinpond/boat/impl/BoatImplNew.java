@@ -24,7 +24,6 @@ import uk.co.akm.test.sim.boatinpond.phys.State;
  */
 public final class BoatImplNew extends Body implements Boat {
     private static final double V_TRANSITION = 1;
-    private static final double OMG_TRANSITION = 1;
 
     // Resistance coefficient across the axis of the boat heading.
     private final double kLon;
@@ -82,7 +81,6 @@ public final class BoatImplNew extends Body implements Boat {
     private int signLat; // The sign of the velocity perpendicular to the boat axis (1 if vLat >= 0 or -1 if vLat < 0)
 
     private double omg; // The heading angular velocity.
-    private double omgSq; // The heading angular velocity, squared.
     private double omgAbs; // The absolute value of the heading angular velocity.
     private int signOmg; // The sign of the heading angular velocity (1 if omgHdn >= 0 or -1 if omgHdn < 0)
 
@@ -147,7 +145,6 @@ public final class BoatImplNew extends Body implements Boat {
         signLat = (vLat >= 0 ? 1 : -1);
 
         omg = start.omgHdn();
-        omgSq = omg*omg;
         omgAbs = Math.abs(omg);
         signOmg = (omg >= 0 ? 1 : -1);
 
@@ -161,12 +158,12 @@ public final class BoatImplNew extends Body implements Boat {
     @Override
     protected void updateAngularAcceleration(State start, double dt) {
         final double rudderForce = (vLonAbs > V_TRANSITION ? kRud*vLonSq*rudderAreaProjection : kRud*vLonAbs*rudderAreaProjection);
-        final double rudderTorque = rudderForce*cgFromStern;
+        final double rudderTorque = signOmg*rudderForce*cgFromStern;
 
         final double fResFront = (vFront > V_TRANSITION ? kResFront*vFront*vFront : kResFront*vFront);
         final double fResBack = (vBack > V_TRANSITION ? kResBack*vBack*vBack : kResBack*vBack);
         final double turningResistanceTorqueAbs = fResFront*rFront + fResBack*rBack;
-        final double turningResistanceTorque = (omgAbs > OMG_TRANSITION ? -turningResistanceTorqueAbs : turningResistanceTorqueAbs);
+        final double turningResistanceTorque = (rudderTorque >= 0 ? -turningResistanceTorqueAbs : turningResistanceTorqueAbs);
 
         aHdn = (rudderTorque + turningResistanceTorque)/moi;
     }
