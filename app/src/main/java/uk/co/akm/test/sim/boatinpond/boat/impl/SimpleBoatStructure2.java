@@ -26,6 +26,7 @@ public final class SimpleBoatStructure2 implements BoatConstants {
     private final double beam;
     private final double height;
     private final double mass;
+    private final double rudderArea;
 
     private final double mainBodyLength;
     private final double bowSectionLength;
@@ -46,6 +47,8 @@ public final class SimpleBoatStructure2 implements BoatConstants {
     private double totalLongitudinalResistanceCoefficient;
     private double totalLateralResistanceCoefficient;
 
+    private double rudderOverFrontalIncidenceArea;
+
     // Approximate parameters for a Bosun dinghy.
     public SimpleBoatStructure2() {
         this(4.27, 1.68, 0.5, 0.75, 168, 0.35);
@@ -62,6 +65,7 @@ public final class SimpleBoatStructure2 implements BoatConstants {
         this.beam = beam;
         this.height = height;
         this.mass = mass;
+        this.rudderArea = rudderArea;
 
         this.mainBodyLength = mainBodyFraction*length;
         this.bowSectionLength = length - mainBodyLength;
@@ -105,6 +109,7 @@ public final class SimpleBoatStructure2 implements BoatConstants {
     private void computeIncidenceAreas(double draught) {
         frontalIncidenceArea = draught*beam;
         sideIncidenceArea = draught*length;
+        rudderOverFrontalIncidenceArea = rudderArea/frontalIncidenceArea;
     }
 
     /**
@@ -288,6 +293,6 @@ public final class SimpleBoatStructure2 implements BoatConstants {
 
     @Override
     public double getkAng() {
-        return 1; //TODO
+        return rudderOverFrontalIncidenceArea;
     }
 }
