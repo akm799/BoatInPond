@@ -40,29 +40,25 @@ public final class BoatImplNew extends Body implements Boat {
     // The boat moment of inertia.
     private final double moi;
 
-    // The boat length
-    private final double length;
-
     // The rudder area
     private final double rudderOverFrontalIncidenceArea;
 
     // The distance of the centre of gravity from the stern.
     private final double cgFromStern;
 
+    // Half the distance of the centre of gravity from the stern.
+    private final double cgFromSternOverTwo;
+
+    // Coefficient that gives the resistance torque when multiplied by the angular velocity of rotation.
+    private final double resistanceTorqueCoefficientLow;
+
+    // Coefficient that gives the resistance torque when multiplied by the square of angular velocity of rotation.
+    private final double resistanceTorqueCoefficientHigh;
+
     // The maximum rudder angle.
     private final double maxRudderAngle;
 
-    // Half the distance from the bow to the boat centre of gravity.
-    private final double rFront;
 
-    // Half the distance from the stern to the boat centre of gravity.
-    private final double rBack;
-
-    // The turning force resistance coefficient of the forward section of the boat.
-    private final double kResFront;
-
-    // The turning force resistance coefficient of the aft section of the boat.
-    private final double kResBack;
 
 
     private final Rudder rudder = new PowerRudder(Math.PI/4, 2);
@@ -81,14 +77,13 @@ public final class BoatImplNew extends Body implements Boat {
     private int signLat; // The sign of the velocity perpendicular to the boat axis (1 if vLat >= 0 or -1 if vLat < 0)
 
     private double omg; // The heading angular velocity.
+    private double omgSq; // The heading angular velocity, squared.
     private double omgAbs; // The absolute value of the heading angular velocity.
     private int signOmg; // The sign of the heading angular velocity (1 if omgHdn >= 0 or -1 if omgHdn < 0)
 
     private double rudderAngle; // The rudder angle.
     private double rudderAreaProjection; // The projection factor of the rudder area exposed to the longitudinal water flow.
 
-    private double vFront; // The linear rotational (turning) velocity of the boat point halfway between the bow and the centre of gravity.
-    private double vBack; // The linear rotational (turning) velocity of the boat point halfway between the stern and the centre of gravity.
 
     /**
      * Boat constructor specifying the boat characteristics and the initial conditions.
@@ -105,17 +100,19 @@ public final class BoatImplNew extends Body implements Boat {
         this.kRud = constants.getkRud();
         this.mass = constants.getMass();
         this.moi = constants.getMomentOfInertia();
-        this.length = constants.getLength();
         this.cgFromStern = constants.getCentreOfMassFromStern();
+        this.cgFromSternOverTwo = cgFromStern/2;
         this.maxRudderAngle = rudder.getMaxRudderAngle();
         this.rudderOverFrontalIncidenceArea = constants.getkAng();
 
-        final double lFront = length - cgFromStern;
-        final double lBack = cgFromStern;
-        this.rFront = lFront/2;
-        this.rBack = lBack/2;
-        this.kResFront = lFront*kLat/length;
-        this.kResBack = lBack*kLat/length;
+        final double length = constants.getLength();
+        final double frontLength = length - cgFromStern;
+        final double cgFromSternToTheThird = Math.pow(cgFromStern, 3);
+        final double cgFromSternToTheFourth = Math.pow(cgFromStern, 4);
+        final double frontLengthToTheThird = Math.pow(frontLength, 3);
+        final double frontLengthToTheFourth = Math.pow(frontLength, 4);
+        this.resistanceTorqueCoefficientLow = kLat*(cgFromSternToTheThird + frontLengthToTheThird)/(4*length);
+        this.resistanceTorqueCoefficientHigh = kLat*(cgFromSternToTheFourth + frontLengthToTheFourth)/(8*length);
     }
 
     @Override
@@ -145,14 +142,12 @@ public final class BoatImplNew extends Body implements Boat {
         signLat = (vLat >= 0 ? 1 : -1);
 
         omg = start.omgHdn();
+        omgSq = omg*omg;
         omgAbs = Math.abs(omg);
         signOmg = (omg >= 0 ? 1 : -1);
 
         rudderAngle = rudder.getRudderAngle();
         rudderAreaProjection = Math.sin(rudderAngle*MathConstants.PI_OVER_TWO/maxRudderAngle);
-
-        vFront = omgAbs*rFront;
-        vBack = omgAbs*rBack;
     }
 
     @Override
@@ -160,12 +155,19 @@ public final class BoatImplNew extends Body implements Boat {
         final double rudderForce = (vLonAbs > V_TRANSITION ? kRud*vLonSq*rudderAreaProjection : kRud*vLonAbs*rudderAreaProjection);
         final double rudderTorque = signOmg*rudderForce*cgFromStern;
 
-        final double fResFront = (vFront > V_TRANSITION ? kResFront*vFront*vFront : kResFront*vFront);
-        final double fResBack = (vBack > V_TRANSITION ? kResBack*vBack*vBack : kResBack*vBack);
-        final double turningResistanceTorqueAbs = fResFront*rFront + fResBack*rBack;
+        final double turningResistanceTorqueAbs = estimateResistanceTorqueMagnitude();
         final double turningResistanceTorque = (rudderTorque >= 0 ? -turningResistanceTorqueAbs : turningResistanceTorqueAbs);
 
         aHdn = (rudderTorque + turningResistanceTorque)/moi;
+    }
+
+    private double estimateResistanceTorqueMagnitude() {
+        final double vRot = omgAbs*cgFromSternOverTwo;
+        if (vRot > V_TRANSITION) {
+            return resistanceTorqueCoefficientHigh*omgSq;
+        } else {
+            return resistanceTorqueCoefficientLow*omgAbs;
+        }
     }
 
     @Override
