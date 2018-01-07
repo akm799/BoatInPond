@@ -12,8 +12,8 @@ import uk.co.akm.test.sim.boatinpond.activity.ViewBoxStateActivity;
 import uk.co.akm.test.sim.boatinpond.boat.Boat;
 import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.Rudder;
-import uk.co.akm.test.sim.boatinpond.boat.impl.BoatConstantsApprox;
-import uk.co.akm.test.sim.boatinpond.boat.impl.BoatImpl;
+import uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatConstantsApprox;
+import uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatImpl;
 
 /**
  * Created by Thanos Mavroidis on 29/11/2017.

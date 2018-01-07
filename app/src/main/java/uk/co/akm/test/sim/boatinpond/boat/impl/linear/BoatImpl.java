@@ -1,9 +1,10 @@
-package uk.co.akm.test.sim.boatinpond.boat.impl;
+package uk.co.akm.test.sim.boatinpond.boat.impl.linear;
 
 
 import uk.co.akm.test.sim.boatinpond.boat.Boat;
 import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.Rudder;
+import uk.co.akm.test.sim.boatinpond.boat.impl.PowerRudder;
 import uk.co.akm.test.sim.boatinpond.math.TrigValues;
 import uk.co.akm.test.sim.boatinpond.phys.Body;
 import uk.co.akm.test.sim.boatinpond.phys.State;

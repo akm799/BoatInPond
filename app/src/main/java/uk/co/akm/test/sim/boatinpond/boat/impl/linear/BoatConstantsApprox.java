@@ -1,4 +1,4 @@
-package uk.co.akm.test.sim.boatinpond.boat.impl;
+package uk.co.akm.test.sim.boatinpond.boat.impl.linear;
 
 import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
 

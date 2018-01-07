@@ -1,4 +1,4 @@
-package uk.co.akm.test.sim.boatinpond.boat.impl;
+package uk.co.akm.test.sim.boatinpond.boat.impl.quad;
 
 
 import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
@@ -8,44 +8,45 @@ import uk.co.akm.test.sim.boatinpond.phys.PhysicsConstants;
 
 
 /**
- * Created by Thanos Mavroidis on 16/12/2017.
+ * Created by Thanos Mavroidis on 30/12/2017.
  */
-public final class SimpleBoatStructure implements BoatConstants {
+public final class SimpleBoatStructure2 implements BoatConstants {
     private final double cf = 1 - 1/ MathConstants.ROOT_TWO;
-
-    private final double rudderDeflectionCoefficient = 0.9;
+    private final double targetLongitudinalResistanceCoefficient = 10; // Gives, roughly, a 71 m stopping distance from an initial velocity of 2.5 m/s
+    private final double lateralToLongitudinalResistanceCoefficientRatio = 15;
 
     private final double length;
     private final double beam;
     private final double height;
     private final double mass;
+    private final double rudderArea;
 
     private final double mainBodyLength;
     private final double bowSectionLength;
-
-    private final double longitudinalDragCoefficient;
-    private final double lateralDragCoefficient;
 
     private final double area;
     private final double maxLoad;
     private final double centreOfMassFromStern;
     private final double momentOfInertia;
 
-    private final double rudderCoefficient;
-
     private double load;
     private double sideIncidenceArea;
     private double frontalIncidenceArea;
 
+    private double longitudinalDragCoefficient;
+    private double lateralDragCoefficient;
     private double totalLongitudinalResistanceCoefficient;
     private double totalLateralResistanceCoefficient;
 
+    private double rudderCoefficient;
+    private double rudderOverFrontalIncidenceArea;
+
     // Approximate parameters for a Bosun dinghy.
-    public SimpleBoatStructure() {
+    public SimpleBoatStructure2() {
         this(4.27, 1.68, 0.5, 0.75, 168, 0.35);
     }
 
-    public SimpleBoatStructure(
+    private SimpleBoatStructure2(
             double length,
             double beam,
             double height,
@@ -56,11 +57,10 @@ public final class SimpleBoatStructure implements BoatConstants {
         this.beam = beam;
         this.height = height;
         this.mass = mass;
+        this.rudderArea = rudderArea;
 
         this.mainBodyLength = mainBodyFraction*length;
         this.bowSectionLength = length - mainBodyLength;
-        this.longitudinalDragCoefficient = estimateTheLongitudinalDragCoefficient();
-        this.lateralDragCoefficient = estimateTheLateralDragCoefficient();
         final double mainSectionMassDensity = computeMainSectionMassDensity(length, beam, mainBodyFraction, mass);
 
         this.area = beam*(mainBodyLength + bowSectionLength/2);
@@ -68,60 +68,24 @@ public final class SimpleBoatStructure implements BoatConstants {
         this.centreOfMassFromStern = centreOfMassLengthFromStern(length, beam, mainBodyFraction);
         this.momentOfInertia = momentOfInertia(mainSectionMassDensity, length, mainBodyFraction, centreOfMassFromStern);
 
-        this.rudderCoefficient = 0.5*PhysicsConstants.WATER_DENSITY*rudderArea*rudderDeflectionCoefficient*rudderDeflectionCoefficient;
-
-        setLoad(0);
-    }
-
-    private double estimateTheLongitudinalDragCoefficient() {
-        final double noBow = estimateTheLongitudinalDragCoefficientWithoutBow();
-        if (bowSectionLength == 0) {
-            return noBow;
-        }
-
-        final double deg45ReductionFraction = 0.2;
-        final double bowAngle = Math.atan(bowSectionLength/beam/2);
-        final double reductionFraction = deg45ReductionFraction*MathConstants.ROOT_TWO*Math.sin(bowAngle);
-
-        return (1 - reductionFraction)*noBow;
-    }
-
-    private double estimateTheLongitudinalDragCoefficientWithoutBow() {
-        return estimateTheDragCoefficientWithoutBow(length/beam);
-    }
-
-    private double estimateTheLateralDragCoefficient() {
-        final double mainSectionDragCoefficient = estimateTheLateralDragCoefficientWithoutBow();
-        if (bowSectionLength == 0) {
-            return mainSectionDragCoefficient;
-        }
-
-        final double deg45ReductionFraction = 0.238;
-        final double bowAngle = Math.atan(bowSectionLength/beam/2);
-        final double reductionFraction = deg45ReductionFraction*MathConstants.ROOT_TWO*Math.cos(bowAngle);
-        final double bowSectionDragCoefficient = (1 - reductionFraction)*mainSectionDragCoefficient;
-
-        return (mainSectionDragCoefficient*mainBodyLength + bowSectionDragCoefficient*bowSectionLength)/length;
-    }
-
-    private double estimateTheLateralDragCoefficientWithoutBow() {
-        return estimateTheDragCoefficientWithoutBow(beam/length);
-    }
-
-    private double estimateTheDragCoefficientWithoutBow(double ratio) {
-        final double max = 1.28; // No bow section and very short, i.e. a flat plate.
-        final double mid = 1.05; // No bow section and square.
-        final double min = 0.82; // No bow section and very long.
-        final double maxDiff = max - min;
-        final double a = Math.log(maxDiff/(mid - min));
-
-        return maxDiff*Math.exp(-a*ratio) + min;
+        setLoad(0, true);
     }
 
     public void setLoad(double load) {
+        setLoad(load, false);
+    }
+
+    private void setLoad(double load, boolean computeDragCoefficients) {
         final double draught = computeDraught(load);
         this.load = load;
+
         computeIncidenceAreas(draught);
+        if (computeDragCoefficients) {
+            computeDragCoefficients();
+            // The rudder force coefficient estimation depends on the lateral drag coefficient value.
+            rudderCoefficient = estimateRudderForceCoefficient(1.047197551, 2.5); // ~ 60 degrees per second at 5 knots.
+        }
+
         computeTotalResistanceCoefficients();
     }
 
@@ -137,6 +101,16 @@ public final class SimpleBoatStructure implements BoatConstants {
     private void computeIncidenceAreas(double draught) {
         frontalIncidenceArea = draught*beam;
         sideIncidenceArea = draught*length;
+        rudderOverFrontalIncidenceArea = rudderArea/frontalIncidenceArea;
+    }
+
+    /**
+     * https://en.wikipedia.org/wiki/Drag_coefficient
+     */
+    private void computeDragCoefficients() {
+        final double halfWaterDensity = 0.5*PhysicsConstants.WATER_DENSITY;
+        longitudinalDragCoefficient = targetLongitudinalResistanceCoefficient/(halfWaterDensity*frontalIncidenceArea);
+        lateralDragCoefficient = lateralToLongitudinalResistanceCoefficientRatio*longitudinalDragCoefficient;
     }
 
     /**
@@ -216,6 +190,23 @@ public final class SimpleBoatStructure implements BoatConstants {
 
     private double evaluate(Function function, double xMin, double xMax) {
         return function.f(xMax) - function.f(xMin);
+    }
+
+    // Rudder surface area is assumed to be constant wrt boat draught.
+    private double estimateRudderForceCoefficient(double omgAbs, double v) {
+        final double tr = computeTurningResistanceTorqueMagnitude(omgAbs);
+
+        return tr/(v*v*centreOfMassFromStern);
+    }
+
+    private double computeTurningResistanceTorqueMagnitude(double omgAbs) {
+        final double l = length;
+        final double x = centreOfMassFromStern;
+        final double f = (l - x);
+        final double k = totalLateralResistanceCoefficient;
+
+        final double cf = k*(Math.pow(x, 4) + Math.pow(f, 4))/(8*l);
+        return cf*omgAbs*omgAbs;
     }
 
     // This method is only for test purposes.
@@ -309,8 +300,9 @@ public final class SimpleBoatStructure implements BoatConstants {
         return rudderCoefficient;
     }
 
+    //TODO Rename this method.
     @Override
     public double getkAng() {
-        return 1; //TODO
+        return rudderOverFrontalIncidenceArea;
     }
 }

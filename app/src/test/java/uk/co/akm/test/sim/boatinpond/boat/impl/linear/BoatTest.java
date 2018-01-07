@@ -1,10 +1,13 @@
-package uk.co.akm.test.sim.boatinpond.boat;
+package uk.co.akm.test.sim.boatinpond.boat.impl.linear;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import uk.co.akm.test.sim.boatinpond.boat.impl.BoatConstantsApprox;
-import uk.co.akm.test.sim.boatinpond.boat.impl.BoatImpl;
+import uk.co.akm.test.sim.boatinpond.boat.Boat;
+import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
+import uk.co.akm.test.sim.boatinpond.boat.Rudder;
+import uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatConstantsApprox;
+import uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatImpl;
 import uk.co.akm.test.sim.boatinpond.math.Angles;
 import uk.co.akm.test.sim.boatinpond.phys.State;
 import uk.co.akm.test.sim.boatinpond.phys.UpdatableState;

@@ -1,9 +1,11 @@
-package uk.co.akm.test.sim.boatinpond.boat.impl;
+package uk.co.akm.test.sim.boatinpond.boat.impl.linear;
 
 import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import uk.co.akm.test.sim.boatinpond.boat.impl.quad.SimpleBoatStructure;
 
 /**
  * Created by Thanos Mavroidis on 16/12/2017.
