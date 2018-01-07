@@ -8,19 +8,12 @@ import uk.co.akm.test.sim.boatinpond.phys.PhysicsConstants;
 
 
 /**
- * //TODO: Compute kRud and kAng by:
- * //TODO: 1) Assuming a simple rudder force ~kRud*v^2*A
- * //TODO: 2) Assuming a turn resistance force ~ kLat*vRot^2/rEff^2
- * //TODO: 3) Solving for kRud assuming a given omega (i.e. vRot and rEff) at a given boat velocity v
- *
  * Created by Thanos Mavroidis on 30/12/2017.
  */
 public final class SimpleBoatStructure2 implements BoatConstants {
     private final double cf = 1 - 1/ MathConstants.ROOT_TWO;
     private final double targetLongitudinalResistanceCoefficient = 10; // Gives, roughly, a 71 m stopping distance from an initial velocity of 2.5 m/s
     private final double lateralToLongitudinalResistanceCoefficientRatio = 15;
-
-    private final double rudderDeflectionCoefficient = 0.9;
 
     private final double length;
     private final double beam;
@@ -36,8 +29,6 @@ public final class SimpleBoatStructure2 implements BoatConstants {
     private final double centreOfMassFromStern;
     private final double momentOfInertia;
 
-    private final double rudderCoefficient;
-
     private double load;
     private double sideIncidenceArea;
     private double frontalIncidenceArea;
@@ -47,6 +38,7 @@ public final class SimpleBoatStructure2 implements BoatConstants {
     private double totalLongitudinalResistanceCoefficient;
     private double totalLateralResistanceCoefficient;
 
+    private double rudderCoefficient;
     private double rudderOverFrontalIncidenceArea;
 
     // Approximate parameters for a Bosun dinghy.
@@ -76,8 +68,6 @@ public final class SimpleBoatStructure2 implements BoatConstants {
         this.centreOfMassFromStern = centreOfMassLengthFromStern(length, beam, mainBodyFraction);
         this.momentOfInertia = momentOfInertia(mainSectionMassDensity, length, mainBodyFraction, centreOfMassFromStern);
 
-        this.rudderCoefficient = 0.5*PhysicsConstants.WATER_DENSITY*rudderArea*rudderDeflectionCoefficient*rudderDeflectionCoefficient;
-
         setLoad(0, true);
     }
 
@@ -92,6 +82,8 @@ public final class SimpleBoatStructure2 implements BoatConstants {
         computeIncidenceAreas(draught);
         if (computeDragCoefficients) {
             computeDragCoefficients();
+            // The rudder force coefficient estimation depends on the lateral drag coefficient value.
+            rudderCoefficient = estimateRudderForceCoefficient(1.047197551, 2.5); // ~ 60 degrees per second at 5 knots.
         }
 
         computeTotalResistanceCoefficients();
@@ -200,6 +192,23 @@ public final class SimpleBoatStructure2 implements BoatConstants {
         return function.f(xMax) - function.f(xMin);
     }
 
+    // Rudder surface area is assumed to be constant wrt boat draught.
+    private double estimateRudderForceCoefficient(double omgAbs, double v) {
+        final double tr = computeTurningResistanceTorqueMagnitude(omgAbs);
+
+        return tr/(v*v*centreOfMassFromStern);
+    }
+
+    private double computeTurningResistanceTorqueMagnitude(double omgAbs) {
+        final double l = length;
+        final double x = centreOfMassFromStern;
+        final double f = (l - x);
+        final double k = totalLateralResistanceCoefficient;
+
+        final double cf = k*(Math.pow(x, 4) + Math.pow(f, 4))/(8*l);
+        return cf*omgAbs*omgAbs;
+    }
+
     // This method is only for test purposes.
     double getMaxLoad() {
         return maxLoad;
@@ -291,6 +300,7 @@ public final class SimpleBoatStructure2 implements BoatConstants {
         return rudderCoefficient;
     }
 
+    //TODO Rename this method.
     @Override
     public double getkAng() {
         return rudderOverFrontalIncidenceArea;
