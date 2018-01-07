@@ -22,7 +22,7 @@ public class BoatTest {
     private final double accuracy = 0.00001;
 
     private final double v0 = 2.5; // 9 km/h
-    private final double tv = 60; // 1 min
+    private final double tv = 600; // 10 mins
 
     private final BoatConstants constants = new SimpleBoatStructure2();
 
@@ -43,7 +43,7 @@ public class BoatTest {
     //TODO Test expected distance covered.
     @Test
     public void shouldComeToRest() {
-        final UpdatableState underTest = new BoatImpl(constants, 0, v0);
+        final UpdatableState underTest = new BoatImplNew(constants, 0, v0);
         Assert.assertEquals(v0, underTest.v(), accuracy);
         Assert.assertEquals(v0, underTest.vx(), accuracy);
 
