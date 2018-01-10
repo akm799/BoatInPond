@@ -22,7 +22,6 @@ public class BoatTest {
     private final double accuracy = 0.00001;
 
     private final double v0 = 2.5; // 9 km/h
-    private final double tv = 600; // 10 mins
 
     private final BoatConstants constants = new SimpleBoatStructure2();
 
@@ -40,18 +39,25 @@ public class BoatTest {
         Assert.assertEquals(v0, underTest.vy(), accuracy);
     }
 
-    //TODO Test expected distance covered.
     @Test
     public void shouldComeToRest() {
+        final double slowingDownTime = 600; // 10 mins
+
         final UpdatableState underTest = new BoatImplNew(constants, 0, v0);
         Assert.assertEquals(v0, underTest.v(), accuracy);
         Assert.assertEquals(v0, underTest.vx(), accuracy);
 
-        Updater.update(underTest, tv, nSteps);
+        final double k = constants.getkLon();
+        final double m = constants.getMass();
+        final double xLimit = m*(1 + Math.log(v0))/k;
+        final double xLimitApproach = 0.002; // How close we can get to the limit within the (long) time during which we are slowing down.
+
+        Updater.update(underTest, slowingDownTime, nSteps);
         Assert.assertEquals(0.0, underTest.v(), accuracy);
         Assert.assertEquals(0.0, underTest.vx(), accuracy);
         Assert.assertTrue(underTest.x() > 0);
-        Assert.assertTrue(underTest.x() < 71);
+        Assert.assertTrue(underTest.x() < xLimit);
+        Assert.assertTrue(xLimit - underTest.x() < xLimitApproach);
         Assert.assertEquals(0.0, underTest.y(), accuracy);
     }
 }
