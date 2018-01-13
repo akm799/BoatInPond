@@ -13,7 +13,7 @@ import uk.co.akm.test.sim.boatinpond.phys.PhysicsConstants;
 public final class SimpleBoatStructure2 implements BoatConstants {
     private final double cf = 1 - 1/ MathConstants.ROOT_TWO;
     private final double targetLongitudinalResistanceCoefficient = 6.438736859097161; // Gives, roughly, a 50 m stopping distance from an initial velocity of 2.5 m/s
-    private final double lateralToLongitudinalResistanceCoefficientRatio = 15;
+    private final double lateralToLongitudinalResistanceCoefficientRatio = 5;
 
     private final double length;
     private final double beam;
