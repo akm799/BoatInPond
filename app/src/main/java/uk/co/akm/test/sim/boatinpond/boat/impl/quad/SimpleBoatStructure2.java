@@ -82,11 +82,14 @@ public final class SimpleBoatStructure2 implements BoatConstants {
         computeIncidenceAreas(draught);
         if (computeDragCoefficients) {
             computeDragCoefficients();
-            // The rudder force coefficient estimation depends on the lateral drag coefficient value.
-            rudderCoefficient = estimateRudderForceCoefficient(1.047197551, 2.5); // ~ 60 degrees per second at 5 knots.
         }
 
         computeTotalResistanceCoefficients();
+
+        if (computeDragCoefficients) {
+            // The rudder force coefficient estimation depends on the total lateral drag coefficient value.
+            rudderCoefficient = estimateRudderForceCoefficient(1.047197551, 2.5); // ~ 60 degrees per second at 5 knots.
+        }
     }
 
     private double computeDraught(double load) {
