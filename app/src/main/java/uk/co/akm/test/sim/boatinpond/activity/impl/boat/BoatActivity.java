@@ -10,10 +10,10 @@ import android.widget.TextView;
 import uk.co.akm.test.sim.boatinpond.R;
 import uk.co.akm.test.sim.boatinpond.activity.ViewBoxStateActivity;
 import uk.co.akm.test.sim.boatinpond.boat.Boat;
-import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.Rudder;
 import uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatConstantsApprox;
 import uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatImpl;
+import uk.co.akm.test.sim.boatinpond.boat.impl.linear.LinearBoatConstants;
 
 /**
  * Created by Thanos Mavroidis on 29/11/2017.
@@ -99,7 +99,7 @@ public final class BoatActivity extends ViewBoxStateActivity<Boat, BoatViewBox> 
         final double frOmgFinal = 0.999999;
         final double tOmg = 5;
 
-        final BoatConstants constants = new BoatConstantsApprox(v0, frVFinal, tv, kLatOverKLon, omgMax, frOmgFinal, tOmg);
+        final LinearBoatConstants constants = new BoatConstantsApprox(v0, frVFinal, tv, kLatOverKLon, omgMax, frOmgFinal, tOmg);
         initState(new BoatImpl(constants, Math.PI/2, 3));
 
         initiate();

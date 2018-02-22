@@ -4,10 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import uk.co.akm.test.sim.boatinpond.boat.Boat;
-import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.Rudder;
-import uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatConstantsApprox;
-import uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatImpl;
 import uk.co.akm.test.sim.boatinpond.math.Angles;
 import uk.co.akm.test.sim.boatinpond.phys.State;
 import uk.co.akm.test.sim.boatinpond.phys.UpdatableState;
@@ -31,7 +28,7 @@ public class BoatTest {
     private final double frOmgFinal = 0.999999;
     private final double tOmg = 5;
 
-    private final BoatConstants constants = new BoatConstantsApprox(v0, frVFinal, tv, kLatOverKLon, omgMax, frOmgFinal, tOmg);
+    private final LinearBoatConstants constants = new BoatConstantsApprox(v0, frVFinal, tv, kLatOverKLon, omgMax, frOmgFinal, tOmg);
 
     enum RudderState {FULL_LEFT_RUDDER, FULL_RIGHT_RUDDER}
 

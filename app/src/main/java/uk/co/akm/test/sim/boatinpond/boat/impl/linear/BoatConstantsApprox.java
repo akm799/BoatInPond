@@ -1,7 +1,5 @@
 package uk.co.akm.test.sim.boatinpond.boat.impl.linear;
 
-import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
-
 /**
  * This class calculates the boat motion constants based on some desired performance characteristics.
  *
@@ -9,7 +7,7 @@ import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
  *
  * Created by Thanos Mavroidis on 16/12/2017.
  */
-public final class BoatConstantsApprox implements BoatConstants {
+public final class BoatConstantsApprox implements LinearBoatConstants {
     // Resistance coefficient across the axis of the boat heading.
     private final double kLon;
     // Resistance coefficient perpendicular to the axis of the boat heading.
@@ -98,30 +96,29 @@ public final class BoatConstantsApprox implements BoatConstants {
         }
     }
 
+    @Override
     public double getkLon() {
         return kLon;
     }
 
+    @Override
     public double getkLat() {
         return kLat;
     }
 
+    @Override
+    public double getKLonReverse() {
+        return 10*kLon;
+    }
+
+    @Override
     public double getkRud() {
         return kRud;
     }
 
+    @Override
     public double getkAng() {
         return kAng;
-    }
-
-    @Override
-    public double getMass() {
-        return 1;
-    }
-
-    @Override
-    public double getMomentOfInertia() {
-        return 1;
     }
 
     @Override

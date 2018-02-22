@@ -2,7 +2,6 @@ package uk.co.akm.test.sim.boatinpond.boat.impl.linear;
 
 
 import uk.co.akm.test.sim.boatinpond.boat.Boat;
-import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.Rudder;
 import uk.co.akm.test.sim.boatinpond.boat.impl.PowerRudder;
 import uk.co.akm.test.sim.boatinpond.math.TrigValues;
@@ -47,7 +46,7 @@ public final class BoatImpl extends Body implements Boat {
      * @param hdn0 the heading along which the boat is pushed
      * @param v0 the speed at which the boat is initially pushed
      */
-    public BoatImpl(BoatConstants constants, double hdn0, double v0) {
+    public BoatImpl(LinearBoatConstants constants, double hdn0, double v0) {
         super(0, 0, 0, hdn0, 0, 0, v0*Math.cos(hdn0), v0*Math.sin(hdn0), 0, 0, 0, 0);
 
         this.kLon = constants.getkLon();

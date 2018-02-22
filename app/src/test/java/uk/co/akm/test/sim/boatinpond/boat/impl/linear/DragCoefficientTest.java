@@ -5,7 +5,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.co.akm.test.sim.boatinpond.boat.impl.quad.SimpleBoatStructure;
+import uk.co.akm.test.sim.boatinpond.boat.impl.quad.deprecated.SimpleBoatStructure;
 
 /**
  * Created by Thanos Mavroidis on 17/12/2017.

@@ -1,15 +1,8 @@
-package uk.co.akm.test.sim.boatinpond.boat.impl.quad;
+package uk.co.akm.test.sim.boatinpond.boat.impl.quad.deprecated;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import uk.co.akm.test.sim.boatinpond.boat.Boat;
-import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
-import uk.co.akm.test.sim.boatinpond.boat.Rudder;
-import uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatConstantsApprox;
-import uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatImpl;
-import uk.co.akm.test.sim.boatinpond.math.Angles;
-import uk.co.akm.test.sim.boatinpond.phys.State;
 import uk.co.akm.test.sim.boatinpond.phys.UpdatableState;
 import uk.co.akm.test.sim.boatinpond.phys.Updater;
 
@@ -17,13 +10,14 @@ import uk.co.akm.test.sim.boatinpond.phys.Updater;
 /**
  * Created by Thanos Mavroidis on 08/01/2018.
  */
+@Deprecated
 public class BoatTest {
     private final int nSteps = 1000000;
     private final double accuracy = 0.00001;
 
     private final double v0 = 2.5; // 9 km/h
 
-    private final BoatConstants constants = new SimpleBoatStructure2();
+    private final QuadBoatConstants constants = new SimpleBoatStructure2();
 
     @Test
     public void shouldSetInitialConditions() {

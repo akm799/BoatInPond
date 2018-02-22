@@ -5,8 +5,8 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
-import uk.co.akm.test.sim.boatinpond.boat.impl.quad.SimpleBoatStructure;
+import uk.co.akm.test.sim.boatinpond.boat.impl.quad.deprecated.QuadBoatConstants;
+import uk.co.akm.test.sim.boatinpond.boat.impl.quad.deprecated.SimpleBoatStructure;
 import uk.co.akm.test.sim.boatinpond.math.Function;
 import uk.co.akm.test.sim.boatinpond.math.helper.Integrator;
 import uk.co.akm.test.sim.boatinpond.math.helper.impl.SimpsonRuleIntegrator;
@@ -26,7 +26,7 @@ public class MomentOfInertiaTest {
 
     private final double dummyHeight = 1;
 
-    private BoatConstants underTest;
+    private QuadBoatConstants underTest;
 
     @Before
     public void setUp() {
@@ -77,12 +77,12 @@ public class MomentOfInertiaTest {
     @Test
     public void shouldCalculateMomentOfInertiaForDifferentBowSizes() {
         final double f1 = 0.8;
-        final BoatConstants underTest1 = new SimpleBoatStructure(length, beam, dummyHeight, f1, mass, dummyRudderArea);
+        final QuadBoatConstants underTest1 = new SimpleBoatStructure(length, beam, dummyHeight, f1, mass, dummyRudderArea);
         final double moi1 = underTest1.getMomentOfInertia();
         Assert.assertTrue(moi1 > 0);
 
         final double f2 = 0.5;
-        final BoatConstants underTest2 = new SimpleBoatStructure(length, beam, dummyHeight, f2, mass, dummyRudderArea);
+        final QuadBoatConstants underTest2 = new SimpleBoatStructure(length, beam, dummyHeight, f2, mass, dummyRudderArea);
         final double moi2 = underTest2.getMomentOfInertia();
         Assert.assertTrue(moi2 > 0);
 

@@ -1,8 +1,7 @@
-package uk.co.akm.test.sim.boatinpond.boat.impl.quad;
+package uk.co.akm.test.sim.boatinpond.boat.impl.quad.deprecated;
 
 
 import uk.co.akm.test.sim.boatinpond.boat.Boat;
-import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.Rudder;
 import uk.co.akm.test.sim.boatinpond.boat.impl.PowerRudder;
 import uk.co.akm.test.sim.boatinpond.math.MathConstants;
@@ -23,6 +22,7 @@ import uk.co.akm.test.sim.boatinpond.phys.State;
  *
  * Created by Thanos Mavroidis on 18/12/2017.
  */
+@Deprecated
 public final class BoatImplNew extends Body implements Boat {
     private static final double V_TRANSITION = 1;
 
@@ -93,7 +93,7 @@ public final class BoatImplNew extends Body implements Boat {
      * @param hdn0 the heading along which the boat is pushed
      * @param v0 the speed at which the boat is initially pushed
      */
-    public BoatImplNew(BoatConstants constants, double hdn0, double v0) {
+    public BoatImplNew(QuadBoatConstants constants, double hdn0, double v0) {
         super(0, 0, 0, hdn0, 0, 0, v0*Math.cos(hdn0), v0*Math.sin(hdn0), 0, 0, 0, 0);
 
         this.kLon = constants.getkLon();
