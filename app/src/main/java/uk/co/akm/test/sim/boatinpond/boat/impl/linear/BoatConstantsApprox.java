@@ -22,14 +22,14 @@ public final class BoatConstantsApprox implements LinearBoatConstants {
      * Constructor that takes some desired performance characteristics to derive the boat motion
      * constants. The desired performance characteristics cover 2 performance scenarios:
      *
-     * 1) The boat achieves an intial speed v0 with an initial push and then its speed is left to
+     * 1) The boat achieves an initial speed v0 with an initial push and then its speed is left to
      *    decay to a final value. For this scenario 3 values are supplied:
      *      i)   the initial speed v0
      *      ii)  the final speed as a fraction of the initial speed v0
      *      iii) the time take for the initial speed to decay to the final speed
      *
      * 2) The boat is travelling at a constant speed v0 at a straight line when at t=0 full rudder
-     *    deflection is applied, intiating a turn. The boat speed is assumed to be constant during
+     *    deflection is applied, initiating a turn. The boat speed is assumed to be constant during
      *    that turn (by some means of propulsion cancelling the water resistance). The turn continues
      *    until some specified turn rate is reached. For this scenario 3 values are supplied:
      *      i)   the maximum turn rate that could be possibly achieved at this speed (v0) with the
@@ -42,7 +42,7 @@ public final class BoatConstantsApprox implements LinearBoatConstants {
      * Please note that the mass of the boat as well as its moment of inertia are both assumed to be 1.
      *
      * @param v0 initial boat speed
-     * @param frVFinal the fraction of the final boat speed over the intial boat speed
+     * @param frVFinal the fraction of the final boat speed over the initial boat speed
      * @param tv the time taken for the initial boat speed to fall to the final boat speed (due to
      *           water resistance)
      * @param kLatOverKLon the ratio of the boat resistance perpendicular to its longitudinal axis
