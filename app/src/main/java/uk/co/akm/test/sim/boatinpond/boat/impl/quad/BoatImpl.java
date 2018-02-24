@@ -1,6 +1,9 @@
 package uk.co.akm.test.sim.boatinpond.boat.impl.quad;
 
+import uk.co.akm.test.sim.boatinpond.boat.Boat;
 import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
+import uk.co.akm.test.sim.boatinpond.boat.Rudder;
+import uk.co.akm.test.sim.boatinpond.boat.impl.PowerRudder;
 import uk.co.akm.test.sim.boatinpond.math.TrigValues;
 import uk.co.akm.test.sim.boatinpond.phys.Body;
 import uk.co.akm.test.sim.boatinpond.phys.State;
@@ -8,7 +11,7 @@ import uk.co.akm.test.sim.boatinpond.phys.State;
 /**
  * Created by Thanos Mavroidis on 24/02/2018.
  */
-public final class BoatImpl extends Body {
+public final class BoatImpl extends Body implements Boat {
     private static final double V_TRANSITION = BoatConstants.V_TRANSITION;
 
     private final double kLon;
@@ -26,7 +29,6 @@ public final class BoatImpl extends Body {
     private final double omegaTransitionBack;
     private final double omegaTransitionFront;
 
-
     private double cosa;
     private double sina;
     private double vLon;
@@ -36,6 +38,9 @@ public final class BoatImpl extends Body {
 
     private double omg;
     private double omgSqSigned;
+
+    private final double maxRudderAngle = Math.PI/4;
+    private final Rudder rudder = new PowerRudder(maxRudderAngle, 2);
 
     public BoatImpl(BoatConstants constants, double hdn0, double vx0, double vy0, double x0, double y0) {
         super(0, 0, 0, hdn0, 0, 0, vx0, vy0, 0, x0, y0, 0);
@@ -88,7 +93,7 @@ public final class BoatImpl extends Body {
 
     @Override
     protected void updateAngularAcceleration(State start, double dt) {
-        final double rudderDeflection = 1; //TODO Get that from the rudder in its current state.
+        final double rudderDeflection = rudder.getRudderAngle()/maxRudderAngle;
         final double kRudEffective = rudderDeflection*kRud;
         final double rudderForce = estimateRudderForce(kRudEffective, V_TRANSITION, vLon, vLonSqSigned);
         final double rudderTorque = rudderForce*cogDistanceFromStern;
@@ -147,5 +152,10 @@ public final class BoatImpl extends Body {
         } else {
             return -k*v;
         }
+    }
+
+    @Override
+    public Rudder getRudder() {
+        return rudder;
     }
 }
