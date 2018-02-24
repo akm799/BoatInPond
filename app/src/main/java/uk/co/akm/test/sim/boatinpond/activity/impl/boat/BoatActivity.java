@@ -10,10 +10,12 @@ import android.widget.TextView;
 import uk.co.akm.test.sim.boatinpond.R;
 import uk.co.akm.test.sim.boatinpond.activity.ViewBoxStateActivity;
 import uk.co.akm.test.sim.boatinpond.boat.Boat;
+import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.Rudder;
 import uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatConstantsApprox;
 import uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatImpl;
 import uk.co.akm.test.sim.boatinpond.boat.impl.linear.LinearBoatConstants;
+import uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatConstantsImpl;
 
 /**
  * Created by Thanos Mavroidis on 29/11/2017.
@@ -90,6 +92,10 @@ public final class BoatActivity extends ViewBoxStateActivity<Boat, BoatViewBox> 
     }
 
     private void startMotion() {
+        startMotionLinear();
+    }
+
+    private void startMotionLinear() {
         final double v0 = 2.5; // 9 km/h
         final double frVFinal = 0.000001;
         final double tv = 120; // 2 mins
@@ -101,6 +107,21 @@ public final class BoatActivity extends ViewBoxStateActivity<Boat, BoatViewBox> 
 
         final LinearBoatConstants constants = new BoatConstantsApprox(v0, frVFinal, tv, kLatOverKLon, omgMax, frOmgFinal, tOmg);
         initState(new BoatImpl(constants, Math.PI/2, 3));
+
+        initiate();
+    }
+
+    private void startMotionQuadratic() {
+        final double kLon = 0.05;
+        final double kLatOverKLon = 50;
+        final double kLonReverseOverKLon = 10;
+        final double boatLength = 4;
+        final double cogDistanceFromStern = 1.5;
+        final double fiveKnots = 2.5;
+        final double turnRateAtFiveKnots = 2.5*Math.PI/8;
+
+        final BoatConstants constants = new BoatConstantsImpl(kLon, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, turnRateAtFiveKnots, fiveKnots);
+        initState(new uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatImpl(constants, Math.PI/2, 0, 3, 0, 0));
 
         initiate();
     }
