@@ -6,6 +6,11 @@ package uk.co.akm.test.sim.boatinpond.boat;
  * Created by Thanos Mavroidis on 16/12/2017.
  */
 public interface BoatConstants {
+    /**
+     * The transition speed at which we switch are resistance estimation from being proportional to
+     * the boat water speed to being proportional to the square of the boat water speed.
+     */
+    double V_TRANSITION = 1;
 
     /**
      * Returns the total resistance coefficient kLon along the boat direction such that if vLon is
