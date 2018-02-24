@@ -1,6 +1,7 @@
 package uk.co.akm.test.sim.boatinpond.boat.impl.quad.deprecated;
 
 
+import uk.co.akm.test.sim.boatinpond.boat.TurningPerformance;
 import uk.co.akm.test.sim.boatinpond.math.Function;
 import uk.co.akm.test.sim.boatinpond.math.MathConstants;
 import uk.co.akm.test.sim.boatinpond.phys.PhysicsConstants;
@@ -317,5 +318,10 @@ public final class SimpleBoatStructure implements QuadBoatConstants {
     @Override
     public double getkAng() {
         return 1; //TODO
+    }
+
+    @Override
+    public TurningPerformance getTurningPerformance() {
+        return null;
     }
 }

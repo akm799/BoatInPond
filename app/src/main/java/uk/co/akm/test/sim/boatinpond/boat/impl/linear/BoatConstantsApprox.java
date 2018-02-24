@@ -1,5 +1,7 @@
 package uk.co.akm.test.sim.boatinpond.boat.impl.linear;
 
+import uk.co.akm.test.sim.boatinpond.boat.TurningPerformance;
+
 /**
  * This class calculates the boat motion constants based on some desired performance characteristics.
  *
@@ -129,5 +131,10 @@ public final class BoatConstantsApprox implements LinearBoatConstants {
     @Override
     public double getCentreOfMassFromStern() {
         return 1;
+    }
+
+    @Override
+    public TurningPerformance getTurningPerformance() {
+        return null;
     }
 }
