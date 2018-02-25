@@ -112,15 +112,15 @@ public final class BoatActivity extends ViewBoxStateActivity<Boat, BoatViewBox> 
     }
 
     private void startMotionQuadratic() {
-        final double kLon = 0.05;
+        final double kLon = 0.025;
         final double kLatOverKLon = 50;
         final double kLonReverseOverKLon = 10;
         final double boatLength = 4;
         final double cogDistanceFromStern = 1.5;
-        final double fiveKnots = 2.5;
-        final double turnRateAtFiveKnots = 2.5*Math.PI/8;
+        final double turningSpeed = 9.26; // 18 Knots
+        final double turnRateAtTwentyKnots = 2.5*Math.PI/8; // 56.25 degrees per second
 
-        final BoatConstants constants = new BoatConstantsImpl(kLon, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, turnRateAtFiveKnots, fiveKnots);
+        final BoatConstants constants = new BoatConstantsImpl(kLon, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, turnRateAtTwentyKnots, turningSpeed);
         initState(new uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatImpl(constants, Math.PI/2, 0, 3, 0, 0));
 
         initiate();
