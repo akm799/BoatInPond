@@ -62,11 +62,4 @@ public interface BoatConstants {
      * @return a coefficient used in the rudder force calculation.
      */
     double getkRud();
-
-    /**
-     * Returns the target turning performance of the boat.
-     *
-     * @return the target turning performance of the boat
-     */
-    TurningPerformance getTurningPerformance();
 }

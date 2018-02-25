@@ -1,7 +1,6 @@
 package uk.co.akm.test.sim.boatinpond.boat.impl.quad;
 
 import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
-import uk.co.akm.test.sim.boatinpond.boat.TurningPerformance;
 
 /**
  * Created by Thanos Mavroidis on 24/02/2018.
@@ -13,18 +12,16 @@ public final class BoatConstantsImpl implements BoatConstants {
     private final double kRud;
     private final double boatLength;
     private final double cogDistanceFromStern;
-    private final TurningPerformance turningPerformance;
 
-    public BoatConstantsImpl(double kLon, double kLatOverKLon, double kLonReverseOverKLon, double boatLength, double cogDistanceFromStern, double turnRate, double turningSpeed) {
-        checkArgs(boatLength, cogDistanceFromStern, turnRate, turningSpeed, V_TRANSITION);
+    public BoatConstantsImpl(BoatPerformance performance, double kLatOverKLon, double kLonReverseOverKLon, double boatLength, double cogDistanceFromStern) {
+        checkArgs(boatLength, cogDistanceFromStern, performance.turnRate, performance.turningSpeed, V_TRANSITION);
 
-        this.kLon = kLon;
+        this.kLon = kLonEstimation(performance.launchSpeed, performance.distanceLimit);
         this.kLat = kLon*kLatOverKLon;
         this.kLonReverse = kLon*kLonReverseOverKLon;
         this.boatLength = boatLength;
         this.cogDistanceFromStern = cogDistanceFromStern;
-        this.turningPerformance = new TurningPerformanceImpl(turnRate, turningSpeed);
-        this.kRud = kRudEstimation(kLat, boatLength, cogDistanceFromStern, turningPerformance);
+        this.kRud = kRudEstimation(kLat, boatLength, cogDistanceFromStern, performance.turnRate, performance.turningSpeed);
     }
 
     private void checkArgs(double length, double cogDistanceFromStern, double omega, double v, double vTransition) {
@@ -42,10 +39,14 @@ public final class BoatConstantsImpl implements BoatConstants {
         }
     }
 
-    private double kRudEstimation(double kLat, double boatLength, double cogDistanceFromStern, TurningPerformance turningPerformance) {
+    private double kLonEstimation(double launchSpeed, double distanceLimit) {
+        return (1 + Math.log(launchSpeed))/distanceLimit;
+    }
+
+    private double kRudEstimation(double kLat, double boatLength, double cogDistanceFromStern, double turningRate, double turningSpeed) {
         final double cogDistanceFromBow = (boatLength - cogDistanceFromStern);
-        final double omegaSq = turningPerformance.omega() * turningPerformance.omega();
-        final double vSq = turningPerformance.speed() * turningPerformance.speed();
+        final double omegaSq = turningRate * turningRate;
+        final double vSq = turningSpeed * turningSpeed;
 
         return (kLat/(8*boatLength)) * Math.pow(cogDistanceFromStern, 3) * Math.pow(cogDistanceFromBow, 4) * omegaSq/vSq;
     }
@@ -78,30 +79,5 @@ public final class BoatConstantsImpl implements BoatConstants {
     @Override
     public double getkRud() {
         return kRud;
-    }
-
-    @Override
-    public TurningPerformance getTurningPerformance() {
-        return turningPerformance;
-    }
-
-    private static final class TurningPerformanceImpl implements TurningPerformance {
-        private final double turnRate;
-        private final double turningSpeed;
-
-        private TurningPerformanceImpl(double turnRate, double turningSpeed) {
-            this.turnRate = turnRate;
-            this.turningSpeed = turningSpeed;
-        }
-
-        @Override
-        public double speed() {
-            return turningSpeed;
-        }
-
-        @Override
-        public double omega() {
-            return turnRate;
-        }
     }
 }

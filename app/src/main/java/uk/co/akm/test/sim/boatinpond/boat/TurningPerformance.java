@@ -5,6 +5,7 @@ package uk.co.akm.test.sim.boatinpond.boat;
  *
  * Created by Thanos Mavroidis on 24/02/2018.
  */
+@Deprecated
 public interface TurningPerformance {
 
     /**

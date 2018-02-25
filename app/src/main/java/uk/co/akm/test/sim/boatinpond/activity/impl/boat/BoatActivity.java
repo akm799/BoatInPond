@@ -16,6 +16,7 @@ import uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatConstantsApprox;
 import uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatImpl;
 import uk.co.akm.test.sim.boatinpond.boat.impl.linear.LinearBoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatConstantsImpl;
+import uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatPerformance;
 
 /**
  * Created by Thanos Mavroidis on 29/11/2017.
@@ -112,15 +113,18 @@ public final class BoatActivity extends ViewBoxStateActivity<Boat, BoatViewBox> 
     }
 
     private void startMotionQuadratic() {
-        final double kLon = 0.025;
         final double kLatOverKLon = 50;
         final double kLonReverseOverKLon = 10;
         final double boatLength = 4;
         final double cogDistanceFromStern = 1.5;
-        final double turningSpeed = 9.26; // 18 Knots
-        final double turnRateAtTwentyKnots = 2.5*Math.PI/8; // 56.25 degrees per second
 
-        final BoatConstants constants = new BoatConstantsImpl(kLon, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, turnRateAtTwentyKnots, turningSpeed);
+        final double launchSpeed = 3.01; // 6 knots
+        final double distanceLimit = 75;
+        final double turningSpeed = 9.26; // 18 Knots
+        final double turnRate = 2.5*Math.PI/8; // 56.25 degrees per second
+        final BoatPerformance performance = new BoatPerformance(launchSpeed, distanceLimit, turnRate, turningSpeed);
+
+        final BoatConstants constants = new BoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern);
         initState(new uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatImpl(constants, Math.PI/2, 0, 3, 0, 0));
 
         initiate();

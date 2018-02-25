@@ -132,9 +132,4 @@ public final class BoatConstantsApprox implements LinearBoatConstants {
     public double getCentreOfMassFromStern() {
         return 1;
     }
-
-    @Override
-    public TurningPerformance getTurningPerformance() {
-        return null;
-    }
 }

@@ -319,9 +319,4 @@ public final class SimpleBoatStructure implements QuadBoatConstants {
     public double getkAng() {
         return 1; //TODO
     }
-
-    @Override
-    public TurningPerformance getTurningPerformance() {
-        return null;
-    }
 }
