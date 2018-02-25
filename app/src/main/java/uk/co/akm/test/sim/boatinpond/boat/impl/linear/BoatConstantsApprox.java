@@ -1,6 +1,5 @@
 package uk.co.akm.test.sim.boatinpond.boat.impl.linear;
 
-import uk.co.akm.test.sim.boatinpond.boat.TurningPerformance;
 
 /**
  * This class calculates the boat motion constants based on some desired performance characteristics.
