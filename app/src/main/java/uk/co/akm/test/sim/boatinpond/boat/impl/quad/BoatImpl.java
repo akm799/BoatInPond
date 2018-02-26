@@ -42,6 +42,10 @@ public final class BoatImpl extends Body implements Boat {
     private final double maxRudderAngle = Math.PI/4;
     private final Rudder rudder = new PowerRudder(maxRudderAngle, 2);
 
+    public BoatImpl(BoatConstants constants, double hdn0, double v0) {
+        this(constants, hdn0, v0*Math.cos(hdn0), v0*Math.sin(hdn0), 0, 0);
+    }
+
     public BoatImpl(BoatConstants constants, double hdn0, double vx0, double vy0, double x0, double y0) {
         super(0, 0, 0, hdn0, 0, 0, vx0, vy0, 0, x0, y0, 0);
 
