@@ -13,7 +13,6 @@ import uk.co.akm.test.sim.boatinpond.boat.Boat;
 import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.Rudder;
 import uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatConstantsApprox;
-import uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatImpl;
 import uk.co.akm.test.sim.boatinpond.boat.impl.linear.LinearBoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatConstantsImpl;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatPerformance;
@@ -107,7 +106,7 @@ public final class BoatActivity extends ViewBoxStateActivity<Boat, BoatViewBox> 
         final double tOmg = 5;
 
         final LinearBoatConstants constants = new BoatConstantsApprox(v0, frVFinal, tv, kLatOverKLon, omgMax, frOmgFinal, tOmg);
-        initState(new BoatImpl(constants, Math.PI/2, 3));
+        initState(new uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatImpl(constants, Math.PI/2, 3));
 
         initiate();
     }
@@ -125,7 +124,7 @@ public final class BoatActivity extends ViewBoxStateActivity<Boat, BoatViewBox> 
         final BoatPerformance performance = new BoatPerformance(launchSpeed, distanceLimit, turnRate, turningSpeed);
 
         final BoatConstants constants = new BoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern);
-        initState(new uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatImpl(constants, Math.PI/2, 0, 3, 0, 0));
+        initState(new uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatImpl(constants, Math.PI/2, 3));
 
         initiate();
     }
