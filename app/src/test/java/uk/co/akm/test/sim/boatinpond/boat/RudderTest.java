@@ -63,6 +63,8 @@ public class RudderTest {
 
         for (int i=1 ; i<=2*nSteps ; i++) {
             underTest.update(dt);
+            final double a = underTest.getRudderAngle();
+            Assert.assertTrue(0 <= a && a <= maxAngle);
         }
         Assert.assertEquals(maxAngle, underTest.getRudderAngle());
     }
@@ -73,6 +75,8 @@ public class RudderTest {
 
         for (int i=1 ; i<=2*nSteps ; i++) {
             underTest.update(dt);
+            final double a = underTest.getRudderAngle();
+            Assert.assertTrue(-maxAngle <= a && a <= 0);
         }
         Assert.assertEquals(-maxAngle, underTest.getRudderAngle());
     }
