@@ -5,7 +5,7 @@ import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
 /**
  * Created by Thanos Mavroidis on 24/02/2018.
  */
-public final class BoatConstantsImpl implements BoatConstants {
+public class BoatConstantsImpl implements BoatConstants {
     private final double kLon;
     private final double kLat;
     private final double kLonReverse;
@@ -52,32 +52,32 @@ public final class BoatConstantsImpl implements BoatConstants {
     }
 
     @Override
-    public double getkLon() {
+    public final double getkLon() {
         return kLon;
     }
 
     @Override
-    public double getkLat() {
+    public final double getkLat() {
         return kLat;
     }
 
     @Override
-    public double getKLonReverse() {
+    public final double getKLonReverse() {
         return kLonReverse;
     }
 
     @Override
-    public double getLength() {
+    public final double getLength() {
         return boatLength;
     }
 
     @Override
-    public double getCentreOfMassFromStern() {
+    public final double getCentreOfMassFromStern() {
         return cogDistanceFromStern;
     }
 
     @Override
-    public double getkRud() {
+    public final double getkRud() {
         return kRud;
     }
 }

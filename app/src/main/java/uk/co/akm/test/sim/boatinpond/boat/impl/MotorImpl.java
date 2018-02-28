@@ -6,16 +6,16 @@ import uk.co.akm.test.sim.boatinpond.boat.Motor;
  * Created by Thanos Mavroidis on 27/02/2018.
  */
 public final class MotorImpl implements Motor {
-    private final double maxPower;
+    private final double maxForce;
     private final double updateFraction;
 
-    private double power;
+    private double force;
     private int lastInput;
     private boolean active;
 
-    public MotorImpl(double maxPower, double timeToMaxPower) {
-        this.maxPower = maxPower;
-        this.updateFraction = maxPower/timeToMaxPower;
+    public MotorImpl(double maxForce, double timeToMaxPower) {
+        this.maxForce = maxForce;
+        this.updateFraction = maxForce/timeToMaxPower;
     }
 
     @Override
@@ -25,14 +25,14 @@ public final class MotorImpl implements Motor {
 
     @Override
     public void turnOn() {
-        power = 0;
+        force = 0;
         lastInput = NONE;
         active = true;
     }
 
     @Override
     public void turnOff() {
-        power = 0;
+        force = 0;
         lastInput = NONE;
         active = false;
     }
@@ -53,26 +53,26 @@ public final class MotorImpl implements Motor {
     }
 
     @Override
-    public double getPower() {
-        return power;
+    public double getForce() {
+        return force;
     }
 
     @Override
-    public double getMaxPower() {
-        return maxPower;
+    public double getMaxForce() {
+        return maxForce;
     }
 
     @Override
     public void update(double dt) {
-        if (active && lastInput != NONE && power >= 0 && power <= maxPower) {
-            power += lastInput*updateFraction*dt;
+        if (active && lastInput != NONE && force >= 0 && force <= maxForce) {
+            force += lastInput*updateFraction*dt;
 
-            if (power > maxPower) {
-                power = maxPower;
+            if (force > maxForce) {
+                force = maxForce;
             }
 
-            if (power < 0) {
-                power = 0;
+            if (force < 0) {
+                force = 0;
             }
         }
     }

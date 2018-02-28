@@ -22,7 +22,13 @@ public interface Motor extends Updatable {
 
     void decreaseControlInput();
 
-    double getPower();
+    /**
+     * @return the current propulsion force exerted on the boat by the motor
+     */
+    double getForce();
 
-    double getMaxPower();
+    /**
+     * @return the maximum propulsion force supplied by the motor
+     */
+    double getMaxForce();
 }

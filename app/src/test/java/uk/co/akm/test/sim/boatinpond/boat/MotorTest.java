@@ -11,38 +11,38 @@ import uk.co.akm.test.sim.boatinpond.boat.impl.MotorImpl;
  * Created by Thanos Mavroidis on 27/02/2018.
  */
 public class MotorTest {
-    private final double maxPower = 100;
+    private final double maxForce = 100;
     private final double timeToMaxPower = 4;
 
     private final int nSteps = 100;
     private final double dt = timeToMaxPower/nSteps;
 
-    private final double fraction = maxPower/timeToMaxPower;
-    private final double dp = fraction*dt;
+    private final double fraction = maxForce/timeToMaxPower;
+    private final double df = fraction*dt;
 
     private Motor underTest;
 
     @Before
     public void setUp() {
-        underTest = new MotorImpl(maxPower, timeToMaxPower);
+        underTest = new MotorImpl(maxForce, timeToMaxPower);
     }
 
     @Test
     public void shouldSetMaxPower() {
-        Assert.assertEquals(maxPower, underTest.getMaxPower());
+        Assert.assertEquals(maxForce, underTest.getMaxForce());
     }
 
     @Test
     public void shouldBeOffInitially() {
         Assert.assertFalse(underTest.isOn());
-        Assert.assertEquals(0.0, underTest.getPower());
+        Assert.assertEquals(0.0, underTest.getForce());
     }
 
     @Test
     public void shouldTurnOn() {
         underTest.turnOn();
         Assert.assertTrue(underTest.isOn());
-        Assert.assertEquals(0.0, underTest.getPower());
+        Assert.assertEquals(0.0, underTest.getForce());
     }
 
     @Test
@@ -51,7 +51,7 @@ public class MotorTest {
 
         underTest.turnOff();
         Assert.assertFalse(underTest.isOn());
-        Assert.assertEquals(0.0, underTest.getPower());
+        Assert.assertEquals(0.0, underTest.getForce());
     }
 
     @Test
@@ -61,10 +61,10 @@ public class MotorTest {
         underTest.increaseControlInput();
         for (int i=1 ; i<=nSteps ; i++) {
             underTest.update(dt);
-            Assert.assertEquals(i*dp, underTest.getPower());
+            Assert.assertEquals(i*df, underTest.getForce());
         }
 
-        Assert.assertEquals(maxPower, underTest.getPower());
+        Assert.assertEquals(maxForce, underTest.getForce());
     }
 
     @Test
@@ -75,10 +75,10 @@ public class MotorTest {
         underTest.decreaseControlInput();
         for (int i=1 ; i<=nSteps ; i++) {
             underTest.update(dt);
-            Assert.assertEquals(maxPower - i*dp, underTest.getPower());
+            Assert.assertEquals(maxForce - i*df, underTest.getForce());
         }
 
-        Assert.assertEquals(0.0, underTest.getPower());
+        Assert.assertEquals(0.0, underTest.getForce());
     }
 
     @Test
@@ -88,10 +88,10 @@ public class MotorTest {
         underTest.increaseControlInput();
         for (int i=1 ; i<=nSteps ; i++) {
             underTest.update(dt);
-            Assert.assertEquals(0.0, underTest.getPower());
+            Assert.assertEquals(0.0, underTest.getForce());
         }
 
-        Assert.assertEquals(0.0, underTest.getPower());
+        Assert.assertEquals(0.0, underTest.getForce());
     }
 
     @Test
@@ -101,7 +101,7 @@ public class MotorTest {
 
         underTest.turnOff();
         Assert.assertFalse(underTest.isOn());
-        Assert.assertEquals(0.0, underTest.getPower());
+        Assert.assertEquals(0.0, underTest.getForce());
     }
 
     @Test
@@ -113,10 +113,10 @@ public class MotorTest {
         underTest.turnOff();
         for (int i=1 ; i<=nSteps ; i++) {
             underTest.update(dt);
-            Assert.assertEquals(0.0, underTest.getPower());
+            Assert.assertEquals(0.0, underTest.getForce());
         }
 
-        Assert.assertEquals(0.0, underTest.getPower());
+        Assert.assertEquals(0.0, underTest.getForce());
     }
 
     @Test
@@ -128,13 +128,13 @@ public class MotorTest {
             underTest.update(dt);
 
             if (i <= nSteps) {
-                Assert.assertEquals(i*dp, underTest.getPower());
+                Assert.assertEquals(i*df, underTest.getForce());
             } else {
-                Assert.assertEquals(maxPower, underTest.getPower());
+                Assert.assertEquals(maxForce, underTest.getForce());
             }
         }
 
-        Assert.assertEquals(maxPower, underTest.getPower());
+        Assert.assertEquals(maxForce, underTest.getForce());
     }
 
     @Test
@@ -147,22 +147,22 @@ public class MotorTest {
             underTest.update(dt);
 
             if (i <= nSteps) {
-                Assert.assertEquals(maxPower - i*dp, underTest.getPower());
+                Assert.assertEquals(maxForce - i*df, underTest.getForce());
             } else {
-                Assert.assertEquals(0.0, underTest.getPower());
+                Assert.assertEquals(0.0, underTest.getForce());
             }
         }
 
-        Assert.assertEquals(0.0, underTest.getPower());
+        Assert.assertEquals(0.0, underTest.getForce());
     }
 
     private void powerUp() {
         underTest.increaseControlInput();
         for (int i=1 ; i<=nSteps ; i++) {
             underTest.update(dt);
-            Assert.assertEquals(i*dp, underTest.getPower());
+            Assert.assertEquals(i*df, underTest.getForce());
         }
 
-        Assert.assertEquals(maxPower, underTest.getPower());
+        Assert.assertEquals(maxForce, underTest.getForce());
     }
 }

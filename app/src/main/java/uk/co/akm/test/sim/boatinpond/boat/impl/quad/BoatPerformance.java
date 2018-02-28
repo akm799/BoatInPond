@@ -3,7 +3,7 @@ package uk.co.akm.test.sim.boatinpond.boat.impl.quad;
 /**
  * Created by Thanos Mavroidis on 25/02/2018.
  */
-public final class BoatPerformance {
+public class BoatPerformance {
     public final double launchSpeed;
     public final double distanceLimit;
 
