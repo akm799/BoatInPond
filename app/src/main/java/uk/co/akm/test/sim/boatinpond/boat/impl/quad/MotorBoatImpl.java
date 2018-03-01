@@ -89,6 +89,7 @@ public final class MotorBoatImpl extends Body implements MotorBoat {
 
     private void updateControls(double dt) {
         rudder.update(dt);
+        motor.update(dt);
     }
 
     private void computeVariables(State start) {
