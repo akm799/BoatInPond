@@ -18,7 +18,6 @@ import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatPerformance;
  * Created by Thanos Mavroidis on 29/11/2017.
  */
 public final class MotorBoatActivity extends AbstractBoatActivity {
-    private Motor motorRef;
     private Button motorSwitch;
     private TextView motorPowerTxt;
 
@@ -82,17 +81,15 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
 
     @Override
     protected void updateAdditionalTextDisplays(BoatViewBox renderingData) {
-        if (motorRef != null) {
-            final double power = motorRef.getForce() / motorRef.getMaxForce();
-            final long powerPercentage = 100 * Math.round(power);
-            motorPowerTxt.setText(Long.toString(powerPercentage) + "%");
+        final MotorBoat boat = (MotorBoat)getStateReference();
+        if (boat != null) {
+            final Motor motor = boat.getMotor();
+            if (motor != null) {
+                final double power = motor.getForce()/motor.getMaxForce();
+                final long powerPercentage = 100 * Math.round(power);
+                motorPowerTxt.setText(Long.toString(powerPercentage) + "%");
+            }
         }
-    }
-
-    @Override
-    public void onPause() {
-        motorRef = null;
-        super.onPause();
     }
 
     private Boat motorBoatInstance() {
@@ -110,10 +107,7 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
         final MotorBoatPerformance performance = new MotorBoatPerformance(launchSpeed, distanceLimit, turnRate, turningSpeed, maxSpeed);
 
         final MotorBoatConstants constants = new MotorBoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern);
-        final MotorBoat motorBoat = new MotorBoatImpl(constants, Math.PI/2, 0);
-        motorRef = motorBoat.getMotor();
-
-        return motorBoat;
+        return new MotorBoatImpl(constants, Math.PI/2, 0);
     }
 
     private static final class MotorSwitchListener implements View.OnClickListener {
@@ -125,15 +119,18 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
 
         @Override
         public void onClick(View view) {
-            final Motor motor = parent.motorRef;
-            final Button motorSwitch = parent.motorSwitch;
-            if (motor != null && motorSwitch != null) {
-                if (motor.isOn()) {
-                    motor.turnOff();
-                    motorSwitch.setText("ON");
-                } else {
-                    motor.turnOn();
-                    motorSwitch.setText("OFF");
+            final MotorBoat boat = (MotorBoat)parent.getStateReference();
+            if (boat != null) {
+                final Motor motor = boat.getMotor();
+                final Button motorSwitch = parent.motorSwitch;
+                if (motor != null && motorSwitch != null) {
+                    if (motor.isOn()) {
+                        motor.turnOff();
+                        motorSwitch.setText("ON");
+                    } else {
+                        motor.turnOn();
+                        motorSwitch.setText("OFF");
+                    }
                 }
             }
         }
