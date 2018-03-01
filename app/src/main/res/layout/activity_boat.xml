@@ -44,13 +44,13 @@
             android:id="@+id/rudder_left_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Left"/>
+            android:text="&lt;"/>
 
         <Button
             android:id="@+id/rudder_right_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Right"/>
+            android:text="&gt;"/>
     </LinearLayout>
 
     <TextView

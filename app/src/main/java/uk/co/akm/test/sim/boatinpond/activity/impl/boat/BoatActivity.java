@@ -92,10 +92,12 @@ public final class BoatActivity extends ViewBoxStateActivity<Boat, BoatViewBox> 
     }
 
     private void startMotion() {
-        startMotionLinear();
+        final Boat boat = linearResistanceInstance();
+        initState(boat);
+        initiate();
     }
 
-    private void startMotionLinear() {
+    private Boat linearResistanceInstance() {
         final double v0 = 2.5; // 9 km/h
         final double frVFinal = 0.000001;
         final double tv = 120; // 2 mins
@@ -106,12 +108,10 @@ public final class BoatActivity extends ViewBoxStateActivity<Boat, BoatViewBox> 
         final double tOmg = 5;
 
         final LinearBoatConstants constants = new BoatConstantsApprox(v0, frVFinal, tv, kLatOverKLon, omgMax, frOmgFinal, tOmg);
-        initState(new uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatImpl(constants, Math.PI/2, 3));
-
-        initiate();
+        return new uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatImpl(constants, Math.PI/2, 3);
     }
 
-    private void startMotionQuadratic() {
+    private Boat quadraticResistanceInstance() {
         final double kLatOverKLon = 50;
         final double kLonReverseOverKLon = 10;
         final double boatLength = 4;
@@ -124,9 +124,7 @@ public final class BoatActivity extends ViewBoxStateActivity<Boat, BoatViewBox> 
         final BoatPerformance performance = new BoatPerformance(launchSpeed, distanceLimit, turnRate, turningSpeed);
 
         final BoatConstants constants = new BoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern);
-        initState(new uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatImpl(constants, Math.PI/2, 3));
-
-        initiate();
+        return new uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatImpl(constants, Math.PI/2, 3);
     }
 
     private static final class RudderListener implements View.OnTouchListener {
