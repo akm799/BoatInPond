@@ -90,7 +90,7 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
         final Motor motor = getMotor();
         if (motor != null) {
             final double power = motor.getForce()/motor.getMaxForce();
-            final long powerPercentage = 100*Math.round(power);
+            final long powerPercentage = Math.round(100*power);
             motorPowerTxt.setText(Long.toString(powerPercentage) + "%");
         }
     }
