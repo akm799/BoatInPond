@@ -1,5 +1,7 @@
 package uk.co.akm.test.sim.boatinpond.activity.impl.boat;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +22,22 @@ import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatPerformance;
 public final class MotorBoatActivity extends AbstractBoatActivity {
     private Button motorSwitchBtn;
     private TextView motorPowerTxt;
+
+    private final View[] additionalControls = new View[3];
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        findAdditionalControls();
+    }
+
+    private void findAdditionalControls() {
+        int i = 0;
+        additionalControls[i++] = findViewById(R.id.mb_motor_switch);
+        additionalControls[i++] = findViewById(R.id.mb_motor_decrease);
+        additionalControls[i++] = findViewById(R.id.mb_motor_increase);
+    }
 
     Motor getMotor() {
         final MotorBoat boat = (MotorBoat)getStateReference();
@@ -81,8 +99,8 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
     @Override
     protected void setAdditionalListeners() {
         findViewById(R.id.mb_motor_switch).setOnClickListener(new MotorSwitchListener(this));
-        findViewById(R.id.mb_motor_increase).setOnTouchListener(new MotorListener(this, Motor.INCREASE));
         findViewById(R.id.mb_motor_decrease).setOnTouchListener(new MotorListener(this, Motor.DECREASE));
+        findViewById(R.id.mb_motor_increase).setOnTouchListener(new MotorListener(this, Motor.INCREASE));
     }
 
     @Override
@@ -103,6 +121,22 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
         final double power = motor.getForce()/motor.getMaxForce();
 
         return Math.round(100*power);
+    }
+
+    @Override
+    protected View[] getAdditionalControls() {
+        return additionalControls;
+    }
+
+    @Override
+    protected void resetControls() {
+        final Motor motor = getMotor();
+        if (motor != null) {
+            motor.turnOff();
+            if (motorSwitchBtn != null) {
+                motorSwitchBtn.setText("ON");
+            }
+        }
     }
 
     private Boat motorBoatInstance() {

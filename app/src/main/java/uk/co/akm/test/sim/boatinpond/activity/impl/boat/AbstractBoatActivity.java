@@ -15,13 +15,15 @@ import uk.co.akm.test.sim.boatinpond.boat.Rudder;
  * Created by Thanos Mavroidis on 01/03/2017.
  */
 public abstract class AbstractBoatActivity extends ViewBoxStateActivity<Boat, BoatViewBox> {
+    private static final int N_STEPS_TO_SKIP_FOR_TEXT_UPDATE = 10;
+
     private Button commandBtn;
 
     private TextView speed;
     private TextView heading;
     private TextView location;
 
-    private int nTextSkip;
+    private int nStepsForTextUpdate;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,12 +91,12 @@ public abstract class AbstractBoatActivity extends ViewBoxStateActivity<Boat, Bo
 
     @Override
     protected final void drawAdditionalData(BoatViewBox renderingData) {
-        if (nTextSkip == 10) {
-            nTextSkip = 0;
+        if (nStepsForTextUpdate == N_STEPS_TO_SKIP_FOR_TEXT_UPDATE) {
+            nStepsForTextUpdate = 0;
             updateTextDisplays(renderingData);
             updateAdditionalTextDisplays(renderingData);
         } else {
-            nTextSkip++;
+            nStepsForTextUpdate++;
         }
     }
 
@@ -107,6 +109,13 @@ public abstract class AbstractBoatActivity extends ViewBoxStateActivity<Boat, Bo
     protected void updateAdditionalTextDisplays(BoatViewBox renderingData) {}
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        disableControls();
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
 
@@ -117,12 +126,44 @@ public abstract class AbstractBoatActivity extends ViewBoxStateActivity<Boat, Bo
 
     public final void onCommand(View view) {
         if (isRunning()) {
+            disableControls();
             terminate();
             commandBtn.setText("Start");
         } else {
+            resetControls();
+            enableControls();
             startMotion();
             commandBtn.setText("Stop");
         }
+    }
+
+    private void disableControls() {
+        setRudderControls(false);
+        setControls(false, getAdditionalControls());
+    }
+
+    protected void resetControls() {}
+
+    private void enableControls() {
+        setRudderControls(true);
+        setControls(true, getAdditionalControls());
+    }
+
+    private void setRudderControls(boolean enabled) {
+        findViewById(getLeftRudderControlResId()).setEnabled(enabled);
+        findViewById(getRightRudderControlResId()).setEnabled(enabled);
+    }
+
+    private void setControls(boolean enabled, View[] controls) {
+        if (controls != null) {
+            for (View control : controls) {
+                control.setEnabled(enabled);
+            }
+        }
+    }
+
+    protected View[] getAdditionalControls() {
+        return null;
     }
 
     private void startMotion() {
