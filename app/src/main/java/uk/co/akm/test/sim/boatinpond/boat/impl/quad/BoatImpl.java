@@ -11,7 +11,7 @@ import uk.co.akm.test.sim.boatinpond.phys.State;
 /**
  * Created by Thanos Mavroidis on 24/02/2018.
  */
-public final class BoatImpl extends Body implements Boat {
+public class BoatImpl extends Body implements Boat {
     private static final double V_TRANSITION = BoatConstants.V_TRANSITION;
 
     private final double kLon;
@@ -75,14 +75,17 @@ public final class BoatImpl extends Body implements Boat {
     }
 
     @Override
-    protected void initUpdate(State start, double dt) {
+    protected final void initUpdate(State start, double dt) {
         updateControls(dt);
         computeVariables(start);
     }
 
     private void updateControls(double dt) {
         rudder.update(dt);
+        updateAdditionalControls(dt);
     }
+
+    protected void updateAdditionalControls(double dt) {}
 
     private void computeVariables(State start) {
         final TrigValues hdn = start.hdnTrig();
@@ -101,7 +104,7 @@ public final class BoatImpl extends Body implements Boat {
     }
 
     @Override
-    protected void updateAngularAcceleration(State start, double dt) {
+    protected final void updateAngularAcceleration(State start, double dt) {
         final double rudderDeflection = rudder.getRudderAngle()/maxRudderAngle;
         final double kRudEffective = rudderDeflection*kRud;
         final double rudderForce = estimateRudderForce(kRudEffective, V_TRANSITION, vLon, vLonSqSigned);
@@ -143,16 +146,22 @@ public final class BoatImpl extends Body implements Boat {
     }
 
     @Override
-    protected void updateAcceleration(State start, double dt) {
+    protected final void updateAcceleration(State start, double dt) {
         final double kLon = (vLon >= 0 ? this.kLon : this.kLonReverse);
 
         // Evaluate the acceleration wrt the linear heading.
-        final double aLon = estimateLinearResistanceForce(kLon, V_TRANSITION, vLon, vLonSqSigned); // Assume mass value of 1
+        final double propulsionLon = estimatePropulsionForce();
+        final double resistanceLon = estimateLinearResistanceForce(kLon, V_TRANSITION, vLon, vLonSqSigned);
+        final double aLon = propulsionLon + resistanceLon; // Assume mass value of 1
         final double aLat = estimateLinearResistanceForce(kLat, V_TRANSITION, vLat, vLatSqSigned); // Assume mass value of 1
 
         // Rotate the acceleration wrt the linear heading an angle a (i.e. the reverse of our previous rotation) to get the acceleration wrt our coordinate system.
         ax = aLon*cosa - aLat*sina;
         ay = aLon*sina + aLat*cosa;
+    }
+
+    protected double estimatePropulsionForce() {
+        return 0;
     }
 
     private double estimateLinearResistanceForce(double k, double vTransition, double v, double vSqSigned) {
@@ -164,7 +173,7 @@ public final class BoatImpl extends Body implements Boat {
     }
 
     @Override
-    public Rudder getRudder() {
+    public final Rudder getRudder() {
         return rudder;
     }
 }
