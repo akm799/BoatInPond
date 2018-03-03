@@ -89,10 +89,20 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
     protected void updateAdditionalTextDisplays(BoatViewBox renderingData) {
         final Motor motor = getMotor();
         if (motor != null) {
-            final double power = motor.getForce()/motor.getMaxForce();
-            final long powerPercentage = Math.round(100*power);
-            motorPowerTxt.setText(Long.toString(powerPercentage) + "%");
+            motorPowerTxt.setText(buildMotorPowerString(motor));
         }
+    }
+
+    private String buildMotorPowerString(Motor motor) {
+        final long powerPercentage = getMotorPowerPercentage(motor);
+
+        return (Long.toString(powerPercentage) + "%");
+    }
+
+    private long getMotorPowerPercentage(Motor motor) {
+        final double power = motor.getForce()/motor.getMaxForce();
+
+        return Math.round(100*power);
     }
 
     private Boat motorBoatInstance() {
