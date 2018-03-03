@@ -23,7 +23,7 @@
     <uk.co.akm.test.sim.boatinpond.activity.impl.boat.BoatScreenView
         android:id="@+id/boat_screen_view"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="440dp"
         android:layout_gravity="center"/>
 
     <Button

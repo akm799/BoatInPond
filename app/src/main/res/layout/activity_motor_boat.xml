@@ -4,85 +4,94 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/mb_location_txt"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="left|top"
         android:layout_marginTop="16dp"
-        tools:text="Coordinates"/>
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/mb_heading_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|top"
-        android:layout_marginTop="16dp"
-        tools:text="Heading"/>
+        <TextView
+            android:id="@+id/mb_location_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="48dp"
+            tools:text="Coordinates"/>
 
-    <TextView
-        android:id="@+id/mb_speed_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|top"
-        android:layout_marginTop="16dp"
-        tools:text="Speed"/>
+        <TextView
+            android:id="@+id/mb_heading_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="48dp"
+            tools:text="Heading"/>
+
+        <TextView
+            android:id="@+id/mb_speed_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Speed"/>
+    </LinearLayout>
 
     <uk.co.akm.test.sim.boatinpond.activity.impl.boat.BoatScreenView
         android:id="@+id/mb_boat_screen_view"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="440dp"
         android:layout_gravity="center"/>
-
-    <Button
-        android:id="@+id/mb_command_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left|bottom"
-        android:text="Start"
-        android:onClick="onCommand"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom"
+        android:layout_gravity="bottom"
         android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/mb_command_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:textSize="12sp"
+            android:text="Start"
+            android:onClick="onCommand"/>
 
         <Button
             android:id="@+id/mb_rudder_left_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minWidth="52dp"
+            android:textSize="24sp"
             android:text="&lt;"/>
 
         <Button
             android:id="@+id/mb_rudder_right_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minWidth="52dp"
+            android:textSize="24sp"
             android:text="&gt;"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|bottom"
-        android:orientation="horizontal">
 
         <Button
             android:id="@+id/mb_motor_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:textSize="12sp"
             android:text="ON"/>
 
         <Button
             android:id="@+id/mb_motor_decrease"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minWidth="52dp"
+            android:textSize="24sp"
             android:text="-"/>
 
         <Button
             android:id="@+id/mb_motor_increase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minWidth="52dp"
+            android:textSize="24sp"
             android:text="+"/>
 
         <TextView
