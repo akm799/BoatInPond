@@ -134,23 +134,44 @@ public abstract class AbstractBoatActivity extends ViewBoxStateActivity<Boat, Bo
 
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                final Boat boat = parent.getStateReference();
-                if (boat != null) {
-                    if (direction == Rudder.LEFT) {
-                        boat.getRudder().leftControlInput();
-                    } else if (direction == Rudder.RIGHT) {
-                        boat.getRudder().rightControlInput();
+            final int btnAction = motionEvent.getAction();
+
+            switch (btnAction) {
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_DOWN:
+                    final Boat boat = parent.getStateReference();
+                    final Rudder rudder = (boat == null ? null : boat.getRudder());
+                    if (rudder != null) {
+                        processButtonAction(btnAction, rudder);
                     }
-                }
-            } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                final Boat boat = parent.getStateReference();
-                if (boat != null) {
-                    boat.getRudder().noControlInput();
-                }
+                    break;
+
+                default: break;
             }
 
             return true;
+        }
+
+        private void processButtonAction(int btnAction, Rudder rudder) {
+            switch (btnAction) {
+                case MotionEvent.ACTION_UP:
+                    rudder.noControlInput();
+                    break;
+
+                case MotionEvent.ACTION_DOWN:
+                    changeRudderDeflection(rudder);
+                    break;
+
+                default: break;
+            }
+        }
+
+        private void changeRudderDeflection(Rudder rudder) {
+            if (direction == Rudder.LEFT) {
+                rudder.leftControlInput();
+            } else if (direction == Rudder.RIGHT) {
+                rudder.rightControlInput();
+            }
         }
     }
 }

@@ -177,6 +177,8 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
                 case MotionEvent.ACTION_DOWN:
                     changeMotorPower(motor);
                     break;
+
+                default: break;
             }
         }
 
