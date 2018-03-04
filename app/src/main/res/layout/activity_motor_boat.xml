@@ -44,14 +44,14 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/mb_command_btn"
+            android:id="@+id/mb_motor_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="40dp"
             android:minWidth="0dp"
             android:minHeight="0dp"
             android:textSize="12sp"
-            android:text="Start"
-            android:onClick="onCommand"/>
+            android:text="ON"/>
 
         <Button
             android:id="@+id/mb_rudder_left_btn"
@@ -65,18 +65,16 @@
             android:id="@+id/mb_rudder_right_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="40dp"
             android:minWidth="52dp"
             android:textSize="24sp"
             android:text="&gt;"/>
 
-        <Button
-            android:id="@+id/mb_motor_switch"
+        <TextView
+            android:id="@+id/mb_motor_power_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:textSize="12sp"
-            android:text="ON"/>
+            android:text="Power"/>
 
         <Button
             android:id="@+id/mb_motor_decrease"
@@ -94,10 +92,6 @@
             android:textSize="24sp"
             android:text="+"/>
 
-        <TextView
-            android:id="@+id/mb_motor_power_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Power"/>
     </LinearLayout>
+
 </FrameLayout>

@@ -76,6 +76,9 @@ public final class TestActivity extends ViewBoxStateActivity<TestBody, TestViewB
         }
     }
 
+    @Override
+    protected void startAnimation() {} // The animation starts with a dedicated button.
+
     private void startMotion() {
         initState(new TestBody(10, 0, 0, 3, Math.PI/2));
         initiate();

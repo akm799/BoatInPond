@@ -39,11 +39,6 @@ public final class BoatActivity extends AbstractBoatActivity {
     }
 
     @Override
-    protected int getCommandButtonResId() {
-        return R.id.command_btn;
-    }
-
-    @Override
     protected int getLeftRudderControlResId() {
         return R.id.rudder_left_btn;
     }

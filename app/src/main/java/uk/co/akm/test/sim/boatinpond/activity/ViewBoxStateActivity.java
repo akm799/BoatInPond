@@ -3,7 +3,6 @@ package uk.co.akm.test.sim.boatinpond.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.ViewTreeObserver;
 
 import uk.co.akm.test.sim.boatinpond.game.GameConstants;
 import uk.co.akm.test.sim.boatinpond.phys.UpdatableState;
@@ -39,11 +38,14 @@ public abstract class ViewBoxStateActivity<T extends UpdatableState, G extends V
             @Override
             protected void onGlobalLayoutSingleAction() {
                 viewBox = buildViewBox(screenView.getWidth(), screenView.getHeight());
+                startAnimation();
             }
         });
     }
 
     protected abstract G buildViewBox(int viewWidth, int viewHeight);
+
+    protected abstract void startAnimation();
 
     @Override
     public final G computeRenderingData(T state) {

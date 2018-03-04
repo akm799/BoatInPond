@@ -26,14 +26,6 @@
         android:layout_height="440dp"
         android:layout_gravity="center"/>
 
-    <Button
-        android:id="@+id/command_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left|bottom"
-        android:text="Start"
-        android:onClick="onCommand"/>
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
