@@ -7,22 +7,28 @@
     android:orientation="vertical"
     tools:context="uk.co.akm.test.sim.boatinpond.MainActivity">
 
-    <TextView
-        android:id="@+id/number_txt"
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="8dp"
-        android:textSize="24sp"
-        android:text="0" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:text="Background Test"
+        android:onClick="onGraphicsTest"/>
 
     <Button
-        android:id="@+id/command_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
-        android:text="Start"
-        android:onClick="onCommand"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="32dp"
+        android:text="Launch Boat"
+        android:onClick="onBoatLaunch"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="32dp"
+        android:text="Motor Boat"
+        android:onClick="onMotorBoatInit"/>
 
 </LinearLayout>
