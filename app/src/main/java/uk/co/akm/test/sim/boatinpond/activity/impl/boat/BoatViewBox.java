@@ -18,6 +18,7 @@ import uk.co.akm.test.sim.boatinpond.view.ViewData;
  * Created by Thanos Mavroidis on 29/11/2017.
  */
 final class BoatViewBox implements ViewData<Boat> {
+    private static final char DEGREES_CHAR = '\u00b0';
     private static final double EARTH_RADIUS = 6371000;
     private static final double METRES_PER_SEC_TO_KNOTS = 1.94384;
 
@@ -29,8 +30,8 @@ final class BoatViewBox implements ViewData<Boat> {
     private final float[] rudderPlotFractions = new float[GameConstants.LEN_2D];
 
     private NumberFormat latLongFormat = new DecimalFormat("0.0000");
-    private NumberFormat speedFormat = new DecimalFormat("0.00");
-    private NumberFormat compassFormat = new DecimalFormat("000");
+    private NumberFormat speedFormat = new DecimalFormat("0.00 Kts");
+    private NumberFormat compassFormat = new DecimalFormat("000" + DEGREES_CHAR);
 
     BoatViewBox(double horizontalSide, double lineSpacing, int screenWidth, int screenHeight) {
         viewBox = new ViewBoxFast(horizontalSide, lineSpacing, screenWidth, screenHeight);
