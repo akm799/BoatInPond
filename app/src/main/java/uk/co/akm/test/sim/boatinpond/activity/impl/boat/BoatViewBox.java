@@ -70,13 +70,19 @@ final class BoatViewBox implements ViewData<Boat> {
         final Angle latitude = new Angle(state.y()/EARTH_RADIUS);
         coordinates = (latitude.toLat(latLongFormat) + "   " + longitude.toLong(latLongFormat));
 
-        compassHeading = compassFormat.format(Math.round(Angles.toCompassHeading(Angles.toDeg(state.hdnP()))));
+        compassHeading = compassFormat.format(computeCompassHeadingInDegrees(state));
         speed = speedFormat.format(METRES_PER_SEC_TO_KNOTS*state.v());
     }
 
     private void setRudderPlotFractions(double rudderAngle) {
         rudderPlotFractions[GameConstants.X_INDEX] = (float)Math.sin(rudderAngle);
         rudderPlotFractions[GameConstants.Y_INDEX] = (float)Math.cos(rudderAngle);
+    }
+
+    private long computeCompassHeadingInDegrees(Boat state) {
+        final long degrees = Math.round(Angles.toCompassHeading(Angles.toDeg(state.hdnP())));
+
+        return (degrees == 360 ? 0 : degrees);
     }
 
     public float[] getRudderPlotFractions() {

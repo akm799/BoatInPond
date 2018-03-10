@@ -53,6 +53,9 @@ public class AnglesTest {
         testCompassHeadingConversion(180, 270);
         testCompassHeadingConversion(-180, 270);
         testCompassHeadingConversion(135, 315);
+
+        testCompassHeadingConversion(89, 1);
+        testCompassHeadingConversion(91, 359);
     }
 
     private void testCompassHeadingConversion(double inputDeg, double expectedDeg) {
