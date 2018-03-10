@@ -131,4 +131,9 @@ public final class BoatConstantsApprox implements LinearBoatConstants {
     public double getCentreOfMassFromStern() {
         return 1;
     }
+
+    @Override
+    public double getRudderAreaFraction() {
+        return 0;
+    }
 }

@@ -8,8 +8,8 @@ import uk.co.akm.test.sim.boatinpond.boat.MotorBoatConstants;
 public final class MotorBoatConstantsImpl extends BoatConstantsImpl implements MotorBoatConstants {
     private final double maxMotorPower;
 
-    public MotorBoatConstantsImpl(MotorBoatPerformance performance, double kLatOverKLon, double kLonReverseOverKLon, double boatLength, double cogDistanceFromStern) {
-        super(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern);
+    public MotorBoatConstantsImpl(MotorBoatPerformance performance, double kLatOverKLon, double kLonReverseOverKLon, double boatLength, double cogDistanceFromStern, double rudderAreaFraction) {
+        super(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction);
 
         maxMotorPower = estimateMaxMotorPower(performance);
     }

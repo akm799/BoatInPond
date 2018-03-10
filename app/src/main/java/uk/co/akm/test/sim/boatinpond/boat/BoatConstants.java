@@ -60,4 +60,12 @@ public interface BoatConstants {
      * @return a coefficient used in the rudder force calculation
      */
     double getkRud();
+
+    /**
+     * Returns the ratio of the rudder area over the boat frontal area. This is used to approximate
+     * the increased longitudinal resistance when the rudder is deflected.
+     *
+     * @return the ratio of the rudder area over the boat frontal area
+     */
+    double getRudderAreaFraction();
 }

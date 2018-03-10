@@ -12,8 +12,9 @@ public class BoatConstantsImpl implements BoatConstants {
     private final double kRud;
     private final double boatLength;
     private final double cogDistanceFromStern;
+    private final double rudderAreaFraction;
 
-    public BoatConstantsImpl(BoatPerformance performance, double kLatOverKLon, double kLonReverseOverKLon, double boatLength, double cogDistanceFromStern) {
+    public BoatConstantsImpl(BoatPerformance performance, double kLatOverKLon, double kLonReverseOverKLon, double boatLength, double cogDistanceFromStern, double rudderAreaFraction) {
         checkArgs(boatLength, cogDistanceFromStern, performance.turnRate, performance.turningSpeed, V_TRANSITION);
 
         this.kLon = kLonEstimation(performance.launchSpeed, performance.distanceLimit);
@@ -21,6 +22,7 @@ public class BoatConstantsImpl implements BoatConstants {
         this.kLonReverse = kLon*kLonReverseOverKLon;
         this.boatLength = boatLength;
         this.cogDistanceFromStern = cogDistanceFromStern;
+        this.rudderAreaFraction = rudderAreaFraction;
         this.kRud = kRudEstimation(kLat, boatLength, cogDistanceFromStern, performance.turnRate, performance.turningSpeed);
     }
 
@@ -79,5 +81,10 @@ public class BoatConstantsImpl implements BoatConstants {
     @Override
     public final double getkRud() {
         return kRud;
+    }
+
+    @Override
+    public double getRudderAreaFraction() {
+        return rudderAreaFraction;
     }
 }

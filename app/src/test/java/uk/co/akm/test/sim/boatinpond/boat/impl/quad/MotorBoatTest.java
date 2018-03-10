@@ -17,6 +17,7 @@ public class MotorBoatTest {
     private final double kLonReverseOverKLon = 10;
     private final double boatLength = 4;
     private final double cogDistanceFromStern = 1.5;
+    private final double rudderAreaFraction = 0.05;
 
     private final double launchSpeed = 3.01; // 6 knots
     private final double distanceLimit = 75;
@@ -26,7 +27,7 @@ public class MotorBoatTest {
     private final double maxSpeed = 4.12; // 8 knots
 
     private final MotorBoatPerformance performance = new MotorBoatPerformance(launchSpeed, distanceLimit, turnRate, turningSpeed, maxSpeed);
-    private final MotorBoatConstants constants = new MotorBoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern);
+    private final MotorBoatConstants constants = new MotorBoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction);
 
     @Test
     public void shouldApproachMaxSpeed() {

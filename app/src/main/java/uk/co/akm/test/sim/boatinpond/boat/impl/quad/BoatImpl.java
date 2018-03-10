@@ -19,6 +19,7 @@ public class BoatImpl extends Body implements Boat {
     private final double kLonReverse;
 
     private final double cogDistanceFromStern;
+    private final double rudderAreaFraction;
 
     private final double kRud;
 
@@ -50,6 +51,7 @@ public class BoatImpl extends Body implements Boat {
         kLonReverse = constants.getKLonReverse();
 
         cogDistanceFromStern = constants.getCentreOfMassFromStern();
+        rudderAreaFraction = constants.getRudderAreaFraction();
 
         kRud = constants.getkRud();
 
@@ -148,10 +150,11 @@ public class BoatImpl extends Body implements Boat {
     @Override
     protected final void updateAcceleration(State start, double dt) {
         final double kLon = (vLon >= 0 ? this.kLon : this.kLonReverse);
+        final double kLonEffective = kLon + kLon*rudderAreaFraction*Math.sin(Math.abs(rudder.getRudderAngle())); // Approximate increased longitudinal resistance due to rudder deflection.
 
         // Evaluate the acceleration wrt the linear heading.
         final double propulsionLon = estimatePropulsionForce();
-        final double resistanceLon = estimateLinearResistanceForce(kLon, V_TRANSITION, vLon, vLonSqSigned);
+        final double resistanceLon = estimateLinearResistanceForce(kLonEffective, V_TRANSITION, vLon, vLonSqSigned);
         final double aLon = propulsionLon + resistanceLon; // Assume mass value of 1
         final double aLat = estimateLinearResistanceForce(kLat, V_TRANSITION, vLat, vLatSqSigned); // Assume mass value of 1
 

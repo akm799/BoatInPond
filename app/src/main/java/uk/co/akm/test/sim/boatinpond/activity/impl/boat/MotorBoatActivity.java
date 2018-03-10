@@ -105,6 +105,7 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
         final double kLonReverseOverKLon = 10;
         final double boatLength = 4;
         final double cogDistanceFromStern = 1.5;
+        final double rudderAreaFraction = 0.05;
 
         final double launchSpeed = 3.01; // 6 knots
         final double distanceLimit = 75;
@@ -114,7 +115,7 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
         final double maxSpeed = 4.12; // 8 knots
         final MotorBoatPerformance performance = new MotorBoatPerformance(launchSpeed, distanceLimit, turnRate, turningSpeed, maxSpeed);
 
-        final MotorBoatConstants constants = new MotorBoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern);
+        final MotorBoatConstants constants = new MotorBoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction);
         return new MotorBoatImpl(constants, Math.PI/2, 0);
     }
 

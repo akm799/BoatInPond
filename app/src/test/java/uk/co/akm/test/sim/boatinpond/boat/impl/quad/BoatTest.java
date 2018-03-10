@@ -12,6 +12,7 @@ public final class BoatTest extends AbstractBoatTest {
     private final double kLonReverseOverKLon = 10;
     private final double boatLength = 4;
     private final double cogDistanceFromStern = 1.5;
+    private final double rudderAreaFraction = 0.05;
 
     private final double launchSpeed = 3.01; // 6 knots
     private final double distanceLimit = 75;
@@ -25,7 +26,7 @@ public final class BoatTest extends AbstractBoatTest {
         distanceLimitForSlowDownTest = distanceLimit;
         maxAnglesDiff = 0.2;
 
-        constants = new BoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern);
+        constants = new BoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction);
     }
 
     @Override

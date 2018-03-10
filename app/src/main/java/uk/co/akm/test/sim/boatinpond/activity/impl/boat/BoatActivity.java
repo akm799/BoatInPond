@@ -72,6 +72,7 @@ public final class BoatActivity extends AbstractBoatActivity {
         final double kLonReverseOverKLon = 10;
         final double boatLength = 4;
         final double cogDistanceFromStern = 1.5;
+        final double rudderAreaFraction = 0.05;
 
         final double launchSpeed = 3.01; // 6 knots
         final double distanceLimit = 75;
@@ -79,7 +80,7 @@ public final class BoatActivity extends AbstractBoatActivity {
         final double turnRate = 2.5*Math.PI/8; // 56.25 degrees per second
         final BoatPerformance performance = new BoatPerformance(launchSpeed, distanceLimit, turnRate, turningSpeed);
 
-        final BoatConstants constants = new BoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern);
+        final BoatConstants constants = new BoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction);
         return new uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatImpl(constants, Math.PI/2, 3);
     }
 }
