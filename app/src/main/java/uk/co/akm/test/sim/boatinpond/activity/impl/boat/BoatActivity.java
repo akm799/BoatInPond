@@ -1,8 +1,13 @@
 package uk.co.akm.test.sim.boatinpond.activity.impl.boat;
 
+import android.content.Context;
+import android.content.Intent;
+
 import uk.co.akm.test.sim.boatinpond.R;
 import uk.co.akm.test.sim.boatinpond.boat.Boat;
 import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
+import uk.co.akm.test.sim.boatinpond.boat.factory.BoatConstantsFactory;
+import uk.co.akm.test.sim.boatinpond.boat.factory.impl.quad.BoatConstantsFactoryImpl;
 import uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatConstantsApprox;
 import uk.co.akm.test.sim.boatinpond.boat.impl.linear.LinearBoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatConstantsImpl;
@@ -12,6 +17,16 @@ import uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatPerformance;
  * Created by Thanos Mavroidis on 29/11/2017.
  */
 public final class BoatActivity extends AbstractBoatActivity {
+    private static final String RUDDER_SIZE_INDICATOR_KEY = "rudder.size.indicator";
+    private static final String LAUNCH_SPEED_INDICATOR_KEY = "launch.speed.indicator";
+
+    public static void start(Context context, int rudderSizeIndicator, int launchSpeedIndicator) {
+        final Intent intent = new Intent(context, BoatActivity.class);
+        intent.putExtra(RUDDER_SIZE_INDICATOR_KEY, rudderSizeIndicator);
+        intent.putExtra(LAUNCH_SPEED_INDICATOR_KEY, launchSpeedIndicator);
+
+        context.startActivity(intent);
+    }
 
     @Override
     protected int getLayoutId() {
@@ -50,7 +65,14 @@ public final class BoatActivity extends AbstractBoatActivity {
 
     @Override
     protected Boat boatInstance() {
-        return linearResistanceInstance();
+        final int rudderSizeIndicator = getIntent().getIntExtra(RUDDER_SIZE_INDICATOR_KEY, 50);
+        final BoatConstantsFactory factory = new BoatConstantsFactoryImpl();
+        final BoatConstants constants = factory.instance(rudderSizeIndicator);
+
+        final int launchSpeedIndicator = getIntent().getIntExtra(LAUNCH_SPEED_INDICATOR_KEY, 50);
+        final double v0 = determineLaunchSpeed(launchSpeedIndicator);
+
+        return new uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatImpl(constants, Math.PI/2, v0);
     }
 
     private Boat linearResistanceInstance() {
@@ -63,24 +85,19 @@ public final class BoatActivity extends AbstractBoatActivity {
         final double frOmgFinal = 0.999999;
         final double tOmg = 5;
 
+        final int launchSpeedIndicator = getIntent().getIntExtra(LAUNCH_SPEED_INDICATOR_KEY, 50);
+        final double launchSpeed = determineLaunchSpeed(launchSpeedIndicator);
+
         final LinearBoatConstants constants = new BoatConstantsApprox(v0, frVFinal, tv, kLatOverKLon, omgMax, frOmgFinal, tOmg);
-        return new uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatImpl(constants, Math.PI/2, 3);
+        return new uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatImpl(constants, Math.PI/2, launchSpeed);
     }
 
-    private Boat quadraticResistanceInstance() {
-        final double kLatOverKLon = 50;
-        final double kLonReverseOverKLon = 10;
-        final double boatLength = 4;
-        final double cogDistanceFromStern = 1.5;
-        final double rudderAreaFraction = 0.05;
+    private double determineLaunchSpeed(int launchSpeedIndicator) {
+        final double minSpeed = 1.03; //  2 Knots
+        final double maxSpeed = 9.26; // 18 Knots
+        final double speedRange = maxSpeed - minSpeed;
+        final double fraction = launchSpeedIndicator/100.0;
 
-        final double launchSpeed = 3.01; // 6 knots
-        final double distanceLimit = 75;
-        final double turningSpeed = 9.26; // 18 Knots
-        final double turnRate = 2.5*Math.PI/8; // 56.25 degrees per second
-        final BoatPerformance performance = new BoatPerformance(launchSpeed, distanceLimit, turnRate, turningSpeed);
-
-        final BoatConstants constants = new BoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction);
-        return new uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatImpl(constants, Math.PI/2, 3);
+        return minSpeed + fraction*speedRange;
     }
 }

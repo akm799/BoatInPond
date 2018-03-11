@@ -23,7 +23,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onBoatLaunch(View view) {
-        startActivity(new Intent(this, BoatActivity.class));
+        final int rudderSizeIndicator = getSeekBarValue(R.id.boat_rudder_indicator);
+        final int launchSpeedIndicator = getSeekBarValue(R.id.boat_launch_speed);
+        BoatActivity.start(this, rudderSizeIndicator, launchSpeedIndicator);
     }
 
     public void onMotorBoatInit(View view) {
