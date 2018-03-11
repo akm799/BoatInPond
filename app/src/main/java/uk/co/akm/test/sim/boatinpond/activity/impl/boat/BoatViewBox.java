@@ -29,7 +29,7 @@ final class BoatViewBox implements ViewData<Boat> {
     private String speed;
     private final float[] rudderPlotFractions = new float[GameConstants.LEN_2D];
 
-    private NumberFormat latLongFormat = new DecimalFormat("0.0000");
+    private NumberFormat latLongFormat = new DecimalFormat("0.00");
     private NumberFormat speedFormat = new DecimalFormat("0.00 Kts");
     private NumberFormat compassFormat = new DecimalFormat("000" + DEGREES_CHAR);
 
