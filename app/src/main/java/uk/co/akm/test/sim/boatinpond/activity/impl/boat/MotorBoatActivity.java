@@ -1,5 +1,7 @@
 package uk.co.akm.test.sim.boatinpond.activity.impl.boat;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +22,17 @@ import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatPerformance;
  * Created by Thanos Mavroidis on 29/11/2017.
  */
 public final class MotorBoatActivity extends AbstractBoatActivity {
+    private static final String RUDDER_SIZE_INDICATOR_KEY = "rudder.size.indicator";
+    private static final String MAX_MOTOR_POWER_INDICATOR_KEY = "max.motor.power.indicator";
+
+    public static void start(Context context, int rudderSizeIndicator, int maxPowerIndicator) {
+        final Intent intent = new Intent(context, MotorBoatActivity.class);
+        intent.putExtra(RUDDER_SIZE_INDICATOR_KEY, rudderSizeIndicator);
+        intent.putExtra(MAX_MOTOR_POWER_INDICATOR_KEY, maxPowerIndicator);
+
+        context.startActivity(intent);
+    }
+
     private Button motorSwitchBtn;
     private TextView motorPowerTxt;
     private final View[] motorPowerBtns= new View[2];
@@ -114,8 +127,10 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
     }
 
     private Boat motorBoatInstance() {
+        final int rudderSizeIndicator = getIntent().getIntExtra(RUDDER_SIZE_INDICATOR_KEY, 50);
+        final int maxPowerIndicator = getIntent().getIntExtra(MAX_MOTOR_POWER_INDICATOR_KEY, 38);
         final MotorBoatConstantsFactory constantsFactory = new MotorBoatConstantsFactoryImpl();
-        final MotorBoatConstants constants = constantsFactory.instance(50, 38);
+        final MotorBoatConstants constants = constantsFactory.instance(rudderSizeIndicator, maxPowerIndicator);
 
         return new MotorBoatImpl(constants, Math.PI/2, 0);
     }

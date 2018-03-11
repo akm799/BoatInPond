@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.SeekBar;
 
 import uk.co.akm.test.sim.boatinpond.activity.impl.boat.BoatActivity;
 import uk.co.akm.test.sim.boatinpond.activity.impl.boat.MotorBoatActivity;
@@ -26,6 +27,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onMotorBoatInit(View view) {
-        startActivity(new Intent(this, MotorBoatActivity.class));
+        final int rudderSizeIndicator = getSeekBarValue(R.id.motor_boat_rudder_indicator);
+        final int maxPowerIndicator = getSeekBarValue(R.id.motor_boat_max_power_indicator);
+        MotorBoatActivity.start(this, rudderSizeIndicator, maxPowerIndicator);
+    }
+
+    private int getSeekBarValue(int resId) {
+        return ((SeekBar)findViewById(resId)).getProgress();
     }
 }

@@ -23,11 +23,41 @@
         android:text="Launch Boat"
         android:onClick="onBoatLaunch"/>
 
-    <Button
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="32dp"
+        android:text="Rudder Size"/>
+
+    <SeekBar
+        android:id="@+id/motor_boat_rudder_indicator"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:max="100"
+        android:progress="50"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:text="Maximum Avaliable Motor Power"/>
+
+    <SeekBar
+        android:id="@+id/motor_boat_max_power_indicator"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:max="100"
+        android:progress="38"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
         android:text="Motor Boat"
         android:onClick="onMotorBoatInit"/>
 
