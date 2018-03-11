@@ -237,6 +237,21 @@ public abstract class AbstractBoatTest {
         }
     }
 
+    @Test
+    public void shouldLooseMoreEnergyWhenTurning() {
+        final double time = 3;
+        final double hdn0 = 0;
+        final UpdatableState underTestStraight = boatInstance(hdn0, v0, RudderState.NEUTRAL_POSITION);
+        final UpdatableState underTestTurning = boatInstance(hdn0, v0, RudderState.FULL_LEFT_RUDDER);
+
+        Updater.update(underTestStraight, time, nSteps);
+        Updater.update(underTestTurning, time, nSteps);
+
+        Assert.assertTrue(underTestStraight.v() < v0);
+        Assert.assertTrue(underTestTurning.v() < v0);
+        Assert.assertTrue(underTestTurning.v() < underTestStraight.v()); // Turning boat has less energy at the end than the straight one.
+    }
+
     private UpdatableState boatInstance(double hdn0, double v0, RudderState rudderState) {
         final Boat boat = boatInstance(constants, hdn0, v0);
         if (rudderState != null) {
