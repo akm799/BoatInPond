@@ -7,19 +7,31 @@
     android:orientation="vertical"
     tools:context="uk.co.akm.test.sim.boatinpond.MainActivity">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorPrimaryDark"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="2dp"
         android:text="Background Test"
         android:onClick="onGraphicsTest"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="40dp"
+        android:background="@color/colorPrimaryDark"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="2dp"
         android:text="Rudder Size"/>
 
     <SeekBar
@@ -53,11 +65,17 @@
         android:text="Launch Boat"
         android:onClick="onBoatLaunch"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="40dp"
+        android:background="@color/colorPrimaryDark"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="2dp"
         android:text="Rudder Size"/>
 
     <SeekBar
@@ -90,5 +108,12 @@
         android:layout_marginTop="16dp"
         android:text="Motor Boat"
         android:onClick="onMotorBoatInit"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="40dp"
+        android:background="@color/colorPrimaryDark"/>
+
 
 </LinearLayout>
