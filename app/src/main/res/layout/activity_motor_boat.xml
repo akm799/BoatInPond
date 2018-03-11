@@ -82,7 +82,8 @@
             android:layout_height="wrap_content"
             android:minWidth="52dp"
             android:textSize="24sp"
-            android:text="-"/>
+            android:text="-"
+            android:enabled="false"/>
 
         <Button
             android:id="@+id/mb_motor_increase"
@@ -90,7 +91,8 @@
             android:layout_height="wrap_content"
             android:minWidth="52dp"
             android:textSize="24sp"
-            android:text="+"/>
+            android:text="+"
+            android:enabled="false"/>
 
     </LinearLayout>
 

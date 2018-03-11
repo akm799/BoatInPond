@@ -20,11 +20,20 @@ import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatPerformance;
 public final class MotorBoatActivity extends AbstractBoatActivity {
     private Button motorSwitchBtn;
     private TextView motorPowerTxt;
+    private final View[] motorPowerBtns= new View[2];
 
     Motor getMotor() {
         final MotorBoat boat = (MotorBoat)getStateReference();
 
         return (boat == null ? null : boat.getMotor());
+    }
+
+    void setPowerButtonsEnabled(boolean enabled) {
+        for (View btn: motorPowerBtns) {
+            if (btn != null) {
+                btn.setEnabled(enabled);
+            }
+        }
     }
 
     @Override
@@ -71,6 +80,8 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
     protected void initAdditionalViews() {
         motorSwitchBtn = findViewById(R.id.mb_motor_switch);
         motorPowerTxt = findViewById(R.id.mb_motor_power_txt);
+        motorPowerBtns[0] = findViewById(R.id.mb_motor_decrease);
+        motorPowerBtns[1] = findViewById(R.id.mb_motor_increase);
     }
 
     @Override
@@ -132,9 +143,11 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
             if (motor != null && parent.motorSwitchBtn != null) {
                 if (motor.isOn()) {
                     motor.turnOff();
+                    parent.setPowerButtonsEnabled(false);
                     parent.motorSwitchBtn.setText("ON");
                 } else {
                     motor.turnOn();
+                    parent.setPowerButtonsEnabled(true);
                     parent.motorSwitchBtn.setText("OFF");
                 }
             }
