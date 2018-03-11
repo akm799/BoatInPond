@@ -10,6 +10,8 @@ import uk.co.akm.test.sim.boatinpond.boat.Boat;
 import uk.co.akm.test.sim.boatinpond.boat.Motor;
 import uk.co.akm.test.sim.boatinpond.boat.MotorBoat;
 import uk.co.akm.test.sim.boatinpond.boat.MotorBoatConstants;
+import uk.co.akm.test.sim.boatinpond.boat.factory.MotorBoatConstantsFactory;
+import uk.co.akm.test.sim.boatinpond.boat.factory.impl.quad.MotorBoatConstantsFactoryImpl;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatConstantsImpl;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatImpl;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatPerformance;
@@ -112,21 +114,9 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
     }
 
     private Boat motorBoatInstance() {
-        final double kLatOverKLon = 50;
-        final double kLonReverseOverKLon = 10;
-        final double boatLength = 4;
-        final double cogDistanceFromStern = 1.5;
-        final double rudderAreaFraction = 0.05;
+        final MotorBoatConstantsFactory constantsFactory = new MotorBoatConstantsFactoryImpl();
+        final MotorBoatConstants constants = constantsFactory.instance(50, 38);
 
-        final double launchSpeed = 3.01; // 6 knots
-        final double distanceLimit = 75;
-        final double turningSpeed = 9.26; // 18 Knots
-        final double turnRate = 2.5*Math.PI/8; // 56.25 degrees per second
-
-        final double maxSpeed = 4.12; // 8 knots
-        final MotorBoatPerformance performance = new MotorBoatPerformance(launchSpeed, distanceLimit, turnRate, turningSpeed, maxSpeed);
-
-        final MotorBoatConstants constants = new MotorBoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction);
         return new MotorBoatImpl(constants, Math.PI/2, 0);
     }
 
