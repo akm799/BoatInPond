@@ -40,6 +40,7 @@ public class BoatImpl extends Body implements Boat {
     private double omg;
     private double omgSqSigned;
 
+    //TODO Read maxAngle and timeToMaxAngle from boat constants.
     private final double maxRudderAngle = Math.PI/4;
     private final Rudder rudder = new PowerRudder(maxRudderAngle, 2);
 

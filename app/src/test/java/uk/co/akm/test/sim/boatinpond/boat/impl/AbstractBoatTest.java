@@ -22,7 +22,23 @@ public abstract class AbstractBoatTest {
     private final double v0 = 2.5; // 9 km/h
     private final double turningTime = 5;
 
-    enum RudderState {NEUTRAL_POSITION, FULL_LEFT_RUDDER, FULL_RIGHT_RUDDER}
+    enum RudderState {
+        NEUTRAL_POSITION(0),
+        FULL_LEFT_RUDDER(1),
+        FULL_RIGHT_RUDDER(-1),
+        HALF_LEFT_RUDDER(0.5),
+        HALF_RIGHT_RUDDER(-0.5);
+
+        final double factor;
+
+        RudderState(double factor) {
+            this.factor = factor;
+        }
+
+        double angle(Rudder rudder) {
+            return factor*rudder.getMaxRudderAngle();
+        }
+    }
 
     protected double v0ForSlowDownTest = 0;
     protected double distanceLimitForSlowDownTest = 0;
@@ -241,8 +257,8 @@ public abstract class AbstractBoatTest {
     public void shouldLooseMoreEnergyWhenTurning() {
         final double time = 3;
         final double hdn0 = 0;
-        final UpdatableState underTestStraight = boatInstance(hdn0, v0, RudderState.NEUTRAL_POSITION);
-        final UpdatableState underTestTurning = boatInstance(hdn0, v0, RudderState.FULL_LEFT_RUDDER);
+        final UpdatableState underTestStraight = boatInstance(hdn0, v0, RudderState.NEUTRAL_POSITION); // Straight-course boat
+        final UpdatableState underTestTurning = boatInstance(hdn0, v0, RudderState.FULL_LEFT_RUDDER);  // Turning boat
 
         Updater.update(underTestStraight, time, nSteps);
         Updater.update(underTestTurning, time, nSteps);
@@ -252,10 +268,29 @@ public abstract class AbstractBoatTest {
         Assert.assertTrue(underTestTurning.v() < underTestStraight.v()); // Turning boat has less energy at the end than the straight one.
     }
 
+    @Test
+    public void shouldLooseMoreEnergyWhenTurningTighter() {
+        final double time = 3;
+        final double hdn0 = 0;
+        final UpdatableState underTestMinLoss = boatInstance(hdn0, v0, RudderState.NEUTRAL_POSITION); // Straight course
+        final UpdatableState underTestMidLoss = boatInstance(hdn0, v0, RudderState.HALF_LEFT_RUDDER); // Smooth turn
+        final UpdatableState underTestMaxLoss = boatInstance(hdn0, v0, RudderState.FULL_LEFT_RUDDER); // Tight turn
+
+        Updater.update(underTestMinLoss, time, nSteps);
+        Updater.update(underTestMidLoss, time, nSteps);
+        Updater.update(underTestMaxLoss, time, nSteps);
+
+        Assert.assertTrue(underTestMinLoss.v() < v0);
+        Assert.assertTrue(underTestMidLoss.v() < v0);
+        Assert.assertTrue(underTestMaxLoss.v() < v0);
+        Assert.assertTrue(underTestMaxLoss.v() < underTestMidLoss.v()); // Tight turn losses more energy than smooth turn ...
+        Assert.assertTrue(underTestMidLoss.v() < underTestMinLoss.v()); // and smooth turn looses more energy than straight course.
+    }
+
     private UpdatableState boatInstance(double hdn0, double v0, RudderState rudderState) {
         final Boat boat = boatInstance(constants, hdn0, v0);
         if (rudderState != null) {
-            setFullRudder(rudderState, boat.getRudder());
+            setRudderDeflection(rudderState, boat.getRudder());
         }
 
         return boat;
@@ -263,25 +298,24 @@ public abstract class AbstractBoatTest {
 
     protected abstract Boat boatInstance(BoatConstants boatConstants, double hdn0, double v0);
 
-    private void setFullRudder(RudderState rudderState, Rudder rudder) {
-        switch (rudderState) {
-            case NEUTRAL_POSITION:
-                return;
+    private void setRudderDeflection(RudderState rudderState, Rudder rudder) {
+        setRudderAngle(rudderState.angle(rudder), rudder);
+    }
 
-            case FULL_LEFT_RUDDER:
-                rudder.leftControlInput();
-                break;
-
-            case FULL_RIGHT_RUDDER:
-                rudder.rightControlInput();
-                break;
-
-            default: throw new IllegalArgumentException("Unrecognized rudder state: " + rudderState);
+    private void setRudderAngle(double angle, Rudder rudder) {
+        if (angle > 0) {
+            rudder.leftControlInput();
+        } else if (angle < 0) {
+            rudder.rightControlInput();
+        } else {
+            rudder.noControlInput();
+            return;
         }
 
         double a = 0;
-        while (a < rudder.getMaxRudderAngle()) {
-            rudder.update(0.1);
+        final double target = Math.abs(angle);
+        while (a < target) {
+            rudder.update(0.044); //TODO Make this a constant once the rudder maximum angle and time to full deflection parameters are available via the BoatConstants interface.
             a = Math.abs(rudder.getRudderAngle());
         }
     }
