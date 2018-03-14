@@ -22,8 +22,13 @@ public final class MotorBoatConstantsFactoryImpl implements MotorBoatConstantsFa
     private final double maxTurningSpeed = 20.56; // 40 Knots
     private final double turnRate = 2.5*Math.PI/8; // 56.25 degrees per second
 
+    private final double maxRudderAngle = Math.PI/4;
+    private final double timeToMaxRudderDeflection = 2;
+
     private final double minMaxSpeed = 1.03; //  2 Knots
     private final double maxMaxSpeed = 9.26; // 18 Knots
+
+    private final double timeToMaxPower = 4;
 
     private final String rudderSizeIndicatorName = "rudder size";
     private final String maxMotorPowerIndicatorName = "maximum available motor power";
@@ -37,9 +42,9 @@ public final class MotorBoatConstantsFactoryImpl implements MotorBoatConstantsFa
         final double turningSpeed = calculator.computeValue(MAX_INDICATOR_SIZE - rudderSizeIndicator, minTurningSpeed, maxTurningSpeed, rudderSizeIndicatorName);
         final double rudderAreaFraction = calculator.computeValue(rudderSizeIndicator, minRudderAreaFraction, maxRudderAreaFraction, rudderSizeIndicatorName);
         final double maxSpeed = calculator.computeValue(maxMotorPowerIndicator, minMaxSpeed, maxMaxSpeed, maxMotorPowerIndicatorName);
-        final MotorBoatPerformance performance = new MotorBoatPerformance(launchSpeed, distanceLimit, turnRate, turningSpeed, maxSpeed);
+        final MotorBoatPerformance performance = new MotorBoatPerformance(launchSpeed, distanceLimit, turnRate, turningSpeed, timeToMaxRudderDeflection, maxSpeed, timeToMaxPower);
 
-        return new MotorBoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction);
+        return new MotorBoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle);
     }
 
     private void checkArgs(int rudderSizeIndicator, int maxMotorPowerIndicator) {

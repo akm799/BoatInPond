@@ -134,6 +134,16 @@ public final class BoatConstantsApprox implements LinearBoatConstants {
 
     @Override
     public double getRudderAreaFraction() {
-        return 0;
+        return 0.05;
+    }
+
+    @Override
+    public double getMaximumRudderAngle() {
+        return Math.PI/4;
+    }
+
+    @Override
+    public double timeToMaximumRudderAnge() {
+        return 2;
     }
 }

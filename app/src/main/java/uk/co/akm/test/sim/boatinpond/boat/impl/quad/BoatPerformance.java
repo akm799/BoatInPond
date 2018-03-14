@@ -12,6 +12,8 @@ package uk.co.akm.test.sim.boatinpond.boat.impl.quad;
  *    equal to A = 2*pi*R/T where T is the time it takes to complete one circle (i.e. T = 2*pi*R/V).
  *    The parameters V and A are used to define the turning motion performance characteristics.
  *
+ * The time taken for the rudder to reach maximum deflection is, also, defined.
+ *
  * Created by Thanos Mavroidis on 25/02/2018.
  */
 public class BoatPerformance {
@@ -37,10 +39,17 @@ public class BoatPerformance {
      */
     public final double turningSpeed;
 
-    public BoatPerformance(double launchSpeed, double distanceLimit, double turnRate, double turningSpeed) {
+
+    /**
+     * The time it takes the rudder, starting from the central position, to reach the maximum deflection angle.
+     */
+    public final double timeToMaxRudderDeflection;
+
+    public BoatPerformance(double launchSpeed, double distanceLimit, double turnRate, double turningSpeed, double timeToMaxRudderDeflection) {
         this.launchSpeed = launchSpeed;
         this.distanceLimit = distanceLimit;
         this.turnRate = turnRate;
         this.turningSpeed = turningSpeed;
+        this.timeToMaxRudderDeflection = timeToMaxRudderDeflection;
     }
 }

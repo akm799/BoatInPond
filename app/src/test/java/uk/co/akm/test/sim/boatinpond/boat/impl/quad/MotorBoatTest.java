@@ -24,10 +24,14 @@ public class MotorBoatTest {
     private final double turningSpeed = 9.26; // 18 Knots
     private final double turnRate = 2.5*Math.PI/8; // 56.25 degrees per second
 
-    private final double maxSpeed = 4.12; // 8 knots
+    private final double maxRudderAngle = Math.PI/4;
+    private final double timeToMaxRudderDeflection = 2;
 
-    private final MotorBoatPerformance performance = new MotorBoatPerformance(launchSpeed, distanceLimit, turnRate, turningSpeed, maxSpeed);
-    private final MotorBoatConstants constants = new MotorBoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction);
+    private final double maxSpeed = 4.12; // 8 knots
+    private final double timeToMaxPower = 4;
+
+    private final MotorBoatPerformance performance = new MotorBoatPerformance(launchSpeed, distanceLimit, turnRate, turningSpeed, timeToMaxRudderDeflection, maxSpeed, timeToMaxPower);
+    private final MotorBoatConstants constants = new MotorBoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle);
 
     @Test
     public void shouldApproachMaxSpeed() {

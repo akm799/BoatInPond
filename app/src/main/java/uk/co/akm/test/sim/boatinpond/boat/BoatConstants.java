@@ -68,4 +68,18 @@ public interface BoatConstants {
      * @return the ratio of the rudder area over the boat frontal area
      */
     double getRudderAreaFraction();
+
+    /**
+     * The maximum angle by which the rudder can be deflected.
+     *
+     * @return maximum angle by which the rudder can be deflected
+     */
+    double getMaximumRudderAngle();
+
+    /**
+     * Returns the time it takes the rudder, starting from the central position, to reach the maximum deflection angle.
+     *
+     * @return the time it takes the rudder, starting from the central position, to reach the maximum deflection angle
+     */
+    double timeToMaximumRudderAnge();
 }

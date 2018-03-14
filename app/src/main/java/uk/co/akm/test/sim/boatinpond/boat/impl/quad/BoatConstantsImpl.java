@@ -13,8 +13,10 @@ public class BoatConstantsImpl implements BoatConstants {
     private final double boatLength;
     private final double cogDistanceFromStern;
     private final double rudderAreaFraction;
+    private final double maxRudderAngle;
+    private final double timeToMaxRudderAngle;
 
-    public BoatConstantsImpl(BoatPerformance performance, double kLatOverKLon, double kLonReverseOverKLon, double boatLength, double cogDistanceFromStern, double rudderAreaFraction) {
+    public BoatConstantsImpl(BoatPerformance performance, double kLatOverKLon, double kLonReverseOverKLon, double boatLength, double cogDistanceFromStern, double rudderAreaFraction, double maxRudderAngle) {
         checkArgs(boatLength, cogDistanceFromStern, performance.turnRate, performance.turningSpeed, V_TRANSITION);
 
         this.kLon = kLonEstimation(performance.launchSpeed, performance.distanceLimit);
@@ -23,6 +25,8 @@ public class BoatConstantsImpl implements BoatConstants {
         this.boatLength = boatLength;
         this.cogDistanceFromStern = cogDistanceFromStern;
         this.rudderAreaFraction = rudderAreaFraction;
+        this.maxRudderAngle = maxRudderAngle;
+        this.timeToMaxRudderAngle = performance.timeToMaxRudderDeflection;
         this.kRud = kRudEstimation(kLat, boatLength, cogDistanceFromStern, performance.turnRate, performance.turningSpeed);
     }
 
@@ -86,5 +90,15 @@ public class BoatConstantsImpl implements BoatConstants {
     @Override
     public double getRudderAreaFraction() {
         return rudderAreaFraction;
+    }
+
+    @Override
+    public double getMaximumRudderAngle() {
+        return maxRudderAngle;
+    }
+
+    @Override
+    public double timeToMaximumRudderAnge() {
+        return timeToMaxRudderAngle;
     }
 }

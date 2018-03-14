@@ -40,9 +40,8 @@ public class BoatImpl extends Body implements Boat {
     private double omg;
     private double omgSqSigned;
 
-    //TODO Read maxAngle and timeToMaxAngle from boat constants.
-    private final double maxRudderAngle = Math.PI/4;
-    private final Rudder rudder = new PowerRudder(maxRudderAngle, 2);
+    private final Rudder rudder;
+    private final double maxRudderAngle;
 
     public BoatImpl(BoatConstants constants, double hdn0, double v0) {
         super(0, 0, 0, hdn0, 0, 0, v0*Math.cos(hdn0), v0*Math.sin(hdn0), 0, 0, 0, 0);
@@ -75,6 +74,9 @@ public class BoatImpl extends Body implements Boat {
 
         omegaTransitionBack = 2*V_TRANSITION/x;
         omegaTransitionFront = 2*V_TRANSITION/lx;
+
+        maxRudderAngle = constants.getMaximumRudderAngle();
+        rudder = new PowerRudder(maxRudderAngle, constants.timeToMaximumRudderAnge());
     }
 
     @Override

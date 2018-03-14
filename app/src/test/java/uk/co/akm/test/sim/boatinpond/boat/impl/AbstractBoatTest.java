@@ -22,6 +22,8 @@ public abstract class AbstractBoatTest {
     private final double v0 = 2.5; // 9 km/h
     private final double turningTime = 5;
 
+    private final double halfDegreeInRads = 0.5*Math.PI/180;
+
     enum RudderState {
         NEUTRAL_POSITION(0),
         FULL_LEFT_RUDDER(1),
@@ -314,8 +316,9 @@ public abstract class AbstractBoatTest {
 
         double a = 0;
         final double target = Math.abs(angle);
+        final double dt = halfDegreeInRads*constants.timeToMaximumRudderAnge()/constants.getMaximumRudderAngle();
         while (a < target) {
-            rudder.update(0.044); //TODO Make this a constant once the rudder maximum angle and time to full deflection parameters are available via the BoatConstants interface.
+            rudder.update(dt);
             a = Math.abs(rudder.getRudderAngle());
         }
     }

@@ -18,7 +18,11 @@ public final class BoatTest extends AbstractBoatTest {
     private final double distanceLimit = 75;
     private final double turningSpeed = 9.26; // 18 Knots
     private final double turnRate = 2.5*Math.PI/8; // 56.25 degrees per second
-    private final BoatPerformance performance = new BoatPerformance(launchSpeed, distanceLimit, turnRate, turningSpeed);
+
+    private final double maxRudderAngle = Math.PI/4;
+    private final double timeToMaxRudderDeflection = 2;
+
+    private final BoatPerformance performance = new BoatPerformance(launchSpeed, distanceLimit, turnRate, turningSpeed, timeToMaxRudderDeflection);
 
     @Override
     protected void setUpParameters() {
@@ -26,7 +30,7 @@ public final class BoatTest extends AbstractBoatTest {
         distanceLimitForSlowDownTest = distanceLimit;
         maxAnglesDiff = 0.2;
 
-        constants = new BoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction);
+        constants = new BoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle);
     }
 
     @Override

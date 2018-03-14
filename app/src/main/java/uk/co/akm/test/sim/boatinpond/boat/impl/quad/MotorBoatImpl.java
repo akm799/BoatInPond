@@ -14,7 +14,7 @@ public final class MotorBoatImpl extends BoatImpl implements MotorBoat {
     public MotorBoatImpl(MotorBoatConstants constants, double hdn0, double v0) {
         super(constants, hdn0, v0);
 
-        motor = new MotorImpl(constants.getMaxMotorForce(), 4);
+        motor = new MotorImpl(constants.getMaxMotorForce(), constants.timeToMaxPower());
     }
 
     @Override

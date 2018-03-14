@@ -9,7 +9,16 @@ package uk.co.akm.test.sim.boatinpond.boat;
 public interface MotorBoatConstants extends BoatConstants {
 
     /**
+     * Returns the maximum possible motor propulsion force.
+     *
      * @return the maximum possible motor propulsion force
      */
     double getMaxMotorForce();
+
+    /**
+     * Returns the time taken for the motor, starting from idle, to reach maximum power.
+     *
+     * @return the time taken for the motor, starting from idle, to reach maximum power
+     */
+    double timeToMaxPower();
 }
