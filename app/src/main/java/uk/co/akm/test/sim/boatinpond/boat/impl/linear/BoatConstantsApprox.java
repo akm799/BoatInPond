@@ -124,12 +124,12 @@ public final class BoatConstantsApprox implements LinearBoatConstants {
 
     @Override
     public double getLength() {
-        return 1;
+        return 4;
     }
 
     @Override
     public double getCentreOfMassFromStern() {
-        return 1;
+        return 1.5;
     }
 
     @Override
