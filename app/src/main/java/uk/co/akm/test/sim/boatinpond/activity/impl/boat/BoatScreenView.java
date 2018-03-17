@@ -7,28 +7,16 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
 import uk.co.akm.test.sim.boatinpond.activity.OnceOnlyLayoutListener;
-import uk.co.akm.test.sim.boatinpond.game.GameConstants;
+import uk.co.akm.test.sim.boatinpond.activity.impl.boat.shape.BoatShapeDrawer;
 import uk.co.akm.test.sim.boatinpond.view.ScreenView;
-import uk.co.akm.test.sim.boatinpond.view.ViewData;
 
 /**
  * Created by Thanos Mavroidis on 29/11/2017.
  */
 final class BoatScreenView extends ScreenView<BoatViewBox> {
-    private final int iFr = 20;
-    private final int rFr = 2;
     private final Paint shapePaint = new Paint();
 
-    private int cx;
-    private int cy;
-    private float s;
-
-    private float left;
-    private float right;
-    private float top;
-    private float bottom;
-
-    private float rds;
+    private BoatShapeDrawer boatShapeDrawer;
 
     public BoatScreenView(Context context) {
         super(context);
@@ -60,34 +48,11 @@ final class BoatScreenView extends ScreenView<BoatViewBox> {
     private void initConstants() {
         final int w = getWidth();
         final int h = getHeight();
-
-        s = Math.min(w, h)/iFr;
-        cx = w/2;
-        cy = h/2;
-
-        left = cx - s;
-        right = cx + s;
-        top = cy - s;
-        bottom = cy + s;
-
-        rds = s/rFr;
+        boatShapeDrawer = new BoatShapeDrawer(w, h, 0.075f);
     }
 
     @Override
     protected void drawCentralShape(BoatViewBox viewBox, Canvas canvas) {
-        drawBoatShape(canvas);
-        drawBoatRudder(viewBox.getRudderPlotFractions(), canvas);
-    }
-
-    private void drawBoatShape(Canvas canvas) {
-        canvas.drawLine(left, bottom, cx, top, shapePaint);
-        canvas.drawLine(cx, top, right, bottom, shapePaint);
-        canvas.drawLine(right, bottom, left, bottom, shapePaint);
-    }
-
-    private void drawBoatRudder(float[] fractions, Canvas canvas) {
-        final float dx = rds*fractions[GameConstants.X_INDEX];
-        final float dy = rds*fractions[GameConstants.Y_INDEX];
-        canvas.drawLine(cx, bottom, cx - dx, bottom + dy, shapePaint);
+        boatShapeDrawer.drawBoat(canvas, shapePaint, viewBox.getRudderPlotFractions());
     }
 }
