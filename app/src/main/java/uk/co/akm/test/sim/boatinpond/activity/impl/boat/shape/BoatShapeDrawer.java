@@ -2,6 +2,7 @@ package uk.co.akm.test.sim.boatinpond.activity.impl.boat.shape;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 
 import uk.co.akm.test.sim.boatinpond.game.GameConstants;
 
@@ -11,6 +12,7 @@ import uk.co.akm.test.sim.boatinpond.game.GameConstants;
  * Created by Thanos Mavroidis on 17/03/2018.
  */
 public final class BoatShapeDrawer {
+    private final Path boatShape;
     private final BoatShapeData shapeData = new BoatShapeData();
 
     private final float cx;
@@ -40,20 +42,39 @@ public final class BoatShapeDrawer {
         bottom    = cy + boatHeight/2;
         bowStartY = bottom - boatHeight*shapeData.mainBodyFraction;
         rudderLength = boatHeight*shapeData.rudderLengthOverTotalLengthRatio;
+        boatShape = buildBoatShapePath();
+    }
+
+    private Path buildBoatShapePath() {
+        final Path path = new Path();
+        path.moveTo(left, bottom);
+        path.lineTo(left, bowStartY);
+        path.lineTo(cx, top);
+        path.lineTo(right, bowStartY);
+        path.lineTo(right, bottom);
+        path.lineTo(left, bottom);
+
+        return path;
     }
 
     /**
      * @param canvas the canvas where the boat shape will be drawn
-     * @param paint the paint used to draw the boat shape
+     * @param outLinePaint the paint used to draw the boat shape outline
+     * @param fillPaint the paint used to fill the boat shape
      * @param fractions the dx and dy fractions representing the rudder deflection angle (i.e.
      *                  dx and dy are such that dx*dx + dy*dy = 1).
      */
-    public void drawBoat(Canvas canvas, Paint paint, float[] fractions) {
-        drawBoatBody(canvas, paint);
-        drawBoatRudder(canvas, paint, fractions);
+    public void drawBoat(Canvas canvas, Paint outLinePaint, Paint fillPaint, float[] fractions) {
+        drawBoatBody(canvas, outLinePaint, fillPaint);
+        drawBoatRudder(canvas, outLinePaint, fractions);
     }
 
-    private void drawBoatBody(Canvas canvas, Paint paint) {
+    private void drawBoatBody(Canvas canvas, Paint outLinePaint, Paint fillPaint) {
+        canvas.drawPath(boatShape, fillPaint);
+        drawBoatOutline(canvas, outLinePaint);
+    }
+
+    private void drawBoatOutline(Canvas canvas, Paint paint) {
         canvas.drawLine(left, bottom, left, bowStartY, paint);
         canvas.drawLine(left, bowStartY, cx, top, paint);
         canvas.drawLine(cx, top, right, bowStartY, paint);

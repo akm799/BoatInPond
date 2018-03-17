@@ -14,6 +14,7 @@ import uk.co.akm.test.sim.boatinpond.view.ScreenView;
  * Created by Thanos Mavroidis on 29/11/2017.
  */
 final class BoatScreenView extends ScreenView<BoatViewBox> {
+    private final Paint fillPaint = new Paint();
     private final Paint shapePaint = new Paint();
 
     private BoatShapeDrawer boatShapeDrawer;
@@ -34,8 +35,11 @@ final class BoatScreenView extends ScreenView<BoatViewBox> {
     }
 
     private void init() {
-        shapePaint.setStrokeWidth(8);
-        shapePaint.setColor(0xff000000);
+        shapePaint.setStrokeWidth(10);
+        shapePaint.setColor(0xFF000000);
+
+        fillPaint.setColor(0xFF8B4513);
+        fillPaint.setStyle(Paint.Style.FILL);
 
         getViewTreeObserver().addOnGlobalLayoutListener(new OnceOnlyLayoutListener(this) {
             @Override
@@ -53,6 +57,6 @@ final class BoatScreenView extends ScreenView<BoatViewBox> {
 
     @Override
     protected void drawCentralShape(BoatViewBox viewBox, Canvas canvas) {
-        boatShapeDrawer.drawBoat(canvas, shapePaint, viewBox.getRudderPlotFractions());
+        boatShapeDrawer.drawBoat(canvas, shapePaint, fillPaint, viewBox.getRudderPlotFractions());
     }
 }
