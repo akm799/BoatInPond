@@ -33,6 +33,7 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
         context.startActivity(intent);
     }
 
+    private View motorStatusView;
     private Button motorSwitchBtn;
     private TextView motorPowerTxt;
     private final View[] motorPowerBtns= new View[2];
@@ -94,6 +95,7 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
     @Override
     protected void initAdditionalViews() {
         motorSwitchBtn = findViewById(R.id.mb_motor_switch);
+        motorStatusView = findViewById(R.id.mb_motor_status);
         motorPowerTxt = findViewById(R.id.mb_motor_power_txt);
         motorPowerBtns[0] = findViewById(R.id.mb_motor_decrease);
         motorPowerBtns[1] = findViewById(R.id.mb_motor_increase);
@@ -146,16 +148,23 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
         public void onClick(View view) {
             final Motor motor = parent.getMotor();
             if (motor != null && parent.motorSwitchBtn != null) {
-                if (motor.isOn()) {
-                    motor.turnOff();
-                    parent.setPowerButtonsEnabled(false);
-                    parent.motorSwitchBtn.setText("ON");
-                } else {
-                    motor.turnOn();
-                    parent.setPowerButtonsEnabled(true);
-                    parent.motorSwitchBtn.setText("OFF");
-                }
+                switchMotor(motor);
+                setIndicators(motor.isOn());
             }
+        }
+
+        private void switchMotor(Motor motor) {
+            if (motor.isOn()) {
+                motor.turnOff();
+            } else {
+                motor.turnOn();
+            }
+        }
+
+        private void setIndicators(boolean on) {
+            parent.setPowerButtonsEnabled(on);
+            parent.motorSwitchBtn.setText(on ? "OFF" : "ON");
+            parent.motorStatusView.setBackgroundColor(on ? 0xFFFF0000 : 0xFF0000FF);
         }
     }
 
