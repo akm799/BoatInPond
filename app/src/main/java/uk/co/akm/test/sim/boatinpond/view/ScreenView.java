@@ -19,9 +19,10 @@ public abstract class ScreenView<G extends ViewData> extends View {
     private final Paint pointsPaint = new Paint();
     private final Paint borderPaint = new Paint();
 
-    private int linesColour = 0xffff0000;
-    private int pointsColour = 0xff00ff00;
-    private int borderColour = 0xff000000;
+    private int linesColour = 0xFFFFFFFF;
+    private int pointsColour = 0xFFFF0000;
+    private int borderColour = 0xFF000000;
+    private int backgroundColour = 0xFF00BFFF;
 
     private int pointsHalfSide = 8;
 
@@ -46,6 +47,7 @@ public abstract class ScreenView<G extends ViewData> extends View {
         linesPaint.setColor(linesColour);
         pointsPaint.setColor(pointsColour);
         borderPaint.setColor(borderColour);
+        setBackgroundColor(backgroundColour);
 
         pointsPaint.setStrokeWidth(pointsHalfSide);
     }
