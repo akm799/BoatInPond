@@ -9,6 +9,7 @@ import android.widget.TextView;
 import uk.co.akm.test.sim.boatinpond.activity.ViewBoxStateActivity;
 import uk.co.akm.test.sim.boatinpond.boat.Boat;
 import uk.co.akm.test.sim.boatinpond.boat.Rudder;
+import uk.co.akm.test.sim.boatinpond.dimensions.BoatDimensionConstants;
 
 /**
  * Created by Thanos Mavroidis on 01/03/2017.
@@ -79,7 +80,10 @@ public abstract class AbstractBoatActivity extends ViewBoxStateActivity<Boat, Bo
 
     @Override
     protected final BoatViewBox buildViewBox(int viewWidth, int viewHeight) {
-        return new BoatViewBox(30, 5, viewWidth, viewHeight);
+        final double horizontalSide = BoatDimensionConstants.VIEW_BOX_WIDTH;
+        final double lineSpacing = BoatDimensionConstants.VIEW_BOX_LINE_SPACING;
+
+        return new BoatViewBox(horizontalSide, lineSpacing, viewWidth, viewHeight);
     }
 
     @Override

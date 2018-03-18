@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 
 import uk.co.akm.test.sim.boatinpond.activity.OnceOnlyLayoutListener;
 import uk.co.akm.test.sim.boatinpond.activity.impl.boat.shape.BoatShapeDrawer;
+import uk.co.akm.test.sim.boatinpond.dimensions.BoatDimensionConstants;
 import uk.co.akm.test.sim.boatinpond.view.ScreenView;
 
 /**
@@ -50,9 +51,8 @@ final class BoatScreenView extends ScreenView<BoatViewBox> {
     }
 
     private void initConstants() {
-        final int w = getWidth();
-        final int h = getHeight();
-        boatShapeDrawer = new BoatShapeDrawer(w, h, 0.075f);
+        final double availableWidthFraction  = BoatDimensionConstants.BOAT_BEAM/BoatDimensionConstants.VIEW_BOX_WIDTH;
+        boatShapeDrawer = new BoatShapeDrawer(this, (float)availableWidthFraction);
     }
 
     @Override

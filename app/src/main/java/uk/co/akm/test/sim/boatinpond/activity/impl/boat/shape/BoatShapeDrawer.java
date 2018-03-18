@@ -3,6 +3,7 @@ package uk.co.akm.test.sim.boatinpond.activity.impl.boat.shape;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.view.View;
 
 import uk.co.akm.test.sim.boatinpond.game.GameConstants;
 
@@ -24,17 +25,17 @@ public final class BoatShapeDrawer {
     private final float rudderLength;
 
     /**
-     * @param viewWidth the parent view width
-     * @param viewHeight the parent view height
+     * @param parent the parent view in which the boat shape will be drawn
      * @param availableWidthFraction the width of the boat in the parent view as a fraction of the
      *                               total width of the parent view
      */
-    public BoatShapeDrawer(int viewWidth, int viewHeight, float availableWidthFraction) {
-        final float boatWidth = availableWidthFraction*viewHeight;
+    public BoatShapeDrawer(View parent, float availableWidthFraction) {
+        final int height = parent.getHeight();
+        final float boatWidth = availableWidthFraction*height;
         final float boatHeight = shapeData.lengthOverBeamRatio*boatWidth;
 
-        cx = viewWidth/2;
-        final float cy = viewHeight/2;
+        cx = parent.getWidth()/2;
+        final float cy = height/2;
 
         left      = cx - boatWidth/2;
         right     = cx + boatWidth/2;
