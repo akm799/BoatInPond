@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import uk.co.akm.test.sim.boatinpond.R;
+import uk.co.akm.test.sim.boatinpond.activity.OnceOnlyLayoutListener;
 import uk.co.akm.test.sim.boatinpond.graph.Line;
 import uk.co.akm.test.sim.boatinpond.graph.Pixel;
 import uk.co.akm.test.sim.boatinpond.graph.Point;
@@ -21,7 +22,9 @@ public abstract class ScreenView<G extends ViewData> extends View {
     private final Paint pointsPaint = new Paint();
     private final Paint borderPaint = new Paint();
 
-    private int pointsHalfSide = 8;
+    private final float pointsHalfSideOverTotalWidthRatio = 0.006f;
+
+    private float pointsHalfSide;
 
     private G viewData;
 
@@ -41,17 +44,26 @@ public abstract class ScreenView<G extends ViewData> extends View {
     }
 
     private void init() {
-        final Context context = getContext();
-        initPaints(context);
-        setBackgroundColor(ContextCompat.getColor(context, R.color.colorSeaBlue));
+        setColours(getContext());
 
-        pointsPaint.setStrokeWidth(pointsHalfSide);
+        getViewTreeObserver().addOnGlobalLayoutListener(new OnceOnlyLayoutListener(this) {
+            @Override
+            protected void onGlobalLayoutSingleAction() {
+                setPointsWidth();
+            }
+        });
     }
 
-    private void initPaints(Context context) {
+    private void setColours(Context context) {
         linesPaint.setColor(ContextCompat.getColor(context, R.color.colorWhite));
         pointsPaint.setColor(ContextCompat.getColor(context, R.color.colorRed));
         borderPaint.setColor(ContextCompat.getColor(context, R.color.colorBlack));
+        setBackgroundColor(ContextCompat.getColor(context, R.color.colorSeaBlue));
+    }
+
+    private void setPointsWidth() {
+        pointsHalfSide = getWidth()*pointsHalfSideOverTotalWidthRatio;
+        pointsPaint.setStrokeWidth(pointsHalfSide);
     }
 
     public final void setViewData(G viewData) {

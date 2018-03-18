@@ -49,8 +49,6 @@ final class BoatScreenView extends ScreenView<BoatViewBox> {
     }
 
     private void initPaints(Context context) {
-
-
         shapePaint.setColor(ContextCompat.getColor(context, R.color.colorBlack));
 
         fillPaint.setColor(ContextCompat.getColor(context, R.color.colorWoodBrown));
