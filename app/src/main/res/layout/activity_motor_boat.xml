@@ -57,7 +57,7 @@
             android:id="@+id/mb_motor_status"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginRight="18dp"
+            android:layout_marginRight="20dp"
             android:layout_gravity="center_vertical"
             android:background="#0000FF"/>
 
@@ -65,7 +65,7 @@
             android:id="@+id/mb_rudder_left_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="52dp"
+            android:minWidth="60dp"
             android:textSize="24sp"
             android:text="&lt;"/>
 
@@ -73,8 +73,8 @@
             android:id="@+id/mb_rudder_right_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="40dp"
-            android:minWidth="52dp"
+            android:layout_marginRight="22dp"
+            android:minWidth="60dp"
             android:textSize="24sp"
             android:text="&gt;"/>
 
@@ -101,7 +101,5 @@
             android:textSize="24sp"
             android:text="+"
             android:enabled="false"/>
-
     </LinearLayout>
-
 </FrameLayout>
