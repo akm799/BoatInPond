@@ -58,6 +58,11 @@ public final class BoatShapeDrawer {
         return path;
     }
 
+    /**
+     * Returnt the ratio of the width of the line drawing the boat shape outline over the actual beam.
+     *
+     * @return the ratio of the width of the line drawing the boat shape outline over the actual beam
+     */
     public float getOutlineWidthOverBeamRatio() {
         return shapeData.outlineWidthOverBeamRatio;
     }

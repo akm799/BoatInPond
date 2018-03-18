@@ -38,7 +38,7 @@ final class BoatScreenView extends ScreenView<BoatViewBox> {
     }
 
     private void init() {
-        initPaints();
+        initPaints(getContext());
 
         getViewTreeObserver().addOnGlobalLayoutListener(new OnceOnlyLayoutListener(this) {
             @Override
@@ -48,10 +48,12 @@ final class BoatScreenView extends ScreenView<BoatViewBox> {
         });
     }
 
-    private void initPaints() {
-        shapePaint.setColor(ContextCompat.getColor(getContext(), R.color.colorBlack));
+    private void initPaints(Context context) {
 
-        fillPaint.setColor(ContextCompat.getColor(getContext(), R.color.colorWoodBrown));
+
+        shapePaint.setColor(ContextCompat.getColor(context, R.color.colorBlack));
+
+        fillPaint.setColor(ContextCompat.getColor(context, R.color.colorWoodBrown));
         fillPaint.setStyle(Paint.Style.FILL);
     }
 

@@ -4,9 +4,11 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
+import uk.co.akm.test.sim.boatinpond.R;
 import uk.co.akm.test.sim.boatinpond.graph.Line;
 import uk.co.akm.test.sim.boatinpond.graph.Pixel;
 import uk.co.akm.test.sim.boatinpond.graph.Point;
@@ -18,11 +20,6 @@ public abstract class ScreenView<G extends ViewData> extends View {
     private final Paint linesPaint = new Paint();
     private final Paint pointsPaint = new Paint();
     private final Paint borderPaint = new Paint();
-
-    private int linesColour = 0xFFFFFFFF;
-    private int pointsColour = 0xFFFF0000;
-    private int borderColour = 0xFF000000;
-    private int backgroundColour = 0xFF00BFFF;
 
     private int pointsHalfSide = 8;
 
@@ -44,12 +41,17 @@ public abstract class ScreenView<G extends ViewData> extends View {
     }
 
     private void init() {
-        linesPaint.setColor(linesColour);
-        pointsPaint.setColor(pointsColour);
-        borderPaint.setColor(borderColour);
-        setBackgroundColor(backgroundColour);
+        final Context context = getContext();
+        initPaints(context);
+        setBackgroundColor(ContextCompat.getColor(context, R.color.colorSeaBlue));
 
         pointsPaint.setStrokeWidth(pointsHalfSide);
+    }
+
+    private void initPaints(Context context) {
+        linesPaint.setColor(ContextCompat.getColor(context, R.color.colorWhite));
+        pointsPaint.setColor(ContextCompat.getColor(context, R.color.colorRed));
+        borderPaint.setColor(ContextCompat.getColor(context, R.color.colorBlack));
     }
 
     public final void setViewData(G viewData) {
