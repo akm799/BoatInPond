@@ -14,9 +14,7 @@ import uk.co.akm.test.sim.boatinpond.boat.MotorBoat;
 import uk.co.akm.test.sim.boatinpond.boat.MotorBoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.factory.MotorBoatConstantsFactory;
 import uk.co.akm.test.sim.boatinpond.boat.factory.impl.quad.MotorBoatConstantsFactoryImpl;
-import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatConstantsImpl;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatImpl;
-import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatPerformance;
 
 /**
  * Created by Thanos Mavroidis on 29/11/2017.
