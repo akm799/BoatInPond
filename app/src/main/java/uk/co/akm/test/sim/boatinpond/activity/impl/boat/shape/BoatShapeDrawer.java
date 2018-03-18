@@ -58,6 +58,10 @@ public final class BoatShapeDrawer {
         return path;
     }
 
+    public float getOutlineWidthOverBeamRatio() {
+        return shapeData.outlineWidthOverBeamRatio;
+    }
+
     /**
      * @param canvas the canvas where the boat shape will be drawn
      * @param outLinePaint the paint used to draw the boat shape outline

@@ -4,8 +4,10 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 
+import uk.co.akm.test.sim.boatinpond.R;
 import uk.co.akm.test.sim.boatinpond.activity.OnceOnlyLayoutListener;
 import uk.co.akm.test.sim.boatinpond.activity.impl.boat.shape.BoatShapeDrawer;
 import uk.co.akm.test.sim.boatinpond.dimensions.BoatDimensionConstants;
@@ -36,11 +38,7 @@ final class BoatScreenView extends ScreenView<BoatViewBox> {
     }
 
     private void init() {
-        shapePaint.setStrokeWidth(10);
-        shapePaint.setColor(0xFF000000);
-
-        fillPaint.setColor(0xFF8B4513);
-        fillPaint.setStyle(Paint.Style.FILL);
+        initPaints();
 
         getViewTreeObserver().addOnGlobalLayoutListener(new OnceOnlyLayoutListener(this) {
             @Override
@@ -50,9 +48,19 @@ final class BoatScreenView extends ScreenView<BoatViewBox> {
         });
     }
 
+    private void initPaints() {
+        shapePaint.setColor(ContextCompat.getColor(getContext(), R.color.colorBlack));
+
+        fillPaint.setColor(ContextCompat.getColor(getContext(), R.color.colorWoodBrown));
+        fillPaint.setStyle(Paint.Style.FILL);
+    }
+
     private void initConstants() {
-        final double availableWidthFraction  = BoatDimensionConstants.BOAT_BEAM/BoatDimensionConstants.VIEW_BOX_WIDTH;
-        boatShapeDrawer = new BoatShapeDrawer(this, (float)availableWidthFraction);
+        final float availableWidthFraction  = (float)(BoatDimensionConstants.BOAT_BEAM/BoatDimensionConstants.VIEW_BOX_WIDTH);
+        boatShapeDrawer = new BoatShapeDrawer(this, availableWidthFraction);
+
+        final float shapePaintStrokeWidth = getWidth()*availableWidthFraction*boatShapeDrawer.getOutlineWidthOverBeamRatio();
+        shapePaint.setStrokeWidth(shapePaintStrokeWidth);
     }
 
     @Override
