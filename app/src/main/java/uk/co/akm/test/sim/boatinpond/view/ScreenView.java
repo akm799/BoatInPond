@@ -63,9 +63,9 @@ public abstract class ScreenView<G extends ViewData> extends View {
         drawBorder(canvas);
 
         if (viewData != null) {
-            drawCentralShape(viewData, canvas);
             drawViewBoxLines(canvas);
             drawFixedPoints(canvas);
+            drawCentralShape(viewData, canvas);
         }
     }
 
