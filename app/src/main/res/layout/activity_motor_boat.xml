@@ -7,34 +7,34 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/indicator_margin_top"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/mb_location_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="48dp"
-            tools:text="Coordinates"/>
+            android:layout_marginRight="@dimen/top_indicator_margin_right"
+            tools:text="@string/coordinates_desc"/>
 
         <TextView
             android:id="@+id/mb_heading_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="48dp"
-            tools:text="Heading"/>
+            android:layout_marginRight="@dimen/top_indicator_margin_right"
+            tools:text="@string/heading_desc"/>
 
         <TextView
             android:id="@+id/mb_speed_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Speed"/>
+            tools:text="@string/speed_desc"/>
     </LinearLayout>
 
     <uk.co.akm.test.sim.boatinpond.activity.impl.boat.BoatScreenView
         android:id="@+id/mb_boat_screen_view"
         android:layout_width="match_parent"
-        android:layout_height="440dp"
+        android:layout_height="@dimen/main_view_height"
         android:layout_gravity="center"/>
 
     <LinearLayout
@@ -55,8 +55,8 @@
 
         <View
             android:id="@+id/mb_motor_status"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="@dimen/motor_switch_status_size"
+            android:layout_height="@dimen/motor_switch_status_size"
             android:layout_marginRight="20dp"
             android:layout_gravity="center_vertical"
             android:background="#0000FF"/>
@@ -65,18 +65,18 @@
             android:id="@+id/mb_rudder_left_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="60dp"
-            android:textSize="24sp"
-            android:text="&lt;"/>
+            android:minWidth="@dimen/rudder_button_min_width"
+            android:textSize="@dimen/text_size_control"
+            android:text="@string/rudder_left_symbol"/>
 
         <Button
             android:id="@+id/mb_rudder_right_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="22dp"
-            android:minWidth="60dp"
-            android:textSize="24sp"
-            android:text="&gt;"/>
+            android:minWidth="@dimen/rudder_button_min_width"
+            android:textSize="@dimen/text_size_control"
+            android:text="@string/rudder_right_symbol"/>
 
         <TextView
             android:id="@+id/mb_motor_power_txt"
@@ -88,8 +88,8 @@
             android:id="@+id/mb_motor_decrease"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="52dp"
-            android:textSize="24sp"
+            android:minWidth="@dimen/motor_button_min_width"
+            android:textSize="@dimen/text_size_control"
             android:text="-"
             android:enabled="false"/>
 
@@ -97,8 +97,8 @@
             android:id="@+id/mb_motor_increase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="52dp"
-            android:textSize="24sp"
+            android:minWidth="@dimen/motor_button_min_width"
+            android:textSize="@dimen/text_size_control"
             android:text="+"
             android:enabled="false"/>
     </LinearLayout>

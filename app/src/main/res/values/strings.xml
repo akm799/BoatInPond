@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">BoatInPond</string>
+    <string name="app_name">Boat in a Pond</string>
+    <string name="coordinates_desc">Coordinates</string>
+    <string name="heading_desc">Heading</string>
+    <string name="speed_desc">Speed</string>
+    <string name="rudder_left_symbol">&lt;</string>
+    <string name="rudder_right_symbol">&gt;</string>
 </resources>
