@@ -18,9 +18,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.impl.test.TestActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.impl.boat.BoatActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.impl.boat.MotorBoatActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.impl.test.TestActivity" android:screenOrientation="portrait" android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.impl.boat.BoatActivity" android:screenOrientation="portrait" android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.impl.boat.MotorBoatActivity" android:screenOrientation="portrait" android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
