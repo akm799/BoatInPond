@@ -1,8 +1,4 @@
 <resources>
-
-    <dimen name="indicator_margin_top">16dp</dimen>
-    <dimen name="top_indicator_margin_right">48dp</dimen>
-    <dimen name="main_view_height">440dp</dimen>
     <dimen name="rudder_button_min_width">60dp</dimen>
     <dimen name="motor_button_min_width">52dp</dimen>
     <dimen name="motor_switch_status_size">20dp</dimen>
