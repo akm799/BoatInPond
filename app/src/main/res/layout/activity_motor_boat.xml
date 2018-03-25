@@ -1,46 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/indicator_margin_top"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:layout_weight="5">
 
         <TextView
             android:id="@+id/mb_location_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/top_indicator_margin_right"
+            android:layout_gravity="left|center_vertical"
             tools:text="@string/coordinates_desc"/>
 
         <TextView
             android:id="@+id/mb_heading_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/top_indicator_margin_right"
+            android:layout_gravity="center"
             tools:text="@string/heading_desc"/>
 
         <TextView
             android:id="@+id/mb_speed_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
             tools:text="@string/speed_desc"/>
-    </LinearLayout>
+    </FrameLayout>
 
     <uk.co.akm.test.sim.boatinpond.activity.impl.boat.BoatScreenView
         android:id="@+id/mb_boat_screen_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/main_view_height"
-        android:layout_gravity="center"/>
+        android:layout_height="0dp"
+        android:layout_weight="85"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_height="0dp"
+        android:layout_weight="10"
         android:orientation="horizontal">
 
         <Button
@@ -102,4 +103,4 @@
             android:text="+"
             android:enabled="false"/>
     </LinearLayout>
-</FrameLayout>
+</LinearLayout>
