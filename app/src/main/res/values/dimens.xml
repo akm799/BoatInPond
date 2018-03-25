@@ -1,7 +1,6 @@
 <resources>
     <dimen name="rudder_button_min_width">60dp</dimen>
     <dimen name="motor_button_min_width">52dp</dimen>
-    <dimen name="motor_switch_status_size">20dp</dimen>
 
     <dimen name="text_size_control">24sp</dimen>
 </resources>

@@ -4,7 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import uk.co.akm.test.sim.boatinpond.R;
@@ -31,8 +32,7 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
         context.startActivity(intent);
     }
 
-    private View motorStatusView;
-    private Button motorSwitchBtn;
+    private Switch motorSwitchBtn;
     private TextView motorPowerTxt;
     private final View[] motorPowerBtns= new View[2];
 
@@ -93,7 +93,6 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
     @Override
     protected void initAdditionalViews() {
         motorSwitchBtn = findViewById(R.id.mb_motor_switch);
-        motorStatusView = findViewById(R.id.mb_motor_status);
         motorPowerTxt = findViewById(R.id.mb_motor_power_txt);
         motorPowerBtns[0] = findViewById(R.id.mb_motor_decrease);
         motorPowerBtns[1] = findViewById(R.id.mb_motor_increase);
@@ -101,7 +100,7 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
 
     @Override
     protected void setAdditionalListeners() {
-        findViewById(R.id.mb_motor_switch).setOnClickListener(new MotorSwitchListener(this));
+        ((Switch)findViewById(R.id.mb_motor_switch)).setOnCheckedChangeListener(new MotorSwitchListener(this));
         findViewById(R.id.mb_motor_decrease).setOnTouchListener(new MotorListener(this, Motor.DECREASE));
         findViewById(R.id.mb_motor_increase).setOnTouchListener(new MotorListener(this, Motor.INCREASE));
     }
@@ -135,7 +134,7 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
         return new MotorBoatImpl(constants, Math.PI/2, 0);
     }
 
-    private static final class MotorSwitchListener implements View.OnClickListener {
+    private static final class MotorSwitchListener implements CompoundButton.OnCheckedChangeListener {
         private final MotorBoatActivity parent;
 
         MotorSwitchListener(MotorBoatActivity parent) {
@@ -143,26 +142,22 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
         }
 
         @Override
-        public void onClick(View view) {
+        public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
             final Motor motor = parent.getMotor();
-            if (motor != null && parent.motorSwitchBtn != null) {
-                switchMotor(motor);
-                setIndicators(motor.isOn());
+            if (motor != null) {
+                final boolean on = switchMotor(isChecked, motor);
+                parent.setPowerButtonsEnabled(on);
             }
         }
 
-        private void switchMotor(Motor motor) {
-            if (motor.isOn()) {
-                motor.turnOff();
-            } else {
+        private boolean switchMotor(boolean targetStateOn, Motor motor) {
+            if (targetStateOn && !motor.isOn()) {
                 motor.turnOn();
+            } else if (!targetStateOn && motor.isOn()) {
+                motor.turnOff();
             }
-        }
 
-        private void setIndicators(boolean on) {
-            parent.setPowerButtonsEnabled(on);
-            parent.motorSwitchBtn.setText(on ? "OFF" : "ON");
-            parent.motorStatusView.setBackgroundColor(on ? 0xFFFF0000 : 0xFF0000FF);
+            return motor.isOn();
         }
     }
 
