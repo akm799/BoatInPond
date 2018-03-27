@@ -1,4 +1,9 @@
 <resources>
+    <dimen name="main_list_separator_size">1dp</dimen>
+    <dimen name="main_list_separator_margin_top">40dp</dimen>
+    <dimen name="main_list_component_margin_top">16dp</dimen>
+    <dimen name="main_list_sub_component_margin_top">2dp</dimen>
+
     <dimen name="rudder_button_min_width">60dp</dimen>
     <dimen name="motor_button_min_width">52dp</dimen>
 

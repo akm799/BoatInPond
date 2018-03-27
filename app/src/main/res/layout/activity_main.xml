@@ -8,29 +8,29 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="@dimen/main_list_separator_size"
+        android:layout_marginTop="@dimen/main_list_component_margin_top"
         android:background="@color/colorPrimaryDark"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="@dimen/main_list_sub_component_margin_top"
         android:text="Background Test"
         android:onClick="onGraphicsTest"/>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="40dp"
+        android:layout_height="@dimen/main_list_separator_size"
+        android:layout_marginTop="@dimen/main_list_separator_margin_top"
         android:background="@color/colorPrimaryDark"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="@dimen/main_list_sub_component_margin_top"
         android:text="Rudder Size"/>
 
     <SeekBar
@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/main_list_component_margin_top"
         android:text="Launch Speed"/>
 
     <SeekBar
@@ -60,21 +60,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/main_list_component_margin_top"
         android:text="Launch Boat"
         android:onClick="onBoatLaunch"/>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="40dp"
+        android:layout_height="@dimen/main_list_separator_size"
+        android:layout_marginTop="@dimen/main_list_separator_margin_top"
         android:background="@color/colorPrimaryDark"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="@dimen/main_list_sub_component_margin_top"
         android:text="Rudder Size"/>
 
     <SeekBar
@@ -89,7 +89,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/main_list_component_margin_top"
         android:text="Maximum Avaliable Motor Power"/>
 
     <SeekBar
@@ -104,13 +104,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/main_list_component_margin_top"
         android:text="Motor Boat"
         android:onClick="onMotorBoatInit"/>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="40dp"
+        android:layout_height="@dimen/main_list_separator_size"
+        android:layout_marginTop="@dimen/main_list_separator_margin_top"
         android:background="@color/colorPrimaryDark"/>
 </LinearLayout>
