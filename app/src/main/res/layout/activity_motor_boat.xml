@@ -105,7 +105,7 @@
             android:layout_gravity="right"
             android:orientation="horizontal">
 
-            <TextView
+            <uk.co.akm.test.sim.boatinpond.widget.PercentageTextView
                 android:id="@+id/mb_motor_power_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -6,7 +6,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import uk.co.akm.test.sim.boatinpond.R;
 import uk.co.akm.test.sim.boatinpond.boat.Boat;
@@ -16,6 +15,7 @@ import uk.co.akm.test.sim.boatinpond.boat.MotorBoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.factory.MotorBoatConstantsFactory;
 import uk.co.akm.test.sim.boatinpond.boat.factory.impl.quad.MotorBoatConstantsFactoryImpl;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatImpl;
+import uk.co.akm.test.sim.boatinpond.widget.PercentageTextView;
 
 /**
  * Created by Thanos Mavroidis on 29/11/2017.
@@ -32,8 +32,7 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
         context.startActivity(intent);
     }
 
-    private Switch motorSwitchBtn;
-    private TextView motorPowerTxt;
+    private PercentageTextView motorPowerTxt;
     private final View[] motorPowerBtns= new View[2];
 
     Motor getMotor() {
@@ -92,7 +91,6 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
 
     @Override
     protected void initAdditionalViews() {
-        motorSwitchBtn = findViewById(R.id.mb_motor_switch);
         motorPowerTxt = findViewById(R.id.mb_motor_power_txt);
         motorPowerBtns[0] = findViewById(R.id.mb_motor_decrease);
         motorPowerBtns[1] = findViewById(R.id.mb_motor_increase);
@@ -109,20 +107,15 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
     protected void updateAdditionalTextDisplays(BoatViewBox renderingData) {
         final Motor motor = getMotor();
         if (motor != null) {
-            motorPowerTxt.setText(buildMotorPowerString(motor));
+            final int powerPercentage = getMotorPowerPercentage(motor);
+            motorPowerTxt.setTextForValue(powerPercentage);
         }
     }
 
-    private String buildMotorPowerString(Motor motor) {
-        final long powerPercentage = getMotorPowerPercentage(motor);
-
-        return (Long.toString(powerPercentage) + "%");
-    }
-
-    private long getMotorPowerPercentage(Motor motor) {
+    private int getMotorPowerPercentage(Motor motor) {
         final double power = motor.getForce()/motor.getMaxForce();
 
-        return Math.round(100*power);
+        return (int)Math.round(100*power);
     }
 
     private Boat motorBoatInstance() {
