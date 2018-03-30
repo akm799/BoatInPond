@@ -1,6 +1,7 @@
 package uk.co.akm.test.sim.boatinpond.widget;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
@@ -18,16 +19,21 @@ public final class PercentageTextView extends AppCompatTextView {
 
     public PercentageTextView(Context context) {
         super(context);
-        initDisplayValues();
+        init();
     }
 
     public PercentageTextView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        initDisplayValues();
+        init();
     }
 
     public PercentageTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
+    }
+
+    private void init() {
+        setTypeface(Typeface.MONOSPACE);
         initDisplayValues();
     }
 
