@@ -1,0 +1,219 @@
+<html>
+
+  <head>
+    <title>Turning Boat</title>
+  </head>
+
+  <body>
+    <h1>Physics of a Turning Boat</h1>
+
+    <h2>Coordinate Definitions</h2>
+    <p>
+      Consider a boat moving in a 2-D, cartesian coordinate system. In that system we define the boat heading vector as a unit vector originating
+      at the boat centre of gravity, running along the boat axis (i.e. the axis connecting the boat's stern with the bow) and pointing towards the
+      boat's bow. Then, we can define the following 2 angles:
+      </br> 
+      </br> 
+
+      &alpha;: the angle between the x-axis and the boat heading vector.</br>
+      &theta;: the angle between the x-axis and the boat velocity vector.</br>
+    </p>
+    <p>
+      We call the axis along the boat heading vector, the longitudinal axis. All vector quantities along this axis are sufixed by the sufix LON. The
+      axis which is perpendicular to the longitudinal axis is called the lateral axis. Similarly all vector quantitites along this lateral axis are
+      sufixed with the sufix LAT. These 2 axes, along and perpendicular to the boat heading vector, define an alternative coordinate system which is
+      wrt to the boat heading.
+    </p>
+
+    <p>
+      The 2 coordinate systems defined above are shown in the diagram below:
+    </p>
+
+    <svg width="500" height="500">
+      <line x1="10" y1="490" x2="500" y2="490" style="stroke:#000000;stroke-width:1"/>
+      <line x1="500" y1="490" x2="491" y2="486" style="stroke:#000000;stroke-width:1"/>
+      <line x1="500" y1="490" x2="491" y2="494" style="stroke:#000000;stroke-width:1"/>
+      <text x="490" y="485" fill="#000000">x</text>
+      <line x1="110" y1="490" x2="110" y2="0" style="stroke:#000000;stroke-width:1"/>
+      <line x1="110" y1="0" x2="106" y2="9" style="stroke:#000000;stroke-width:1"/>
+      <line x1="110" y1="0" x2="114" y2="9" style="stroke:#000000;stroke-width:1"/>
+      <text x="115" y="10" fill="#000000">y</text>
+      <line x1="110" y1="490" x2="458" y2="397" style="stroke:#000000;stroke-width:1" stroke-dasharray="5, 5"/>
+      <line x1="458" y1="397" x2="448" y2="396" style="stroke:#000000;stroke-width:1"/>
+      <line x1="458" y1="397" x2="450" y2="403" style="stroke:#000000;stroke-width:1"/>
+      <text x="463" y="396" fill="#000000">LON</text>
+      <line x1="110" y1="490" x2="17" y2="142" style="stroke:#000000;stroke-width:1" stroke-dasharray="5, 5"/>
+      <line x1="17" y1="142" x2="16" y2="152" style="stroke:#000000;stroke-width:1"/>
+      <line x1="17" y1="142" x2="23" y2="150" style="stroke:#000000;stroke-width:1"/>
+      <text x="16" y="137" fill="#000000">LAT</text>
+      <line x1="110" y1="490" x2="345" y2="404" style="stroke:#000000;stroke-width:1"/>
+      <line x1="345" y1="404" x2="335" y2="404" style="stroke:#000000;stroke-width:1"/>
+      <line x1="345" y1="404" x2="338" y2="411" style="stroke:#000000;stroke-width:1"/>
+      <text x="350" y="403" fill="#000000">v</text>
+      <path d="M 182 471 A 75 75 0 0 1 185 490" style="stroke:#000000; fill:none;stroke-width:2"/>
+      <text x="189" y="480" fill="#000000">&alpha;</text>
+      <path d="M 251 439 A 150 150 0 0 1 260 490" style="stroke:#000000; fill:none;stroke-width:2"/>
+      <text x="263" y="463" fill="#000000">&theta;</text>
+      <path d="M 321 413 A 225 225 0 0 1 327 432" style="stroke:#000000; fill:none;stroke-width:2"/>
+      <text x="329" y="421" fill="#000000">&phi;</text>
+     </svg>
+
+    <p>
+      Please note that in the diagram above we also define the angle &phi; as the difference between the velocity vector and heading angles:
+      </br>
+      </br>
+
+      &phi; = &theta; - &alpha;
+    </p>
+
+    <h2>Motion Parameter Definition</h2>
+    </p>
+      The boat motion we consider is a free motion, i.e. motion in which the only force acting on the boat is the water resistance. This means that,
+      in this example, no propulsive power exists. The boat is launched with some initial velocity <u>v</u><sub>0</sub>, always along its heading
+      vector (i.e. along the longitudinal axis), and then left to move by experiencing only the water resistance force. To describe this motion the
+      following quantities are defined:
+
+      </br>
+      </br>
+ 
+      v<sub>LON</sub>: the boat velocity component along the longitudinal axis.</br>
+      v<sub>LAT</sub>: the boat velocity component along the lateral axis.</br>
+      k<sub>LON</sub>: the longitudinal water resistance coefficient.</br>
+      k<sub>LAT</sub>: the lateral water resistance coefficient.</br>
+      F<sub>LON</sub>: the water resistance force component along the longitudinal axis.</br>
+      F<sub>LAT</sub>: the water resistance force component along the lateral axis.
+      
+      </br>
+      </br>
+      
+      We approximate the water resistance force F<sub>R</sub> experienced by a body moving along the water at a speed v by F<sub>R</sub> = F<sub>R</sub>(k, v)
+      where k is the water resistance coefficient and F<sub>R</sub>(k, v) is: 
+
+      </br>
+      </br>
+
+      <table>
+        <tr>
+          <td></td>
+          <td></td>
+          <td>-kv</td>
+          <td>: v < v<sub>T</sub></td>
+        </tr>
+        <tr>
+          <td>F<sub>R</sub>(k, v) =</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td>-kv<sup>2</sup></td>
+          <td>: v &ge; v<sub>T</sub></td>
+        </tr>
+      </table>
+ 
+      </br>
+
+      where v<sub>T</sub> is some transition velocity denoting the boundary between the high speed and low speed ranges. From the above definition it
+      follows that:
+
+      </br>
+      </br>
+
+      F<sub>LON</sub> = F<sub>R</sub>(k<sub>LON</sub>, v<sub>LON</sub>)</br>
+      F<sub>LAT</sub> = F<sub>R</sub>(k<sub>LAT</sub>, v<sub>LAT</sub>)</br>
+    <p>
+
+    <h2>Straight Line Motion Description</h2>
+    <p>
+      When a boat is moving freely along some direction in a straight line, it follows that &alpha; = &theta;, i.e. its heading and velocity vectors
+      are aligned. That is a fancy way of saying that the boat's bow is pointing (heading vector) exactly where the boat is actually going (velocity
+      vector). In this case the water resistance force F<sub>R</sub> is completely aligned along the boat longitudinal axis, and has the efect of
+      slowing the boat down in its straight line cource. Thus we can write:
+      </br>
+      </br>
+
+      F<sub>LON</sub> = F<sub>R</sub></br>
+      F<sub>LAT</sub> = 0 (since v<sub>LAT</sub> = 0)
+    </p>
+
+    <h2>Turning Motion Description</h2>
+    <p>
+      Now we consider the case where the boat is launched with some initial velocity but then it is actually turning (while slowing down). This means that
+      the boat is rotating, i.e. its heading (vector angle) is changing. This is achieved by a rudder or some other means. Obviously, the change of the
+      boat heading will result in the boat itself turning, i.e. its velocity vector changing direction. How does the rotation of the boat make the boat turn?
+      It does because, in this turning motion &alpha; &ne; &theta;. That is, the direction where the boat is pointing (heading vector) is not exactly
+      the same as the direction where the boat is actually going (velocity vector). In this case F<sub>LAT</sub> &ne; 0. This non-zero, F<sub>LAT</sub>
+      force, which acts perpendicularly to the boat heading, is the force that turns the boat.
+    </p>
+    <p>
+      The forces described above are depicted on the diagram below:
+    </p>
+
+     <svg width="500" height="500">
+      <line x1="10" y1="340" x2="500" y2="340" style="stroke:#000000;stroke-width:1"/>
+      <line x1="500" y1="340" x2="491" y2="336" style="stroke:#000000;stroke-width:1"/>
+      <line x1="500" y1="340" x2="491" y2="344" style="stroke:#000000;stroke-width:1"/>
+      <text x="490" y="335" fill="#000000">x</text>
+      <line x1="160" y1="490" x2="160" y2="0" style="stroke:#000000;stroke-width:1"/>
+      <line x1="160" y1="0" x2="156" y2="9" style="stroke:#000000;stroke-width:1"/>
+      <line x1="160" y1="0" x2="164" y2="9" style="stroke:#000000;stroke-width:1"/>
+      <text x="165" y="10" fill="#000000">y</text>
+      <line x1="160" y1="340" x2="450" y2="262" style="stroke:#000000;stroke-width:1" stroke-dasharray="5, 5"/>
+      <line x1="450" y1="262" x2="440" y2="261" style="stroke:#000000;stroke-width:1"/>
+      <line x1="450" y1="262" x2="442" y2="268" style="stroke:#000000;stroke-width:1"/>
+      <text x="455" y="261" fill="#000000">LON</text>
+      <line x1="160" y1="340" x2="-33" y2="392" style="stroke:#000000;stroke-width:1" stroke-dasharray="5, 5"/>
+      <line x1="-33" y1="392" x2="-23" y2="393" style="stroke:#000000;stroke-width:1"/>
+      <line x1="-33" y1="392" x2="-25" y2="386" style="stroke:#000000;stroke-width:1"/>
+      <line x1="160" y1="340" x2="82" y2="50" style="stroke:#000000;stroke-width:1" stroke-dasharray="5, 5"/>
+      <line x1="82" y1="50" x2="81" y2="60" style="stroke:#000000;stroke-width:1"/>
+      <line x1="82" y1="50" x2="88" y2="58" style="stroke:#000000;stroke-width:1"/>
+      <text x="81" y="45" fill="#000000">LAT</text>
+      <line x1="160" y1="340" x2="212" y2="533" style="stroke:#000000;stroke-width:1" stroke-dasharray="5, 5"/>
+      <line x1="212" y1="533" x2="213" y2="523" style="stroke:#000000;stroke-width:1"/>
+      <line x1="212" y1="533" x2="206" y2="525" style="stroke:#000000;stroke-width:1"/>
+      <line x1="160" y1="340" x2="337" y2="163" style="stroke:#000000;stroke-width:1"/>
+      <line x1="337" y1="163" x2="328" y2="167" style="stroke:#000000;stroke-width:1"/>
+      <line x1="337" y1="163" x2="333" y2="172" style="stroke:#000000;stroke-width:1"/>
+      <text x="340" y="160" fill="#000000">v</text>
+      <line x1="160" y1="340" x2="54" y2="446" style="stroke:#000000;stroke-width:1"/>
+      <line x1="54" y1="446" x2="63" y2="442" style="stroke:#000000;stroke-width:1"/>
+      <line x1="54" y1="446" x2="58" y2="437" style="stroke:#000000;stroke-width:1"/>
+      <text x="45" y="460" fill="#000000">F</text>
+      <line x1="160" y1="340" x2="35" y2="374" style="stroke:#000000;stroke-width:1"/>
+      <line x1="35" y1="374" x2="44" y2="375" style="stroke:#000000;stroke-width:1"/>
+      <line x1="35" y1="374" x2="42" y2="368" style="stroke:#000000;stroke-width:1"/>
+      <foreignObject x="30" y="375" width="40" height="25">
+        F<sub>LON</sub>
+      </foreignObject>
+      <line x1="160" y1="340" x2="179" y2="412" style="stroke:#000000;stroke-width:1"/>
+      <line x1="179" y1="412" x2="181" y2="403" style="stroke:#000000;stroke-width:1"/>
+      <line x1="179" y1="412" x2="173" y2="405" style="stroke:#000000;stroke-width:1"/>
+      <foreignObject x="181" y="402" width="40" height="25">
+        F<sub>LAT</sub>
+      </foreignObject>
+      <line x1="160" y1="340" x2="54" y2="340" style="stroke:#000000;stroke-width:1"/>
+      <line x1="54" y1="340" x2="63" y2="344" style="stroke:#000000;stroke-width:1"/>
+      <line x1="54" y1="340" x2="63" y2="336" style="stroke:#000000;stroke-width:1"/>
+      <foreignObject x="46" y="315" width="25" height="25">
+        F<sub>x</sub>
+      </foreignObject>
+      <line x1="160" y1="340" x2="160" y2="446" style="stroke:#000000;stroke-width:1"/>
+      <line x1="160" y1="446" x2="164" y2="437" style="stroke:#000000;stroke-width:1"/>
+      <line x1="160" y1="446" x2="156" y2="437" style="stroke:#000000;stroke-width:1"/>
+      <foreignObject x="165" y="440" width="25" height="25">
+        F<sub>y</sub>
+      </foreignObject>
+      <path d="M 232 321 A 75 75 0 0 1 235 340" style="stroke:#000000; fill:none;stroke-width:2"/>
+      <text x="239" y="330" fill="#000000">&alpha;</text>
+      <path d="M 266 234 A 150 150 0 0 1 310 340" style="stroke:#000000; fill:none;stroke-width:2"/>
+      <text x="303" y="281" fill="#000000">&theta;</text>
+      <path d="M 319 181 A 225 225 0 0 1 377 282" style="stroke:#000000; fill:none;stroke-width:2"/>
+      <text x="359" y="225" fill="#000000">&phi;</text>
+     </svg>
+
+  </body>
+
+</html>
