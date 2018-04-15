@@ -148,7 +148,7 @@
       force, which acts perpendicularly to the boat heading, is the force that turns the boat.
     </p>
     <p>
-      The forces described above are depicted on the diagram below:
+      The forces described above are depicted on the diagram below (for a boat turning right):
     </p>
 
      <svg width="500" height="500">
@@ -213,6 +213,251 @@
       <path d="M 319 181 A 225 225 0 0 1 377 282" style="stroke:#000000; fill:none;stroke-width:2"/>
       <text x="359" y="225" fill="#000000">&phi;</text>
      </svg>
+
+    <h2>Turning Motion Forces Calculation</h2>
+    <p>
+      Assuming that we know the velocity vector <u>v</u> and the boat heading &alpha;, shown above, as well the resistance coefficients k<sub>LON</sub> and
+      k<sub>LAT</sub>, we wish to calculate the forces F<sub>x</sub> and F<sub>y</sub> acting on the turning boat, which are, also, depicted above.
+      </br>
+      </br>
+
+      We begin by writing the x and y components of the velocity vector <u>v</u>:
+      </br>
+      </br>
+
+      v<sub>x</sub> = v cos(&theta;)
+      </br>
+      v<sub>y</sub> = v sin(&theta;)
+      </br>
+      </br>
+
+      The rotation matrix R(&theta;) can be used to transform our coordinate system between the x-y and LON-LAT coordinate systems since we can define one of
+      these coordinates systems as a rotation transformation of the other. The rotation transformation matrix R(&theta;) is:
+      </br>
+      </br>
+
+      <table>
+        <tr>
+
+          <td>
+            R(&theta;)
+          </td>
+
+          <td>=</td>
+
+          <td>
+            <table>
+              <tr>
+                <td style="border-left: 1px solid #000000;">cos(&theta;)</td>
+                <td style="border-right: 1px solid #000000;">-sin(&theta;)</td>
+              </tr>
+              <tr>
+                <td style="border-left: 1px solid #000000;">sin(&theta;)</td>
+                <td style="border-right: 1px solid #000000;">cos(&theta;)</td>
+              </tr>
+            </table>
+          </td>
+
+          <td>
+          </td>
+
+        </tr>
+      <table>
+      </br>
+      Where the angle &theta; represents a roation in the <u>clockwise</u> direction.
+      </br>
+      </br>
+
+      We can use this to decompose the boat velocity into components along the boat axis (v<sub>LON</sub>) and perpendicular to the boat axis (v<sub>LAT</sub>).
+      In order to do this we must rotate the velocity vector <u>v</u> by an angle of -&alpha;:
+      </br>
+      </br>
+
+      <table>
+        <tr>
+
+          <td>
+            <table>
+              <tr>
+                <td style="border-left: 1px solid #000000;border-right: 1px solid #000000;">v<sub>LON</sub></td>
+              </tr>
+              <tr>
+                <td style="border-left: 1px solid #000000;border-right: 1px solid #000000;">v<sub>LAT</sub></td>
+              </tr>
+            </table>
+          </td>
+
+          <td>=</td>
+
+          <td>
+            <table>
+              <tr>
+                <td style="border-left: 1px solid #000000;">cos(-&alpha;)</td>
+                <td style="border-right: 1px solid #000000;">-sin(-&alpha;)</td>
+              </tr>
+              <tr>
+                <td style="border-left: 1px solid #000000;">sin(-&alpha;)</td>
+                <td style="border-right: 1px solid #000000;">cos(-&alpha;)</td>
+              </tr>
+            </table>
+          </td>
+
+          <td>
+            <table>
+              <tr>
+                <td style="border-left: 1px solid #000000;border-right: 1px solid #000000;">v<sub>x</sub></td>
+              </tr>
+              <tr>
+                <td style="border-left: 1px solid #000000;border-right: 1px solid #000000;">v<sub>y</sub></td>
+              </tr>
+            </table>
+          </td>
+
+        </tr>
+      <table>
+      </br>
+
+      <table>
+        <tr>
+
+          <td>
+            <table>
+              <tr>
+                <td style="border-left: 1px solid #000000;border-right: 1px solid #000000;">v<sub>LON</sub></td>
+              </tr>
+              <tr>
+                <td style="border-left: 1px solid #000000;border-right: 1px solid #000000;">v<sub>LAT</sub></td>
+              </tr>
+            </table>
+          </td>
+
+          <td>=</td>
+
+          <td>
+            <table>
+              <tr>
+                <td style="border-left: 1px solid #000000;">cos(&alpha;)</td>
+                <td style="border-right: 1px solid #000000;">sin(-&alpha;)</td>
+              </tr>
+              <tr>
+                <td style="border-left: 1px solid #000000;">-sin(&alpha;)</td>
+                <td style="border-right: 1px solid #000000;">cos(&alpha;)</td>
+              </tr>
+            </table>
+          </td>
+
+          <td>
+            <table>
+              <tr>
+                <td style="border-left: 1px solid #000000;border-right: 1px solid #000000;">v<sub>x</sub></td>
+              </tr>
+              <tr>
+                <td style="border-left: 1px solid #000000;border-right: 1px solid #000000;">v<sub>y</sub></td>
+              </tr>
+            </table>
+          </td>
+
+        </tr>
+      <table>
+      </br>
+      </br>
+
+      Therefore the velocity components v<sub>LON</sub> and v<sub>LAT</sub>, wrt to the coordinate system alingned with the boat axis (heading) are given by:
+      </br>
+      </br>
+
+      v<sub>LON</sub> = v<sub>x</sub> cos(&alpha;) + v<sub>y</sub> sin(&alpha;)
+      </br>
+      v<sub>LAT</sub> = -v<sub>x</sub> sin(&alpha;) + v<sub>y</sub> cos(&alpha;)
+      </br>
+      </br>
+
+      Substituting for v<sub>x</sub> and v<sub>y</sub> we get:
+      </br>
+      </br>
+
+      v<sub>LON</sub> = v cos(&theta;) cos(&alpha;) + v sin(&theta;) sin(&alpha;)
+      </br>
+      v<sub>LAT</sub> = -v cos(&theta;) sin(&alpha;) + v sin(&theta;) cos(&alpha;)
+      </br>
+      </br>
+    
+      So now we have expressions for v<sub>LON</sub> and v<sub>LAT</sub> which allows us to directly calculate the resistance forces F<sub>LON</sub> and F<sub>LAT</sub>
+      acting directly against and perpendicular to the boat, respectively (i.e. in the LON-LAT coordinate system).
+      </br>
+      </br>
+
+      After calculating F<sub>LON</sub> and F<sub>LAT</sub> we want to write expressions for F<sub>x</sub> and F<sub>y</sub>, i.e. the resistance force components in our
+      x-y cordinate system. To do that all we have to do is to apply the reverse of transformation we did to go from v<sub>x</sub> and v<sub>y</sub> to v<sub>LON</sub>
+      and v<sub>LAT</sub>. That means that we now have to do a rotation though an angle of &alpha;:   
+      </br>
+      </br>
+
+      <table>
+        <tr>
+
+          <td>
+            <table>
+              <tr>
+                <td style="border-left: 1px solid #000000;border-right: 1px solid #000000;">F<sub>x</sub></td>
+              </tr>
+              <tr>
+                <td style="border-left: 1px solid #000000;border-right: 1px solid #000000;">F<sub>y</sub></td>
+              </tr>
+            </table>
+          </td>
+
+          <td>=</td>
+
+          <td>
+            <table>
+              <tr>
+                <td style="border-left: 1px solid #000000;">cos(&alpha;)</td>
+                <td style="border-right: 1px solid #000000;">-sin(&alpha;)</td>
+              </tr>
+              <tr>
+                <td style="border-left: 1px solid #000000;">sin(&alpha;)</td>
+                <td style="border-right: 1px solid #000000;">cos(&alpha;)</td>
+              </tr>
+            </table>
+          </td>
+
+          <td>
+            <table>
+              <tr>
+                <td style="border-left: 1px solid #000000;border-right: 1px solid #000000;">F<sub>LON</sub></td>
+              </tr>
+              <tr>
+                <td style="border-left: 1px solid #000000;border-right: 1px solid #000000;">F<sub>LAT</sub></td>
+              </tr>
+            </table>
+          </td>
+
+        </tr>
+      <table>
+      </br>
+
+      Than means that F<sub>x</sub> and F<sub>y</sub> are given by:
+      </br>
+      </br>
+
+      F<sub>x</sub> = F<sub>LON</sub> cos(&alpha;) - F<sub>LAT</sub> sin(&alpha;)
+      </br>
+      F<sub>y</sub> = F<sub>LON</sub> sin(&alpha;) + F<sub>LAT</sub> cos(&alpha;)
+      </br>
+      </br>
+    
+      Writing F<sub>LON</sub> and F<sub>LAT</sub> in terms of k<sub>LON</sub>, v<sub>LON</sub> and k<sub>LAT</sub>, v<sub>LAT</sub> respectively gives:
+      </br>
+      </br>
+
+      F<sub>x</sub> = F<sub>R</sub>(k<sub>LON</sub>, v<sub>LON</sub>) cos(&alpha;) - F<sub>R</sub>(k<sub>LAT</sub>, v<sub>LAT</sub>) sin(&alpha;)
+      </br>
+      F<sub>y</sub> = F<sub>R</sub>(k<sub>LON</sub>, v<sub>LON</sub>) sin(&alpha;) + F<sub>R</sub>(k<sub>LAT</sub>, v<sub>LAT</sub>) cos(&alpha;)
+      </br>
+      </br>
+    
+    </p>
 
   </body>
 
