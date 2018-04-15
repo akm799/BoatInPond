@@ -66,7 +66,7 @@
       &phi; = &theta; - &alpha;
     </p>
 
-    <h2>Motion Parameter Definition</h2>
+    <h2>Motion Parameters Definition</h2>
     </p>
       The boat motion we consider is a free motion, i.e. motion in which the only force acting on the boat is the water resistance. This means that,
       in this example, no propulsive power exists. The boat is launched with some initial velocity <u>v</u><sub>0</sub>, always along its heading
@@ -76,6 +76,7 @@
       </br>
       </br>
  
+      v: the magnitude of the boat velocity vector <u>v</u>.</br>
       v<sub>LON</sub>: the boat velocity component along the longitudinal axis.</br>
       v<sub>LAT</sub>: the boat velocity component along the lateral axis.</br>
       k<sub>LON</sub>: the longitudinal water resistance coefficient.</br>
@@ -456,9 +457,33 @@
       F<sub>y</sub> = F<sub>R</sub>(k<sub>LON</sub>, v<sub>LON</sub>) sin(&alpha;) + F<sub>R</sub>(k<sub>LAT</sub>, v<sub>LAT</sub>) cos(&alpha;)
       </br>
       </br>
-    
     </p>
 
+    <h2>Turning Motion Forces Summary</h2>
+    <p>
+      To summarize, the formulae for the forces acting on a turning boat are:
+      </br>
+      </br>
+
+      F<sub>x</sub> = F<sub>R</sub>(k<sub>LON</sub>, v<sub>LON</sub>) cos(&alpha;) - F<sub>R</sub>(k<sub>LAT</sub>, v<sub>LAT</sub>) sin(&alpha;)
+      </br>
+      F<sub>y</sub> = F<sub>R</sub>(k<sub>LON</sub>, v<sub>LON</sub>) sin(&alpha;) + F<sub>R</sub>(k<sub>LAT</sub>, v<sub>LAT</sub>) cos(&alpha;)
+      </br>
+      </br>
+ 
+      where:
+      </br>
+      </br>
+ 
+      v<sub>LON</sub> = v cos(&theta;) cos(&alpha;) + v sin(&theta;) sin(&alpha;)
+      </br>
+      v<sub>LAT</sub> = -v cos(&theta;) sin(&alpha;) + v sin(&theta;) cos(&alpha;)
+      </br>
+      </br>
+    
+      and the definitions for function F<sub>R</sub>(k, v), the angles &alpha; and &theta;, the velocity v, as well as the constants k<sub>LON</sub> and k<sub>LAT</sub>
+      can be found in the sections <b>Coordinate Definitions</b> and <b>Motion Parameters Definition</b>, at the beginning of this document. 
+    </p>
   </body>
 
 </html>
