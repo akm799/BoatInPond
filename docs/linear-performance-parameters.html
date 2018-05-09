@@ -1,0 +1,1158 @@
+<html>
+
+  <head>
+    <title>Linear Performance Parameter Estimation</title>
+  </head>
+
+  <body>
+
+    <h1>Resistance Coefficient Estimation</h1>
+
+    <p>
+      From our discussion of the physics of a turning boat we recall that the water resistance F<sub>R</sub> of a boat moving through the water with a speed v
+      was aproximated by: 
+    </p>
+
+      <table border="0">
+        <tr>
+          <td></td>
+          <td>/</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>|</td>
+          <td></td>
+          <td>-kv</td>
+          <td>: v < v<sub>T</sub></td>
+        </tr>
+        <tr>
+          <td>F<sub>R</sub>(k, v) =</td>
+          <td>|</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>|</td>
+          <td></td>
+          <td>-kv<sup>2</sup></td>
+          <td>: v &ge; v<sub>T</sub></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>\</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+
+    <p>
+      where v<sub>T</sub> is a transition velocity from the high velocity to the low velocity region.
+    </p>
+
+    <p>
+      We shall attempt to estimate the linear resistance coefficient k for a given slow down performance. That is, we will assume that the boat is launched
+      with an initial</br>velocity v<sub>0</sub> in the high velocity region, i.e. v<sub>0</sub> > v<sub>T</sub>. Subsequently, the boat slows down until
+      it comes to a halt after covering a distance D. We shall attempt to derive</br>the value of the linear resistance coefficient k as a function of v<sub>0</sub>,
+      D and v<sub>T</sub>.
+    </p>
+
+    <h2>Motion equation for the high velocity region</h2>
+
+    <p>
+      We now consider the boat motion equations in the high velocity region, i.e. the slow down of the boat from the initial velocity v<sub>0</sub> down to the
+      transition velocity v<sub>T</sub>.</br>Since v<sub>0</sub> > v<sub>T</sub>, then the motion equation is:
+    </p>
+
+    <table>
+      <tr>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">dv</td></tr>
+            <tr><td>dt</td></tr>
+          </table>
+        </td>
+        <td>= -kv<sup>2</sup></td>
+      </tr>
+    </table>
+
+    <p>
+      Using this equation of motion we can write:
+    </p>
+
+    <!-- Start of equation line -->
+    <table>
+      <tr>
+
+    <td>
+    <table>
+      <tr>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">dv</td></tr>
+            <tr><td>dt</td></tr>
+          </table>
+        </td>
+        <td>= -kv<sup>2</sup></td>
+      </tr>
+    </table>
+    </td>
+
+    <td>&nbsp; &nbsp; &hArr; &nbsp; &nbsp;</td>
+
+    <td>
+    <table>
+      <tr>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">dv</td></tr>
+            <tr><td>v<sup>2</sup></td></tr>
+          </table>
+        </td>
+        <td>= -kdt</td>
+      </tr>
+    </table>
+    </td>
+
+    <td>&nbsp; &nbsp; &Rightarrow; &nbsp; &nbsp;</td>
+
+    <td>
+    <table>
+      <tr>
+        <td>
+          <table border="0">
+            <tr><td></td><td>v</td></tr>
+            <tr><td><font size="7">&int;</font></td><td></td></tr>
+            <tr><td>v<sub>0</sub></td><td></td></tr>
+          </table>
+        </td>
+        <td>
+          <table border="0">
+            <tr>
+              <td style="border-bottom: 1px solid;">dv</td>
+            </tr>
+            <tr>
+              <td>v<sup>2</sup></td>
+            </tr>
+          </table>
+        </td>
+        <td>= -k</td>
+        <td>
+          <table border="0">
+            <tr><td></td><td>t</td></tr>
+            <tr><td><font size="7">&int;</font></td><td></td></tr>
+            <tr><td>0</td><td></td></tr>
+          </table>
+        </td>
+        <td>dt</td>
+      </tr>
+    </table>
+    </td>
+
+    <td>&nbsp; &nbsp; &Rightarrow; &nbsp; &nbsp;</td>
+
+    <td>
+    <table>
+      <tr>
+        <td>-</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>v</td></tr>
+          </table>
+        </td>
+        <td>
+          <table border="0">
+            <tr><td>v</td></tr>
+            <tr><td style="border-left: 1px solid;"><font size="7">&nbsp;</font></td></tr>
+            <tr><td>v<sub>0</sub></td></tr>
+          </table>
+        </td>
+        <td>= -kt</td>
+        <td>
+          <table border="0">
+            <tr><td>t</td></tr>
+            <tr><td style="border-left: 1px solid;"><font size="7">&nbsp;</font></td></tr>
+            <tr><td>0</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    </td>
+
+    <td>&nbsp; &nbsp; &Rightarrow; &nbsp; &nbsp;</td>
+
+    <td>
+    <table>
+      <tr>
+        <td>-</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>v<sub>&nbsp;</sub></td></tr>
+          </table>
+        </td>
+        <td>+</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>v<sub>0</sub></td></tr>
+          </table>
+        </td>
+        <td>= -kt</td>
+      </tr>
+    </table>
+    </td>
+
+    <td>&nbsp; &nbsp; &hArr;</td>
+
+    <!-- End of equation line -->
+    </tr>
+    </table>
+
+    <!-- Start of equation line -->
+    <table>
+    <tr>
+
+    <td>
+    <table>
+      <tr>
+
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>v<sub>&nbsp;</sub></td></tr>
+          </table>
+        </td>
+        <td>=</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>v<sub>0</sub></td></tr>
+          </table>
+        </td>
+        <td>+</td>
+        <td>kt</td>
+      </tr>
+    </table>
+    </td>
+
+    <td>&nbsp; &nbsp; &hArr; &nbsp; &nbsp;</td>
+
+    <td>
+    <table>
+      <tr>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>v<sub>&nbsp;</sub></td></tr>
+          </table>
+        </td>
+        <td>=</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1 + v<sub>0</sub>kt</td></tr>
+            <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;v<sub>0</sub></td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    </td>
+
+    <td>&nbsp; &nbsp; &hArr; &nbsp; &nbsp;</td>
+
+    <td>
+    <table>
+      <tr>
+        <td>
+          <table>
+            <tr><td>v</td></tr>
+          </table>
+        </td>
+        <td>=</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">&nbsp;&nbsp;&nbsp;&nbsp;v<sub>0</sub></td></tr>
+            <tr><td>1 + v<sub>0</sub>kt</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    </td>
+
+    <!-- End of equation line -->
+    </tr>
+    </table>
+
+   <p>
+     Which gives as the velocity equation in the high velocity region:
+   </p>
+
+    <table>
+      <tr>
+        <td>
+          <table>
+            <tr><td>v(t)</td></tr>
+          </table>
+        </td>
+        <td>=</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">&nbsp;&nbsp;&nbsp;&nbsp;v<sub>0</sub></td></tr>
+            <tr><td>1 + v<sub>0</sub>kt</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+
+   <p>
+     We can now use the above velocity equation to derive the displacement equation in the high velocity region:
+   </p>
+
+    <!-- Start of equation line -->
+    <table>
+    <tr>
+
+    <td>
+    <table>
+      <tr>
+        <td>
+          <table>
+            <tr>
+              <td>
+                <table>
+                  <tr><td style="border-bottom: 1px solid;">dx</td></tr>
+                  <tr><td>dt</td></tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td>=</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">&nbsp;&nbsp;&nbsp;&nbsp;v<sub>0</sub></td></tr>
+            <tr><td>1 + v<sub>0</sub>kt</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    </td>
+
+    <td>&nbsp; &nbsp; &Rightarrow; &nbsp; &nbsp;</td>
+
+    <td>
+    <table>
+      <tr>
+        <td>
+          <table border="0">
+            <tr><td></td><td>x</td></tr>
+            <tr><td><font size="7">&int;</font></td><td></td></tr>
+            <tr><td>0</td><td></td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td>dx</sub></td></tr>
+          </table>
+        </td>
+        <td>=</td>
+        <td>
+          <table border="0">
+            <tr><td></td><td>t</td></tr>
+            <tr><td><font size="7">&int;</font></td><td></td></tr>
+            <tr><td>0</td><td></td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">&nbsp;&nbsp;&nbsp;&nbsp;v<sub>0</sub></td></tr>
+            <tr><td>1 + v<sub>0</sub>kt</td></tr>
+          </table>
+        </td>
+        <td>
+          dt
+        </td>
+      </tr>
+    </table>
+    </td>
+
+    <td>&nbsp; &nbsp; &Rightarrow; &nbsp; &nbsp;</td>
+
+    <td>
+    <table>
+      <tr>
+        <td>x =</td>
+        <td>
+          <table border="0">
+            <tr><td></td><td>t</td></tr>
+            <tr><td><font size="7">&int;</font></td><td></td></tr>
+            <tr><td>0</td><td></td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">&nbsp;&nbsp;&nbsp;&nbsp;v<sub>0</sub></td></tr>
+            <tr><td>1 + v<sub>0</sub>kt</td></tr>
+          </table>
+        </td>
+        <td>
+          dt
+        </td>
+      </tr>
+    </table>
+    </td>
+
+    <td>&nbsp; &nbsp; &Rightarrow; &nbsp; &nbsp;</td>
+
+    <td>
+    <table>
+      <tr>
+        <td>x =</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">k</td></tr>
+            <tr><td>k</td></tr>
+          </table>
+        </td>
+        <td>
+          <table border="0">
+            <tr><td></td><td>t</td></tr>
+            <tr><td><font size="7">&int;</font></td><td></td></tr>
+            <tr><td>0</td><td></td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">&nbsp;&nbsp;&nbsp;&nbsp;v<sub>0</sub></td></tr>
+            <tr><td>1 + v<sub>0</sub>kt</td></tr>
+          </table>
+        </td>
+        <td>
+          dt
+        </td>
+      </tr>
+    </table>
+    </td>
+
+    <td>&nbsp; &nbsp; &Rightarrow; &nbsp; &nbsp;</td>
+
+    <td>
+    <table>
+      <tr>
+        <td>x =</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>k</td></tr>
+          </table>
+        </td>
+        <td>
+          <table border="0">
+            <tr><td></td><td>t</td></tr>
+            <tr><td><font size="7">&int;</font></td><td></td></tr>
+            <tr><td>0</td><td></td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">v<sub>0</sub>k dt</td></tr>
+            <tr><td>1 + v<sub>0</sub>kt</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    </td>
+
+    <!-- End of equation line -->
+    </tr>
+    </table>
+
+
+    <p>
+      In order to evaluate the integal
+    </p>
+
+    <table>
+      <tr>
+        <td>x =</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>k</td></tr>
+          </table>
+        </td>
+        <td>
+          <table border="0">
+            <tr><td></td><td>t</td></tr>
+            <tr><td><font size="7">&int;</font></td><td></td></tr>
+            <tr><td>0</td><td></td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">v<sub>0</sub>k dt</td></tr>
+            <tr><td>1 + v<sub>0</sub>kt</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+   <p>we use the substitution:</p>
+
+   <p>&nbsp; &nbsp; u = 1 + v<sub>0</sub>kt</p>
+
+   <p>which gives:</p>
+
+    <!-- Start of equation line -->
+    <table>
+    <tr>
+
+    <td>u = 1 + v<sub>0</sub>kt</td>
+
+    <td>&nbsp; &nbsp; &hArr; &nbsp; &nbsp;</td>
+
+    <td>
+    <table>
+      <tr>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">du</td></tr>
+            <tr><td>dt</td></tr>
+          </table>
+        </td>
+        <td>= v<sub>0</sub>k</td>
+      </tr>
+    </table>
+    </td>
+
+    <td>&nbsp; &nbsp; &hArr; &nbsp; &nbsp;</td>
+
+    <td>du = v<sub>0</sub>k dt</td>
+
+    <!-- End of equation line -->
+    </tr>
+    </table>
+
+    <p>and, thus, enables us to re-write our integral as:</p>
+
+    <table>
+      <tr>
+        <td>x =</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>k</td></tr>
+          </table>
+        </td>
+        <td>
+          <table border="0">
+            <tr><td>u(t)</td><td></td></tr>
+            <tr><td><font size="7">&int;</font></td><td></td></tr>
+            <tr><td>u(0)</td><td></td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">du</td></tr>
+            <tr><td>u</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <p>Now we can evaluate the integral produced by our substitution.</p>
+
+    <!-- Start of equation line -->
+    <table>
+    <tr>
+
+    <td>
+    <table>
+      <tr>
+        <td>x =</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>k</td></tr>
+          </table>
+        </td>
+        <td>
+          <table border="0">
+            <tr><td>u(t)</td><td></td></tr>
+            <tr><td><font size="7">&int;</font></td><td></td></tr>
+            <tr><td>u(0)</td><td></td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">du</td></tr>
+            <tr><td>u</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    </td>
+
+    <td>&nbsp; &nbsp; &Rightarrow; &nbsp; &nbsp;</td>
+
+    <td>
+    <table>
+      <tr>
+        <td>x =</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>k</td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td>ln(u)</td></tr>
+          </table>
+        </td>
+        <td>
+          <table border="0">
+            <tr><td>u(t)</td></tr>
+            <tr><td style="border-left: 1px solid;"><font size="7">&nbsp;</font></td></tr>
+            <tr><td>u(0)</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    </td>
+
+    <td>&nbsp; &nbsp; &Rightarrow; &nbsp; &nbsp;</td>
+
+    <td>
+    <table>
+      <tr>
+        <td>x =</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>k</td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td>ln(1 + v<sub>0</sub>kt)</td></tr>
+          </table>
+        </td>
+        <td>
+          <table border="0">
+            <tr><td>t</td></tr>
+            <tr><td style="border-left: 1px solid;"><font size="7">&nbsp;</font></td></tr>
+            <tr><td>0</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    </td>
+
+    <td>&nbsp; &nbsp; &Rightarrow; &nbsp; &nbsp;</td>
+
+    <td>
+    <table>
+      <tr>
+        <td>x =</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>k</td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td>[ ln(1 + v<sub>0</sub>kt) - ln(1) ]</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    </td>
+
+    <td>&nbsp; &nbsp; &Rightarrow; &nbsp; &nbsp;</td>
+
+    <!-- End of equation line -->
+    </tr>
+    </table>
+
+    <!-- Start of equation line -->
+    <table>
+    <tr>
+
+    <td>
+    <table>
+      <tr>
+        <td>x =</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>k</td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td>[ ln(1 + v<sub>0</sub>kt) - 0 ]</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    </td>
+
+    <td>&nbsp; &nbsp; &Rightarrow; &nbsp; &nbsp;</td>
+
+    <td>
+    <table>
+      <tr>
+        <td>x =</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>k</td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td>ln(1 + v<sub>0</sub>kt)</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    </td>
+
+    <!-- End of equation line -->
+    </tr>
+    </table>
+
+    <p>which, finally, gives us the displacement equation for the high velocity region:</p>
+
+    <table>
+      <tr>
+        <td>x(t) =</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>k</td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td>ln(1 + v<sub>0</sub>kt)</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+    <p>------------------------------------------------------------------------------------------------</p>
+    <p>------------------------------------------------------------------------------------------------</p>
+    <p>------------------------------------------------------------------------------------------------</p>
+    For v > v<sub>T</sub> we have:
+    </br>
+    </br>
+
+    <table>
+      <tr>
+        <td>
+          <table>
+            <tr><td>v(t)</td></tr>
+          </table>
+        </td>
+        <td>=</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">&nbsp;&nbsp;&nbsp;&nbsp;v<sub>0</sub></td></tr>
+            <tr><td>1 + v<sub>0</sub>kt</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    v<sub>T</sub> = v(t<sub>T</sub>)
+    </br>
+    </br>
+
+    <table>
+      <tr>
+        <td>
+          <table>
+            <tr><td>v<sub>T</sub></td></tr>
+          </table>
+        </td>
+        <td>=</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">&nbsp;&nbsp;&nbsp;&nbsp;v<sub>0</sub></td></tr>
+            <tr><td>1 + v<sub>0</sub>kt<sub>T</sub></td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <table>
+      <tr>
+        <td>
+          <table>
+            <tr><td>1 + v<sub>0</sub>kt<sub>T</sub></td></tr>
+          </table>
+        </td>
+        <td>=</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">v<sub>0</sub></td></tr>
+            <tr><td>v<sub>T</sub></td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <table>
+      <tr>
+        <td>
+          <table>
+            <tr><td>v<sub>0</sub>kt<sub>T</sub></td></tr>
+          </table>
+        </td>
+        <td>=</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">v<sub>0</sub></td></tr>
+            <tr><td>v<sub>T</sub></td></tr>
+          </table>
+        </td>
+        <td> - 1</td>
+      </tr>
+    </table>
+
+    <table>
+      <tr>
+        <td>
+          <table>
+            <tr><td>v<sub>0</sub>kt<sub>T</sub></td></tr>
+          </table>
+        </td>
+        <td>=</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">v<sub>0</sub> - v<sub>T</sub></td></tr>
+            <tr><td>&nbsp;&nbsp;&nbsp;v<sub>T</sub></td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <table>
+      <tr>
+        <td>
+          <table>
+            <tr><td>t<sub>T</sub></td></tr>
+          </table>
+        </td>
+        <td>=</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">&nbsp;1</td></tr>
+            <tr><td>v<sub>0</sub>k</td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">v<sub>0</sub> - v<sub>T</sub></td></tr>
+            <tr><td>&nbsp;&nbsp;&nbsp;v<sub>T</sub></td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <table>
+      <tr>
+        <td>
+          <table>
+            <tr><td>t<sub>T</sub></td></tr>
+          </table>
+        </td>
+        <td>=</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>k</td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">v<sub>0</sub> - v<sub>T</sub></td></tr>
+            <tr><td>&nbsp;v<sub>0</sub>v<sub>T</sub></td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <table>
+      <tr>
+        <td>x(t) =</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>k</td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td>ln(1 + v<sub>0</sub>kt)</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    x<sub>T</sub> = x(t<sub>T</sub>)
+    </br>
+    </br>
+
+    <table>
+      <tr>
+        <td>x<sub>T</sub> =</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>k</td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td>ln[1 + v<sub>0</sub>k(</td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>k</td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">v<sub>0</sub> - v<sub>T</sub></td></tr>
+            <tr><td>&nbsp;v<sub>0</sub>v<sub>T</sub></td></tr>
+          </table>
+        </td>
+        <td>)]</td>
+      </tr>
+    </table>
+
+    <table>
+      <tr>
+        <td>x<sub>T</sub> =</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>k</td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td>ln(1 + </td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">v<sub>0</sub> - v<sub>T</sub></td></tr>
+            <tr><td>&nbsp;&nbsp;&nbsp;v<sub>T</sub></td></tr>
+          </table>
+        </td>
+        <td>)</td>
+      </tr>
+    </table>
+
+    <table>
+      <tr>
+        <td>x<sub>T</sub> =</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>k</td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td>ln(1 + </td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">v<sub>0</sub></td></tr>
+            <tr><td>v<sub>T</sub></td></tr>
+          </table>
+        </td>
+        <td> - 1)</td>
+      </tr>
+    </table>
+
+    <table>
+      <tr>
+        <td>x<sub>T</sub> =</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>k</td></tr>
+          </table>
+        </td>
+        <td>ln(</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">v<sub>0</sub></td></tr>
+            <tr><td>v<sub>T</sub></td></tr>
+          </table>
+        </td>
+        <td>)</td>
+      </tr>
+    </table>
+
+    For v < v<sub>T</sub> we know that:
+
+    <table>
+      <tr>
+        <td>
+          <table>
+            <tr><td>&nbsp;</td></tr>
+            <tr><td>lim x(t)</td></tr>
+            <tr><td>t &rarr; &infin;</td></tr>
+          </table>
+        </td>
+        <td>=</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">v<sub>0</sub></td></tr>
+            <tr><td>&nbsp;k</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    So for v<sub>0</sub> =  v<sub>T</sub> :
+
+    <table>
+      <tr>
+        <td>
+          <table>
+            <tr><td>&nbsp;</td></tr>
+            <tr><td>lim x(t)</td></tr>
+            <tr><td>t &rarr; &infin;</td></tr>
+          </table>
+        </td>
+        <td>=</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">v<sub>T</sub></td></tr>
+            <tr><td>&nbsp;k</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    Thus, starting with v<sub>0</sub> >  v<sub>T</sub> the distance covered will always be less than D where:
+
+    <table>
+      <tr>
+        <td>D = x<sub>T</sub> + </td>
+        <td>
+          <table>
+            <tr><td>&nbsp;</td></tr>
+            <tr><td>lim x(t)</td></tr>
+            <tr><td>t &rarr; &infin;</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <table>
+      <tr>
+        <td>D =</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>k</td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td>ln(</td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">v<sub>0</sub></td></tr>
+            <tr><td>v<sub>T</sub></td></tr>
+          </table>
+        </td>
+        <td>) + </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">v<sub>T</sub></td></tr>
+            <tr><td>&nbsp;k</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <table>
+      <tr>
+        <td>D =</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>k</td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td>[ ln(</td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">v<sub>0</sub></td></tr>
+            <tr><td>v<sub>T</sub></td></tr>
+          </table>
+        </td>
+        <td>) +  v<sub>T</sub> ]</td>
+        <td>&nbsp; &nbsp; &hArr;</td>
+      </tr>
+    </table>
+
+    <table>
+      <tr>
+        <td>k =</td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">1</td></tr>
+            <tr><td>D</td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td>[ ln(</td></tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">v<sub>0</sub></td></tr>
+            <tr><td>v<sub>T</sub></td></tr>
+          </table>
+        </td>
+        <td>) +  v<sub>T</sub> ]</td>
+      </tr>
+    </table>
+
+  </body>
+</html>

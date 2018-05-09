@@ -49,6 +49,10 @@ public class BoatConstantsImpl implements BoatConstants {
         return (1 + Math.log(launchSpeed))/distanceLimit;
     }
 
+    private double kLonEstimationGeneric(double launchSpeed, double distanceLimit) {
+        return (Math.log(launchSpeed/V_TRANSITION) + V_TRANSITION)/distanceLimit;
+    }
+
     private double kRudEstimation(double kLat, double boatLength, double cogDistanceFromStern, double turningRate, double turningSpeed) {
         final double cogDistanceFromBow = (boatLength - cogDistanceFromStern);
         final double omegaSq = turningRate * turningRate;
