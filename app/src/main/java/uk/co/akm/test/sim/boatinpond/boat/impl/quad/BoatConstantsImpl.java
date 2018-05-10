@@ -46,10 +46,6 @@ public class BoatConstantsImpl implements BoatConstants {
     }
 
     private double kLonEstimation(double launchSpeed, double distanceLimit) {
-        return (1 + Math.log(launchSpeed))/distanceLimit;
-    }
-
-    private double kLonEstimationGeneric(double launchSpeed, double distanceLimit) {
         return (Math.log(launchSpeed/V_TRANSITION) + V_TRANSITION)/distanceLimit;
     }
 
