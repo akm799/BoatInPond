@@ -64,17 +64,23 @@ public final class StateUpdateLoopThread<T extends UpdatableState, G> extends Th
     }
 
     private void loopStep(T state) {
+        G renderingData = null;
+
         final long startMillis = System.currentTimeMillis();
 
         // Update the state and compute all data require to render it in this thread.
-        updateState(state);
-        final G renderingData = stateProcessor.computeRenderingData(state);
+        try {
+            updateState(state);
+            renderingData = stateProcessor.computeRenderingData(state);
+        } catch (Exception e) {
+            Log.e(getClass().getSimpleName(), "Error when updating state and computing rendering data.", e);
+        }
 
         // Wait for as long as it takes before rendering the updated state, so that we have a constant frame rate.
         waitIfRequired(startMillis);
 
         // Use the rendering data we have computed to render the updated state.
-        if (loop) {
+        if (loop && renderingData != null) {
             stateProcessor.renderState(renderingData); // This rendering will not be performed in this thread, but in the UI thread.
         }
     }
@@ -99,15 +105,12 @@ public final class StateUpdateLoopThread<T extends UpdatableState, G> extends Th
     private void waitFor(long waitMillis) {
         try {
             Thread.sleep(waitMillis);
-        } catch (InterruptedException ie) {
-            loop = false;
-        }
+        } catch (InterruptedException ignore) {}
     }
 
     @Override
     public void terminate() {
         loop = false;
-        interrupt();
     }
 
     @Override
