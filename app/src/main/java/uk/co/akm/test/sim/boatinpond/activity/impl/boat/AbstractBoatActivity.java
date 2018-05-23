@@ -125,6 +125,10 @@ public abstract class AbstractBoatActivity extends ViewBoxStateActivity<Boat, Bo
         if (isRunning()) {
             terminate();
         }
+
+        if (!isFinishing()) { // State persistence not implemented.
+            finish();
+        }
     }
 
     private static final class RudderListener implements View.OnTouchListener {
