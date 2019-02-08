@@ -151,21 +151,13 @@ public abstract class Body implements UpdatableState {
 
     // Updates the angular velocity and angles of the body assuming a constant angular acceleration exerted over the (small) input time increment dt.
     private void updateAngularVelocityAndAngles(double dt) {
-        final double dOmgHdn = aHdn * dt;
-        final double dOmgAzm = aAzm * dt;
-        final double dOmgRll = aRll * dt;
+        omgHdn += aHdn * dt;
+        omgAzm += aAzm * dt;
+        omgRll += aRll * dt;
 
-        final double omgHdnMd = omgHdn + dOmgHdn/2;
-        final double omgAzmMd = omgAzm + dOmgAzm/2;
-        final double omgRllMd = omgRll + dOmgRll/2;
-
-        omgHdn += dOmgHdn;
-        omgAzm += dOmgAzm;
-        omgRll += dOmgRll;
-
-        hdn += omgHdnMd * dt;
-        azm += omgAzmMd * dt;
-        rll += omgRllMd * dt;
+        hdn += omgHdn * dt;
+        azm += omgAzm * dt;
+        rll += omgRll * dt;
 
         if (omgHdn != 0.0) {
             hdnTrig.set(hdn);
@@ -182,21 +174,13 @@ public abstract class Body implements UpdatableState {
 
     // Updates the velocity and position of the body assuming a constant acceleration exerted over the (small) input time increment dt.
     private void updateVelocityAndPosition(double dt) {
-        final double dvx = ax * dt;
-        final double dvy = ay * dt;
-        final double dvz = az * dt;
+        vx += ax*dt;
+        vy += ay*dt;
+        vz += az*dt;
 
-        final double vxm = vx + dvx/2;
-        final double vym = vy + dvy/2;
-        final double vzm = vz + dvz/2;
-
-        vx += dvx;
-        vy += dvy;
-        vz += dvz;
-
-        x += vxm * dt;
-        y += vym * dt;
-        z += vzm * dt;
+        x += vx*dt;
+        y += vy*dt;
+        z += vz*dt;
     }
 
     @Override
