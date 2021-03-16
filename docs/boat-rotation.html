@@ -1,0 +1,79 @@
+<html>
+
+  <head>
+    <title>Rotating Boat</title>
+  </head>
+
+  <body>
+    <h1>Physics of a Rotating Boat</h1>
+    <p>
+       In this section we examine the boat rotation caused by its rudder deflection. We will try to derive the angular motion equations
+       for the boat rotating under the effect of its rudder, that can provide a reasonable approximation.
+    </p>
+
+    <h2>Definitions</h2>
+    <p>
+      Consider a boat of length L rotating with an angular velocity &omega; due to a torque T applied by its deflected rudder. This rudder
+      torque T will be resisted by a counter torque T<sub>R</sub>. We assume that the boat is turning with a pivot point located a distance
+      x from the stern along its centerline (therefore x &lt; L).
+    </p>
+
+    <p>
+      The resistance torque T<sub>R</sub> will be due to the water resistance as the body of the boat is rotating in the water (the corresponding      air resistance is neglected). We split this resistance into 2 parts: T<sub>F</sub> and T<sub>A</sub>. T<sub>F</sub> is the resistance
+      torque caused by the water resistance of the front part of the boat and T<sub>A</sub> is caused by the water resistance of the aft (back)
+      part of the boat.
+    </p>
+
+    <p>This is depicted in the following diagram:</p>
+
+    <svg width="200" height="200">
+      <line x1="100" y1="190" x2="100" y2="10" style="stroke:#000000;stroke-width:2"/>
+      <line x1="95" y1="10" x2="105" y2="10" style="stroke:#000000;stroke-width:3"/>
+      <line x1="95" y1="190" x2="105" y2="190" style="stroke:#000000;stroke-width:3"/>
+      <circle cx="100" cy="125" r="4" stroke="#000000" fill="#000000"/>
+      <line x1="25" y1="190" x2="25" y2="10" style="stroke:#000000;stroke-width:1"/>
+      <line x1="22" y1="184" x2="25" y2="190" style="stroke:#000000;stroke-width:1"/>
+      <line x1="28" y1="184" x2="25" y2="190" style="stroke:#000000;stroke-width:1"/>
+      <line x1="22" y1="16" x2="25" y2="10" style="stroke:#000000;stroke-width:1"/>
+      <line x1="28" y1="16" x2="25" y2="10" style="stroke:#000000;stroke-width:1"/>
+      <text x="10" y="100" fill="#000000">L</text>
+      <line x1="175" y1="190" x2="175" y2="125" style="stroke:#000000;stroke-width:1"/>
+      <line x1="172" y1="184" x2="175" y2="190" style="stroke:#000000;stroke-width:1"/>
+      <line x1="178" y1="184" x2="175" y2="190" style="stroke:#000000;stroke-width:1"/>
+      <line x1="172" y1="131" x2="175" y2="125" style="stroke:#000000;stroke-width:1"/>
+      <line x1="178" y1="131" x2="175" y2="125" style="stroke:#000000;stroke-width:1"/>
+      <text x="180" y="160" fill="#000000">x</text>
+      <line x1="100" y1="10" x2="50" y2="10" style="stroke:#000000;stroke-width:1"/>
+      <line x1="56" y1="7" x2="50" y2="10" style="stroke:#000000;stroke-width:1"/>
+      <line x1="56" y1="13" x2="50" y2="10" style="stroke:#000000;stroke-width:1"/>
+      <text x="40" y="25" fill="#000000">T</text>
+      <text x="48" y="33" fill="#000000">F</text>
+      <line x1="100" y1="190" x2="120" y2="190" style="stroke:#000000;stroke-width:1"/>
+      <line x1="114" y1="187" x2="120" y2="190" style="stroke:#000000;stroke-width:1"/>
+      <line x1="114" y1="193" x2="120" y2="190" style="stroke:#000000;stroke-width:1"/>
+      <text x="120" y="185" fill="#000000">T</text>
+      <text x="128" y="193" fill="#000000">A</text>
+    </svg>
+
+    <p>
+      In the above diagram the boat of length L is rotating in a clockwise direction with angular velocity &omega;.
+      The variable definitions are as follows:
+    </p>
+
+    &omega;: the boat rotation angular velocity.</br>
+    T: the torque which rotates the boat and is caused by the rudder deflection.</br>
+    T<sub>R</sub>: the torque resisting the boat rotation and is caused by the water resistance.</br>
+    T<sub>F</sub>: the torque resisting the boat rotation of the front part of the boat.</br>
+    T<sub>A</sub>: the torque resisting the boat rotation of the aft part of the boat.</br>
+    k: the boat water resistance coefficient along its lateral axis.</br>
+
+    <p>
+      Since we have split the resistance torque T<sub>R</sub> into its 2 components T<sub>F</sub> and T<sub>A</sub>
+      it follows that:
+    </p>
+
+    T<sub>R</sub> = T<sub>F</sub> + T<sub>A</sub>
+
+  </body>
+
+</html>
