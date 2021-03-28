@@ -91,40 +91,7 @@
 
     <p>
       The resistance torque T<sub>R</sub> is, mostly, due to the water resistance, as the boat is rotating
-      in the water. We recall that we have modelled the the resistance force F<sub>R</sub> of a body moving
-      through the water with a velocity v by:
-    </p>
-
-    <table border="0">
-      <tr>
-
-        <td>
-          <table>
-            <tr><td></td></tr>
-            <tr><td>F<sub>R</sub>(k, v)</td></tr>
-            <tr><td></td></tr>
-          </table>
-        </td>
-
-        <td>=</td>
-
-        <td><font size="7">{</font></td>
-
-        <td>
-          <table>
-            <tr><td>-kv &nbsp; &nbsp; &nbsp; &nbsp; : v < v<sub>T</sub></td></tr>
-            <tr><td></td></tr>
-            <tr><td>-kv<sup>2</sup> &nbsp; &nbsp; &nbsp; : v &ge; v<sub>T</sub></td></tr>
-          </table>
-        </td>
-
-      </tr>
-    </table>
-
-    <p>
-      We assume that this is the resistance force formula as the boat rotates in the water. In our case
-      k is the water resistance coefficient along the boat's lateral axis. This coefficient has been
-      labelled as k<sub>LAT</sub> but we simply refer it as k for brevity.
+      in the water.
     </p>
 
     <h3>Separating T<sub>R</sub> in forward and aft components</h3>
@@ -196,7 +163,7 @@
     <table>
       <tr>
         <td>
-          v<sub>A</sub> = &omega;
+          v<sub>F</sub> = &omega;
         </td>
         <td>
           <table>
@@ -228,6 +195,168 @@
       aft parts of the boat will be the linear velocities, due to rotation, of the midpoint of the
       front and aft sections, respectively.
     </p>
+
+    <h3>Calculating the resistance force and torque</h3>
+
+    <p>
+      The resistance to the rotational motion is caused by the water resistance of the side of the boat
+      as it rotates in the water. We recall that we have modelled the the resistance force F<sub>R</sub>
+      of a body moving through the water with a velocity v by:
+    </p>
+
+    <table>
+      <tr>
+
+        <td>
+          <table>
+            <tr><td></td></tr>
+            <tr><td>F<sub>R</sub>(k, v)</td></tr>
+            <tr><td></td></tr>
+          </table>
+        </td>
+
+        <td>=</td>
+
+        <td><font size="7">{</font></td>
+
+        <td>
+          <table>
+            <tr><td>-kv &nbsp; &nbsp; &nbsp; &nbsp; : v < v<sub>T</sub></td></tr>
+            <tr><td></td></tr>
+            <tr><td>-kv<sup>2</sup> &nbsp; &nbsp; &nbsp; : v &ge; v<sub>T</sub></td></tr>
+          </table>
+        </td>
+
+      </tr>
+    </table>
+
+    <p>
+      Since the resistance force is applied to the side of the boat, as it rotates in the water, then
+      k is the water resistance coefficient along the boat's lateral axis. This coefficient has been
+      labelled as k<sub>LAT</sub> but here we simply refer it as k for brevity.
+    </p>
+
+    <p>
+      With this approximation we can derive the front and aft resistance torques T<sub>F</sub> and T<sub>A</sub>:
+    </p>
+
+    <table>
+      <tr>
+        <td>
+          T<sub>F</sub> = F(k<sub>F</sub>, v<sub>F</sub>)
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">L - x</td></tr>
+            <tr><td align="center">2</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    and
+
+    <table>
+      <tr>
+        <td>
+          T<sub>A</sub> = F(k<sub>A</sub>, v<sub>A</sub>)
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">x</td></tr>
+            <tr><td>2</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <p>
+      Notice that, in the above formula, instead of using the lateral resistance coefficient k we are
+      using the resistance coefficients k<sub>F</sub> and k<sub>A</sub>. This is because the coefficient
+      k gives us the resistance force as the whole boat moves laterally, i.e. as the entirety of the
+      boat's side is resisted by the water. Since the water resistance is proportional to the area
+      moving through the water, then it follows that:
+    </p>
+
+    <table>
+      <tr>
+        <td>
+          k<sub>F</sub> = k
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">L - x</td></tr>
+            <tr><td align="center">2</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    and
+
+    <table>
+      <tr>
+        <td>
+          k<sub>A</sub> = k
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">x</td></tr>
+            <tr><td>2</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    which gives:
+
+    <table>
+      <tr>
+        <td>
+          T<sub>F</sub> = F(k
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">L - x</td></tr>
+            <tr><td align="center">2</td></tr>
+          </table>
+        </td>
+        <td>
+          , v<sub>F</sub>)
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">L - x</td></tr>
+            <tr><td align="center">2</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    and
+
+    <table>
+      <tr>
+        <td>
+          T<sub>A</sub> = F(k
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">x</td></tr>
+            <tr><td>2</td></tr>
+          </table>
+        </td>
+        <td>
+          , v<sub>A</sub>)
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">x</td></tr>
+            <tr><td>2</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
 
   </body>
 
