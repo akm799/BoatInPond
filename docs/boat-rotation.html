@@ -308,21 +308,14 @@
       </tr>
     </table>
 
-    <p>which gives:</p>
+    <p>
+      If we define:
+    </p>
 
     <table>
       <tr>
         <td>
-          T<sub>F</sub> = F(k
-        </td>
-        <td>
-          <table>
-            <tr><td style="border-bottom: 1px solid;">L - x</td></tr>
-            <tr><td align="center">2</td></tr>
-          </table>
-        </td>
-        <td>
-          , v<sub>F</sub>)
+          a<sub>F</sub> =
         </td>
         <td>
           <table>
@@ -338,16 +331,7 @@
     <table>
       <tr>
         <td>
-          T<sub>A</sub> = F(k
-        </td>
-        <td>
-          <table>
-            <tr><td style="border-bottom: 1px solid;">x</td></tr>
-            <tr><td>2</td></tr>
-          </table>
-        </td>
-        <td>
-          , v<sub>A</sub>)
+          a<sub>A</sub> =
         </td>
         <td>
           <table>
@@ -357,6 +341,157 @@
         </td>
       </tr>
     </table>
+
+    <p>
+      then we can write:
+    </p>
+
+    T<sub>F</sub> = F(k a<sub>F</sub>, v<sub>F</sub>) a<sub>F</sub>
+
+    <p>and</p>
+
+    T<sub>A</sub> = F(k a<sub>A</sub>, v<sub>A</sub>) a<sub>A</sub>
+
+    <h3>Low speed resistance torque</h3>
+
+    <p>
+      Here we derive the resistance torque formulas for the low rotational speed region i.e for
+      v < v<sub>T</sub>. We will first derive the formula for T<sub>F</sub> since the formula for
+      T<sub>A</sub> can be subsequently reached by substituting the values for the aft section.
+    </p>
+
+    <p>
+      By substituting the resistance force for the low rotational speed region we get:
+    </p>
+
+    T<sub>F</sub> = k a<sub>F</sub> v<sub>F</sub> a<sub>F</sub> = k v<sub>F</sub> a<sub>F</sub><sup>2</sup>
+
+    <p>and since</p>
+
+    v<sub>F</sub> = &omega; a<sub>F</sub>
+
+    <p>we have:</p>
+
+    T<sub>F</sub> = k &omega; a<sub>F</sub><sup>3</sup>
+
+    <p>
+      Similarly, the resistance torque T<sub>A</sub> caused by the aft part of the boat at low rotational
+      speeds is given by:
+    </p>
+
+    T<sub>A</sub> = k &omega; a<sub>A</sub><sup>3</sup>
+
+    <p>
+      We remember that the above formulae hold only when v < v<sub>T</sub> and since
+    </p>
+
+    <table>
+      <tr>
+        <td>&omega; = </td>
+        <td>
+          <table>
+            <tr><td>v<sub>F</sub></td></tr>
+            <tr><td style="border-top: 1px solid;">a<sub>F</sub></td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <p>
+      we can also say that they hold only for &omega; < &omega;<sub>T</sub> where
+    </p>
+
+    <table>
+      <tr>
+        <td>&omega;<sub>T</sub> = </td>
+        <td>
+          <table>
+            <tr><td>v<sub>T</sub></td></tr>
+            <tr><td style="border-top: 1px solid;">a<sub>F</sub></td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <p>or</p>
+
+    <table>
+      <tr>
+        <td>&omega;<sub>T</sub> = </td>
+        <td>
+          <table>
+            <tr><td>v<sub>T</sub></td></tr>
+            <tr><td style="border-top: 1px solid;">a<sub>A</sub></td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <p>
+      depending on the section of the boat considered (forward or aft).
+    </p>
+
+    <h3>High speed resistance torque</h3>
+
+    <p>
+      Here we proceed to derive the resistance torque formulas for the low rotational speed region
+      i.e for v &GreaterEqual; v<sub>T</sub>. Again we first derive the formula for the front boat section.
+    </p>
+
+    <p>
+      By substituting the resistance force for the high rotational speed region we get:
+    </p>
+
+    T<sub>F</sub> = k a<sub>F</sub> v<sub>F</sub><sup>2</sup> a<sub>F</sub> = k v<sub>F</sub><sup>2</sup> a<sub>F</sub><sup>2</sup>
+
+    <p>and since</p>
+
+    v<sub>F</sub> = &omega; a<sub>F</sub>
+
+    <p>we have:</p>
+
+    T<sub>F</sub> = k &omega;<sup>2</sup> a<sub>F</sub><sup>4</sup>
+
+    <p>
+      Similarly, the resistance torque T<sub>A</sub> caused by the aft part of the boat at low rotational
+      speeds is given by:
+    </p>
+
+    T<sub>A</sub> = k &omega;<sup>2</sup> a<sub>A</sub><sup>4</sup>
+
+    <p>
+      As these formulae are valid only for the high rotational speed region, they require that &omega; &GreaterEqual; &omega;<sub>T</sub> where
+    </p>
+
+    <table>
+      <tr>
+        <td>&omega;<sub>T</sub> = </td>
+        <td>
+          <table>
+            <tr><td>v<sub>T</sub></td></tr>
+            <tr><td style="border-top: 1px solid;">a<sub>F</sub></td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <p>or</p>
+
+    <table>
+      <tr>
+        <td>&omega;<sub>T</sub> = </td>
+        <td>
+          <table>
+            <tr><td>v<sub>T</sub></td></tr>
+            <tr><td style="border-top: 1px solid;">a<sub>A</sub></td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <p>
+      depending on the section of the boat considered (forward or aft).
+    </p>
 
   </body>
 
