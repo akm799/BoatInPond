@@ -1,5 +1,11 @@
 package uk.co.akm.test.sim.boatinpond.boat;
 
+/**
+ * Implementations of this interface should model the hydrodynamic force applied on the rudder
+ * and return the drag and lift coefficient components of that force. These components can be
+ * used to estimate the hydrodynamic drag and lift forces acting on the rudder which, in turn,
+ * can be used to calculate the torque that the rudder generates.
+ */
 public interface HydrofoilRudder extends Rudder {
 
     /**
