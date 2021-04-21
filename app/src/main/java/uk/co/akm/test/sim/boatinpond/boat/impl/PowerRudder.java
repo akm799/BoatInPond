@@ -7,45 +7,51 @@ import uk.co.akm.test.sim.boatinpond.boat.Rudder;
  *
  * Created by Thanos Mavroidis on 02/12/2017.
  */
-public final class PowerRudder implements Rudder {
+//TODO Make the class package private.
+public class PowerRudder implements Rudder {
     private double angle;
+    private double angleOfAttack;
     private int lastInput;
 
+    private final double minAngle;
     private final double maxAngle;
     private final double updateFraction;
 
+    //TODO Make the constructor package private.
     public PowerRudder(double maxAngle, double timeToMaxAngle) {
+        //TODO Check arguments.
         this.maxAngle = maxAngle;
+        this.minAngle = -maxAngle;
         this.updateFraction = maxAngle/timeToMaxAngle;
     }
 
     @Override
-    public void noControlInput() {
+    public final void noControlInput() {
         lastInput = NONE;
     }
 
     @Override
-    public void leftControlInput() {
+    public final void leftControlInput() {
         lastInput = LEFT;
     }
 
     @Override
-    public void rightControlInput() {
+    public final void rightControlInput() {
         lastInput = RIGHT;
     }
 
     @Override
-    public double getRudderAngle() {
+    public final double getRudderAngle() {
         return angle;
     }
 
     @Override
-    public double getMaxRudderAngle() {
+    public final double getMaxRudderAngle() {
         return maxAngle;
     }
 
     @Override
-    public void update(double dt) {
+    public final void update(double dt) {
         if (lastInput != NONE && Math.abs(angle) <= maxAngle) {
             angle += lastInput*updateFraction*dt;
 
@@ -53,9 +59,19 @@ public final class PowerRudder implements Rudder {
                 angle = maxAngle;
             }
 
-            if (angle < -maxAngle) {
-                angle = -maxAngle;
+            if (angle < minAngle) {
+                angle = minAngle;
+            }
+
+            if (angle < 0) {
+                angleOfAttack = -angle;
+            } else {
+                angleOfAttack = angle;
             }
         }
+    }
+
+    double getAngleOfAttack() {
+        return angleOfAttack;
     }
 }
