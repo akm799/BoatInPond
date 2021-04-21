@@ -1,6 +1,10 @@
 package uk.co.akm.test.sim.boatinpond.boat.impl.quad;
 
 import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
+import uk.co.akm.test.sim.boatinpond.boat.Hydrofoil;
+import uk.co.akm.test.sim.boatinpond.boat.HydrofoilRudder;
+import uk.co.akm.test.sim.boatinpond.boat.impl.PowerHydrofoilRudder;
+import uk.co.akm.test.sim.boatinpond.boat.impl.foil.HydrofoilImpl;
 
 /**
  * Created by Thanos Mavroidis on 24/02/2018.
@@ -58,12 +62,45 @@ public class BoatConstantsImpl implements BoatConstants {
         return (Math.log(launchSpeed/V_TRANSITION) + V_TRANSITION)/distanceLimit;
     }
 
+    @Deprecated
     private double kRudEstimation(double kLat, double boatLength, double cogDistanceFromStern, double turningRate, double turningSpeed) {
         final double cogDistanceFromBow = (boatLength - cogDistanceFromStern);
         final double omegaSq = turningRate * turningRate;
         final double vSq = turningSpeed * turningSpeed;
 
         return (kLat/(8*boatLength)) * Math.pow(cogDistanceFromStern, 3) * Math.pow(cogDistanceFromBow, 4) * omegaSq/vSq;
+    }
+
+    /**
+     * Estimates the rudder torque coefficient assuming that the input turning speed (omega)
+     * is higher than the transition angular velocity omega of both the front and aft boat
+     * sections.
+     */
+    private double kRudEstimation2(
+            double kLat,
+            double boatLength,
+            double boatToRudderLengthRatio,
+            double cogDistanceFromStern,
+            double turningRate,
+            double turningSpeed
+    ) {
+        final Hydrofoil hydrofoil = new HydrofoilImpl();
+        final double aoa = hydrofoil.getMaxLiftAngleOfAttack();
+        final double halfLength = (boatLength/boatToRudderLengthRatio)/2;
+        final double dragCoefficient = hydrofoil.getDragCoefficient(aoa);
+        final double liftCoefficient = hydrofoil.getLiftCoefficient(aoa);
+
+        final double torqueDragComponent = dragCoefficient*halfLength*Math.cos(aoa);
+        final double torqueLiftComponent = liftCoefficient*(cogDistanceFromStern + halfLength*Math.sin(aoa));
+        final double c = torqueDragComponent + torqueLiftComponent;
+
+        final double cogDistanceFromBow = (boatLength - cogDistanceFromStern);
+        final double af4 = Math.pow(cogDistanceFromBow/2, 4);
+        final double as4 = Math.pow((cogDistanceFromStern + rudderLength*Math.sin(aoa))/2, 4);
+        final double omegaSq = turningRate * turningRate;
+        final double vSq = turningSpeed * turningSpeed;
+
+        return kLat*omegaSq*(af4 + as4)/(c * vSq);
     }
 
     @Override

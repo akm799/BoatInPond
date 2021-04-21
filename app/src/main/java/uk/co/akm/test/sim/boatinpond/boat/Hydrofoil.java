@@ -23,4 +23,11 @@ public interface Hydrofoil {
      * @return the lift coefficient for the given angle of attack
      */
     double getLiftCoefficient(double angleOfAttack);
+
+    /**
+     * Returns the angle of attack at which the lift coefficient is maximised
+     *
+     * @return the angle of attack at which the lift coefficient is maximised
+     */
+    double getMaxLiftAngleOfAttack();
 }

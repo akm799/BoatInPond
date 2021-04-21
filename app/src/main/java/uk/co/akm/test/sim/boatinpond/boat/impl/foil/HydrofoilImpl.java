@@ -10,6 +10,7 @@ import uk.co.akm.test.sim.boatinpond.boat.Hydrofoil;
 public final class HydrofoilImpl implements Hydrofoil {
     private final Drag drag;
     private final Lift lift;
+    private final double maxLiftAngle;
 
     public HydrofoilImpl() {
         this(
@@ -44,6 +45,7 @@ public final class HydrofoilImpl implements Hydrofoil {
     ) {
         drag = new Drag(aDrag, dragMin, xDragLinearStart, xDragLinearEnd);
         lift = new Lift(sLift, xMaxLift, dxLiftParabolicAscend);
+        maxLiftAngle = xMaxLift;
     }
 
     @Override
@@ -54,5 +56,10 @@ public final class HydrofoilImpl implements Hydrofoil {
     @Override
     public double getLiftCoefficient(double angleOfAttack) {
         return lift.getLiftCoefficient(angleOfAttack);
+    }
+
+    @Override
+    public double getMaxLiftAngleOfAttack() {
+        return maxLiftAngle;
     }
 }
