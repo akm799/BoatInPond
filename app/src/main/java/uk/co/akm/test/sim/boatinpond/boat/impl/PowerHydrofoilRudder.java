@@ -5,19 +5,24 @@ import uk.co.akm.test.sim.boatinpond.boat.HydrofoilRudder;
 import uk.co.akm.test.sim.boatinpond.boat.impl.foil.HydrofoilImpl;
 
 public final class PowerHydrofoilRudder extends PowerRudder implements HydrofoilRudder {
-    private final double length;
+    private final double halfLength;
     private final Hydrofoil hydrofoil = new HydrofoilImpl();
 
     public PowerHydrofoilRudder(double maxAngle, double timeToMaxAngle, double length) {
         super(maxAngle, timeToMaxAngle);
 
         //TODO Check argument.
-        this.length = length;
+        this.halfLength = length/2;
     }
 
     @Override
-    public double getLength() {
-        return length;
+    public double getHalfLength() {
+        return halfLength;
+    }
+
+    @Override
+    public double getAngleOfAttack() {
+        return getAngleAbsolute();
     }
 
     @Override

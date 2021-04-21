@@ -2,7 +2,9 @@ package uk.co.akm.test.sim.boatinpond.boat.impl.quad;
 
 import uk.co.akm.test.sim.boatinpond.boat.Boat;
 import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
+import uk.co.akm.test.sim.boatinpond.boat.HydrofoilRudder;
 import uk.co.akm.test.sim.boatinpond.boat.Rudder;
+import uk.co.akm.test.sim.boatinpond.boat.impl.PowerHydrofoilRudder;
 import uk.co.akm.test.sim.boatinpond.boat.impl.PowerRudder;
 import uk.co.akm.test.sim.boatinpond.math.TrigValues;
 import uk.co.akm.test.sim.boatinpond.phys.Body;
@@ -41,6 +43,7 @@ public class BoatImpl extends Body implements Boat {
     private double omgSqSigned;
 
     private final Rudder rudder;
+    private final HydrofoilRudder rudder2;
     private final double maxRudderAngle;
 
     public BoatImpl(BoatConstants constants, double hdn0, double v0) {
@@ -77,6 +80,7 @@ public class BoatImpl extends Body implements Boat {
 
         maxRudderAngle = constants.getMaximumRudderAngle();
         rudder = new PowerRudder(maxRudderAngle, constants.timeToMaximumRudderAnge());
+        rudder2 = new PowerHydrofoilRudder(maxRudderAngle, constants.timeToMaximumRudderAnge(), 1); //TODO Get the proper rudder length from the constants.
     }
 
     @Override
@@ -122,11 +126,29 @@ public class BoatImpl extends Body implements Boat {
         aHdn = totalTorque; // Assume moment of inertia value of 1.
     }
 
+    @Deprecated
     private double estimateRudderForce(double k, double vTransition, double v, double vSqSigned) {
         if (Math.abs(v) > vTransition) {
             return k*vSqSigned;
         } else {
             return k*v;
+        }
+    }
+
+    private double estimateRudderTorque(double k, double vSqSigned) {
+        final double aoa = rudder2.getAngleOfAttack();
+        final double halfLength = rudder2.getHalfLength();
+        final double dragCoefficient = rudder2.getDragCoefficient();
+        final double liftCoefficient = rudder2.getLiftCoefficient();
+
+        final double torqueDragComponent = dragCoefficient*halfLength*Math.cos(aoa);
+        final double torqueLiftComponent = liftCoefficient*(cogDistanceFromStern + halfLength*Math.sin(aoa));
+        final double torque = k*vSqSigned*(torqueDragComponent + torqueLiftComponent);
+
+        if (rudder2.getRudderAngle() >= 0) {
+            return torque;
+        } else {
+            return -torque;
         }
     }
 

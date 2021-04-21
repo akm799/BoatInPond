@@ -71,7 +71,7 @@ public class PowerRudder implements Rudder {
         }
     }
 
-    double getAngleOfAttack() {
+    double getAngleAbsolute() {
         return angleOfAttack;
     }
 }
