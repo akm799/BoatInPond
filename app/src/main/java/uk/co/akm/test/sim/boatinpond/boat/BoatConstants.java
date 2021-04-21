@@ -82,4 +82,13 @@ public interface BoatConstants {
      * @return the time it takes the rudder, starting from the central position, to reach the maximum deflection angle
      */
     double timeToMaximumRudderAnge();
+
+    /**
+     * Returns the length of the rudder measured along the boat's bow-stern axis. It is assumed that
+     * the rudder is attached directly at the boats stern. The rudder depth at which the length is
+     * measured corresponds to the rudders centroid.
+     *
+     * @return the length of the rudder measured along the boat's bow-stern axis
+     */
+    double getRudderLength();
 }

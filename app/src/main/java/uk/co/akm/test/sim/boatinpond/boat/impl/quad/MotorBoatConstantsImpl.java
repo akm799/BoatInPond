@@ -9,8 +9,15 @@ public final class MotorBoatConstantsImpl extends BoatConstantsImpl implements M
     private final double maxMotorPower;
     private final double timeToMaxPower;
 
-    public MotorBoatConstantsImpl(MotorBoatPerformance performance, double kLatOverKLon, double kLonReverseOverKLon, double boatLength, double cogDistanceFromStern, double rudderAreaFraction, double maxRudderAngle) {
-        super(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle);
+    public MotorBoatConstantsImpl(MotorBoatPerformance performance,
+                                  double kLatOverKLon,
+                                  double kLonReverseOverKLon,
+                                  double boatLength,
+                                  double cogDistanceFromStern,
+                                  double rudderAreaFraction,
+                                  double maxRudderAngle,
+                                  double boatToRudderLengthRatio) {
+        super(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle, boatToRudderLengthRatio);
 
         maxMotorPower = estimateMaxMotorPower(performance);
         timeToMaxPower = performance.timeToMaxPower;

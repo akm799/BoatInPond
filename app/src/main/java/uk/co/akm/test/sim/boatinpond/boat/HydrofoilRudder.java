@@ -9,7 +9,9 @@ package uk.co.akm.test.sim.boatinpond.boat;
 public interface HydrofoilRudder extends Rudder {
 
     /**
-     * Returns half the length of the rudder measured across the boat bow-stern axis.
+     * Returns half the length of the rudder measured across the boat bow-stern axis. It is assumed
+     * that the rudder is attached directly at the boats stern. The rudder depth at which the length
+     * is measured corresponds to the rudders centroid.
      *
      * @return half the length of the rudder measured across the boat bow-stern axis
      */

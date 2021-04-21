@@ -80,7 +80,7 @@ public class BoatImpl extends Body implements Boat {
 
         maxRudderAngle = constants.getMaximumRudderAngle();
         rudder = new PowerRudder(maxRudderAngle, constants.timeToMaximumRudderAnge());
-        rudder2 = new PowerHydrofoilRudder(maxRudderAngle, constants.timeToMaximumRudderAnge(), 1); //TODO Get the proper rudder length from the constants.
+        rudder2 = new PowerHydrofoilRudder(maxRudderAngle, constants.timeToMaximumRudderAnge(), constants.getRudderLength());
     }
 
     @Override

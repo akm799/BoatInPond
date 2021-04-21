@@ -24,6 +24,7 @@ public final class BoatConstantsFactoryImpl implements BoatConstantsFactory {
 
     private final double maxRudderAngle = Math.PI/4;
     private final double timeToMaxRudderDeflection = 2;
+    private final double boatToRudderLengthRatio = 20;
 
     private final String indicatorName = "rudder size";
     private final TargetValueCalculator calculator = new TargetValueCalculator();
@@ -37,6 +38,6 @@ public final class BoatConstantsFactoryImpl implements BoatConstantsFactory {
         final double rudderAreaFraction = calculator.computeValue(rudderSizeIndicator, minRudderAreaFraction, maxRudderAreaFraction, indicatorName);
         final BoatPerformance performance = new BoatPerformance(launchSpeed, distanceLimit, turnRate, turningSpeed, timeToMaxRudderDeflection);
 
-        return new BoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle);
+        return new BoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle, boatToRudderLengthRatio);
     }
 }

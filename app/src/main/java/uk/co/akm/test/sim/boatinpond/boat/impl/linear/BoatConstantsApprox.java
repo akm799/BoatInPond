@@ -146,4 +146,9 @@ public final class BoatConstantsApprox implements LinearBoatConstants {
     public double timeToMaximumRudderAnge() {
         return 2;
     }
+
+    @Override
+    public double getRudderLength() {
+        return 0.2;
+    }
 }
