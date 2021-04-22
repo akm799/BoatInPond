@@ -11,8 +11,14 @@ public final class PowerHydrofoilRudder extends PowerRudder implements Hydrofoil
     public PowerHydrofoilRudder(double maxAngle, double timeToMaxAngle, double length) {
         super(maxAngle, timeToMaxAngle);
 
-        //TODO Check argument.
+        checkArguments(length);
         this.halfLength = length/2;
+    }
+
+    private void checkArguments(double length) {
+        if (length < 0) {
+            throw new IllegalArgumentException("Negative boat length: " + length);
+        }
     }
 
     @Override

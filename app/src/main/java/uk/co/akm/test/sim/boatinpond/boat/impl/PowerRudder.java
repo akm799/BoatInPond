@@ -1,6 +1,7 @@
 package uk.co.akm.test.sim.boatinpond.boat.impl;
 
 import uk.co.akm.test.sim.boatinpond.boat.Rudder;
+import uk.co.akm.test.sim.boatinpond.math.MathConstants;
 
 /**
  * Rudder implementation that moves the rudder at a constant speed independent of the boat velocity.
@@ -19,10 +20,24 @@ public class PowerRudder implements Rudder {
 
     //TODO Make the constructor package private.
     public PowerRudder(double maxAngle, double timeToMaxAngle) {
-        //TODO Check arguments.
+        checkArguments(maxAngle, timeToMaxAngle);
         this.maxAngle = maxAngle;
         this.minAngle = -maxAngle;
         this.updateFraction = maxAngle/timeToMaxAngle;
+    }
+
+    private void checkArguments(double maxAngle, double timeToMaxAngle) {
+        if (maxAngle <= 0) {
+            throw new IllegalArgumentException("Negative rudder maximum deflection angle: " + maxAngle);
+        }
+
+        if (maxAngle > MathConstants.PI_OVER_TWO) {
+            throw new IllegalArgumentException("The rudder maximum deflection angle exceeds 90 degrees.");
+        }
+
+        if (timeToMaxAngle <= 0) {
+            throw new IllegalArgumentException("Negative time to reach the rudder maximum deflection angle: " + timeToMaxAngle);
+        }
     }
 
     @Override
