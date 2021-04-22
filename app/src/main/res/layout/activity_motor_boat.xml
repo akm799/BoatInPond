@@ -72,14 +72,27 @@
             android:layout_weight="1"
             android:layout_gravity="center_horizontal">
 
-            <Button
-                android:id="@+id/mb_rudder_left_btn"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@id/rudder_display_centre_anchor"
-                android:minWidth="@dimen/rudder_button_min_width"
-                android:textSize="@dimen/text_size_control"
-                android:text="@string/rudder_left_symbol"/>
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/mb_rudder_left_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="@dimen/rudder_button_min_width"
+                    android:textSize="@dimen/text_size_control"
+                    android:text="@string/rudder_left_symbol"/>
+
+                <TextView
+                    android:id="@+id/mb_rudder_left_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|top"
+                    android:textSize="12sp"/>
+            </LinearLayout>
 
             <!-- Invisible anchor at the centre of the rudder controls display area so that we can position the two rudder buttons to the right and the left of it. -->
             <View
@@ -88,14 +101,27 @@
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"/>
 
-            <Button
-                android:id="@+id/mb_rudder_right_btn"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/rudder_display_centre_anchor"
-                android:minWidth="@dimen/rudder_button_min_width"
-                android:textSize="@dimen/text_size_control"
-                android:text="@string/rudder_right_symbol"/>
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/mb_rudder_right_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="@dimen/rudder_button_min_width"
+                    android:textSize="@dimen/text_size_control"
+                    android:text="@string/rudder_right_symbol"/>
+
+                <TextView
+                    android:id="@+id/mb_rudder_right_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|top"
+                    android:textSize="12sp"/>
+            </LinearLayout>
         </RelativeLayout>
 
         <LinearLayout

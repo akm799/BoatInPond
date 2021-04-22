@@ -10,8 +10,6 @@ import uk.co.akm.test.sim.boatinpond.boat.factory.BoatConstantsFactory;
 import uk.co.akm.test.sim.boatinpond.boat.factory.impl.quad.BoatConstantsFactoryImpl;
 import uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatConstantsApprox;
 import uk.co.akm.test.sim.boatinpond.boat.impl.linear.LinearBoatConstants;
-import uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatConstantsImpl;
-import uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatPerformance;
 
 /**
  * Created by Thanos Mavroidis on 29/11/2017.
@@ -51,6 +49,16 @@ public final class BoatActivity extends AbstractBoatActivity {
     @Override
     protected int getPositionTextDisplayResId() {
         return R.id.location_txt;
+    }
+
+    @Override
+    protected int getLeftRudderTextDisplayResId() {
+        return R.id.rudder_left_txt;
+    }
+
+    @Override
+    protected int getRightRudderTextDisplayResId() {
+        return R.id.rudder_right_txt;
     }
 
     @Override

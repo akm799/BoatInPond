@@ -75,6 +75,16 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
     }
 
     @Override
+    protected int getLeftRudderTextDisplayResId() {
+        return R.id.mb_rudder_left_txt;
+    }
+
+    @Override
+    protected int getRightRudderTextDisplayResId() {
+        return R.id.mb_rudder_right_txt;
+    }
+
+    @Override
     protected int getLeftRudderControlResId() {
         return R.id.mb_rudder_left_btn;
     }

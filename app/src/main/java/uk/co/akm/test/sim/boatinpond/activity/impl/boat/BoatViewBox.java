@@ -18,6 +18,9 @@ import uk.co.akm.test.sim.boatinpond.view.ViewData;
  * Created by Thanos Mavroidis on 29/11/2017.
  */
 final class BoatViewBox implements ViewData<Boat> {
+    private static final long TEN = 10;
+    private static final long MINUS_TEN = -TEN;
+    private static final String DOUBLE_ZERO = "00";
     private static final char DEGREES_CHAR = '\u00b0';
     private static final double EARTH_RADIUS = 6371000;
     private static final double METRES_PER_SEC_TO_KNOTS = 1.94384;
@@ -27,6 +30,8 @@ final class BoatViewBox implements ViewData<Boat> {
     private String coordinates;
     private String compassHeading;
     private String speed;
+    private String leftRudderDeflection;
+    private String rightRudderDeflection;
     private final float[] rudderPlotFractions = new float[GameConstants.LEN_2D];
 
     private NumberFormat latLongFormat = new DecimalFormat("0.00");
@@ -64,7 +69,9 @@ final class BoatViewBox implements ViewData<Boat> {
 
     @Override
     public void additionalData(Boat state) {
-        setRudderPlotFractions(state.getRudder().getRudderAngle());
+        final double rudderAngle = state.getRudder().getRudderAngle();
+        setRudderText(rudderAngle);
+        setRudderPlotFractions(rudderAngle);
 
         final Angle longitude = new Angle(state.x()/EARTH_RADIUS);
         final Angle latitude = new Angle(state.y()/EARTH_RADIUS);
@@ -79,10 +86,43 @@ final class BoatViewBox implements ViewData<Boat> {
         rudderPlotFractions[GameConstants.Y_INDEX] = (float)Math.cos(rudderAngle);
     }
 
+    private void setRudderText(double rudderAngle) {
+        final long deg = Math.round(Angles.toDeg(rudderAngle));
+
+        if (deg > 0) {
+            leftRudderDeflection = rudderAngleToPaddedString(deg);
+            rightRudderDeflection = DOUBLE_ZERO;
+        } else if (deg < 0) {
+            leftRudderDeflection = DOUBLE_ZERO;
+            rightRudderDeflection = rudderAngleToPaddedString(deg);
+        } else {
+            rightRudderDeflection = DOUBLE_ZERO;
+            leftRudderDeflection = DOUBLE_ZERO;
+        }
+    }
+
+    private String rudderAngleToPaddedString(long deg) {
+        if (deg > 0) {
+            return (deg < TEN ? "0" : "") + deg;
+        } else if (deg < 0) {
+            return (deg > MINUS_TEN ? "0" : "") + (-deg);
+        } else {
+            return DOUBLE_ZERO;
+        }
+    }
+
     private long computeCompassHeadingInDegrees(Boat state) {
         final long degrees = Math.round(Angles.toCompassHeading(Angles.toDeg(state.hdnP())));
 
         return (degrees == 360 ? 0 : degrees);
+    }
+
+    public String getLeftRudderDeflection() {
+        return leftRudderDeflection;
+    }
+
+    public String getRightRudderDeflection() {
+        return rightRudderDeflection;
     }
 
     public float[] getRudderPlotFractions() {

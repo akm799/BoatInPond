@@ -20,6 +20,8 @@ public abstract class AbstractBoatActivity extends ViewBoxStateActivity<Boat, Bo
     private TextView speed;
     private TextView heading;
     private TextView location;
+    private TextView leftRudderAngle;
+    private TextView rightRudderAngle;
 
     private int nStepsForTextUpdate;
 
@@ -40,6 +42,8 @@ public abstract class AbstractBoatActivity extends ViewBoxStateActivity<Boat, Bo
         speed = findViewById(getSpeedTextDisplayResId());
         heading = findViewById(getHeadingTextDisplayResId());
         location = findViewById(getPositionTextDisplayResId());
+        leftRudderAngle = findViewById(getLeftRudderTextDisplayResId());
+        rightRudderAngle = findViewById(getRightRudderTextDisplayResId());
     }
 
     protected abstract int getSpeedTextDisplayResId();
@@ -48,12 +52,18 @@ public abstract class AbstractBoatActivity extends ViewBoxStateActivity<Boat, Bo
 
     protected abstract int getPositionTextDisplayResId();
 
+    protected abstract int getLeftRudderTextDisplayResId();
+
+    protected abstract int getRightRudderTextDisplayResId();
+
     protected void initAdditionalViews() {}
 
     private void checkBaseViewsInit() {
         checkForNull(speed, "Speed display text view has not been initialized.");
         checkForNull(heading, "Heading display text view has not been initialized.");
         checkForNull(location, "Position display text view has not been initialized.");
+        checkForNull(leftRudderAngle, "Left rudder deflection display text view has not been initialized.");
+        checkForNull(rightRudderAngle, "Right rudder deflection display text view has not been initialized.");
     }
 
     private void checkForNull(Object ref, String errorMessage) {
@@ -114,6 +124,8 @@ public abstract class AbstractBoatActivity extends ViewBoxStateActivity<Boat, Bo
         speed.setText(renderingData.getSpeed());
         heading.setText(renderingData.getCompassHeading());
         location.setText(renderingData.getCoordinates());
+        leftRudderAngle.setText(renderingData.getLeftRudderDeflection());
+        rightRudderAngle.setText(renderingData.getRightRudderDeflection());
     }
 
     protected void updateAdditionalTextDisplays(BoatViewBox renderingData) {}
