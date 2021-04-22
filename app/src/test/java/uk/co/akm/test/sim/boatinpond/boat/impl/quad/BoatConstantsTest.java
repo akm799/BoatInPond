@@ -23,12 +23,13 @@ public final class BoatConstantsTest {
 
     private final double maxRudderAngle = Math.PI/4;
     private final double timeToMaxRudderDeflection = 2;
+    private final double boatToRudderLengthRatio = 20;
 
     private final double expectedKLon = (1 + Math.log(launchSpeed))/distanceLimit;
 
     private final BoatPerformance performance = new BoatPerformance(launchSpeed, distanceLimit, turnRate, turningSpeed, timeToMaxRudderDeflection);
 
-    private final BoatConstants underTest = new BoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle);
+    private final BoatConstants underTest = new BoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle, boatToRudderLengthRatio);
 
     @Test
     public void shouldEvaluateKLon() {
