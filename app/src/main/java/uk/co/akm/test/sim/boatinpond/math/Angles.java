@@ -29,9 +29,9 @@ public class Angles {
 
         final double ap = zeroToTwoPi(a);
         if (ap > Math.PI) {
-            return (ap - TWO_PI);
+            return ap - TWO_PI;
         } else if (ap < -Math.PI) {
-            return -(ap + Math.PI);
+            return TWO_PI + ap;
         } else {
             return ap;
         }

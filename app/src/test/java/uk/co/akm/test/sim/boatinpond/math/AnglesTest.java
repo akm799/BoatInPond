@@ -29,6 +29,9 @@ public class AnglesTest {
         testProperRangeConversion(-990, 90);
         testProperRangeConversion(185, -175);
         testProperRangeConversion(225, -135);
+        testProperRangeConversion(-225, 135);
+        testProperRangeConversion(-585, 135);
+        testProperRangeConversion(-945, 135);
     }
 
     private void testProperRangeConversion(double inputDeg, double expectedDeg) {
