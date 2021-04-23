@@ -18,12 +18,15 @@ import uk.co.akm.test.sim.boatinpond.view.ViewData;
  * Created by Thanos Mavroidis on 29/11/2017.
  */
 final class BoatViewBox implements ViewData<Boat> {
-    private static final long TEN = 10;
-    private static final long MINUS_TEN = -TEN;
     private static final String DOUBLE_ZERO = "00";
     private static final char DEGREES_CHAR = '\u00b0';
     private static final double EARTH_RADIUS = 6371000;
     private static final double METRES_PER_SEC_TO_KNOTS = 1.94384;
+
+    private final NumberFormat latLongFormat = new DecimalFormat("0.00");
+    private final NumberFormat speedFormat = new DecimalFormat("0.00 Kts");
+    private final NumberFormat compassFormat = new DecimalFormat("000" + DEGREES_CHAR);
+    private final NumberFormat rudderAngleFormat = new DecimalFormat(DOUBLE_ZERO);
 
     private final ViewBoxFeatures viewBox;
 
@@ -33,10 +36,6 @@ final class BoatViewBox implements ViewData<Boat> {
     private String leftRudderDeflection;
     private String rightRudderDeflection;
     private final float[] rudderPlotFractions = new float[GameConstants.LEN_2D];
-
-    private NumberFormat latLongFormat = new DecimalFormat("0.00");
-    private NumberFormat speedFormat = new DecimalFormat("0.00 Kts");
-    private NumberFormat compassFormat = new DecimalFormat("000" + DEGREES_CHAR);
 
     BoatViewBox(double horizontalSide, double lineSpacing, int screenWidth, int screenHeight) {
         viewBox = new ViewBoxFast(horizontalSide, lineSpacing, screenWidth, screenHeight);
@@ -90,24 +89,14 @@ final class BoatViewBox implements ViewData<Boat> {
         final long deg = Math.round(Angles.toDeg(rudderAngle));
 
         if (deg > 0) {
-            leftRudderDeflection = rudderAngleToPaddedString(deg);
+            leftRudderDeflection = rudderAngleFormat.format(deg);
             rightRudderDeflection = DOUBLE_ZERO;
         } else if (deg < 0) {
             leftRudderDeflection = DOUBLE_ZERO;
-            rightRudderDeflection = rudderAngleToPaddedString(deg);
+            rightRudderDeflection = rudderAngleFormat.format(-deg);
         } else {
             rightRudderDeflection = DOUBLE_ZERO;
             leftRudderDeflection = DOUBLE_ZERO;
-        }
-    }
-
-    private String rudderAngleToPaddedString(long deg) {
-        if (deg > 0) {
-            return (deg < TEN ? "0" : "") + deg;
-        } else if (deg < 0) {
-            return (deg > MINUS_TEN ? "0" : "") + (-deg);
-        } else {
-            return DOUBLE_ZERO;
         }
     }
 
