@@ -2,8 +2,6 @@ package uk.co.akm.test.sim.boatinpond.boat.impl.quad;
 
 import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.Hydrofoil;
-import uk.co.akm.test.sim.boatinpond.boat.HydrofoilRudder;
-import uk.co.akm.test.sim.boatinpond.boat.impl.PowerHydrofoilRudder;
 import uk.co.akm.test.sim.boatinpond.boat.impl.foil.HydrofoilImpl;
 
 /**
