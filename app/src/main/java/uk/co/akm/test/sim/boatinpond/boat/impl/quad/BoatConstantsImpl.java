@@ -95,12 +95,17 @@ public class BoatConstantsImpl implements BoatConstants {
         final double c = torqueDragComponent + torqueLiftComponent;
 
         final double cogDistanceFromBow = (boatLength - cogDistanceFromStern);
-        final double af4 = Math.pow(cogDistanceFromBow/2, 4);
-        final double as4 = Math.pow((cogDistanceFromStern + rudderLength*Math.sin(aoa))/2, 4);
+        final double rudderLengthEffective = halfLength*Math.sin(aoa);
+        final double cogDistanceFromRudderMidpoint = cogDistanceFromStern + rudderLengthEffective;
+        final double af = cogDistanceFromBow/boatLength;
+        final double as = cogDistanceFromRudderMidpoint/boatLength;
+        final double df3 = Math.pow(cogDistanceFromBow/2, 3);
+        final double ds3 = Math.pow(cogDistanceFromRudderMidpoint/2, 3);
+
         final double omegaSq = turningRate * turningRate;
         final double vSq = turningSpeed * turningSpeed;
 
-        return kLat*omegaSq*(af4 + as4)/(c * vSq);
+        return kLat*omegaSq*(af*df3 + as*ds3)/(c * vSq);
     }
 
     @Override
