@@ -71,7 +71,7 @@ public class BoatImpl extends Body implements Boat {
         final double lx4 = lx*lx3;
 
         kLowBack = kLat*x3/l4;
-        kHighBack = kLat*x4/(l8);
+        kHighBack = kLat*x4/l8;
         kLowFront = kLat*lx3/l4;
         kHighFront = kLat*lx4/l8;
 

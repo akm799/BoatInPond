@@ -270,6 +270,48 @@
       </tr>
     </table>
 
+    <p>If we define</p>
+
+    <table>
+      <tr>
+        <td>
+          d<sub>F</sub> =
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">L - x</td></tr>
+            <tr><td align="center">2</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <p>and</p>
+
+    <table>
+      <tr>
+        <td>
+          d<sub>A</sub> =
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">x</td></tr>
+            <tr><td align="center">2</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <p>
+      then the resistance torque formulas for T<sub>F</sub> and T<sub>A</sub> can be rewritten as:
+    </p>
+
+    T<sub>F</sub> = F(k<sub>F</sub>, v<sub>F</sub>) d<sub>F</sub>
+
+    <p>and</p>
+
+    T<sub>A</sub> = F(k<sub>A</sub>, v<sub>A</sub>) d<sub>A</sub>
+
     <p>
       Notice that, in the above formula, instead of using the lateral resistance coefficient k we are
       using the resistance coefficients k<sub>F</sub> and k<sub>A</sub>. This is because the coefficient
@@ -286,7 +328,7 @@
         <td>
           <table>
             <tr><td style="border-bottom: 1px solid;">L - x</td></tr>
-            <tr><td align="center">2</td></tr>
+            <tr><td align="center">L</td></tr>
           </table>
         </td>
       </tr>
@@ -302,7 +344,7 @@
         <td>
           <table>
             <tr><td style="border-bottom: 1px solid;">x</td></tr>
-            <tr><td>2</td></tr>
+            <tr><td>L</td></tr>
           </table>
         </td>
       </tr>
@@ -320,7 +362,7 @@
         <td>
           <table>
             <tr><td style="border-bottom: 1px solid;">L - x</td></tr>
-            <tr><td align="center">2</td></tr>
+            <tr><td align="center">L</td></tr>
           </table>
         </td>
       </tr>
@@ -336,7 +378,7 @@
         <td>
           <table>
             <tr><td style="border-bottom: 1px solid;">x</td></tr>
-            <tr><td>2</td></tr>
+            <tr><td>L</td></tr>
           </table>
         </td>
       </tr>
@@ -346,11 +388,18 @@
       then we can write:
     </p>
 
-    T<sub>F</sub> = F(k a<sub>F</sub>, v<sub>F</sub>) a<sub>F</sub>
+    T<sub>F</sub> = F(k a<sub>F</sub>, v<sub>F</sub>) d<sub>F</sub>
 
     <p>and</p>
 
-    T<sub>A</sub> = F(k a<sub>A</sub>, v<sub>A</sub>) a<sub>A</sub>
+    T<sub>A</sub> = F(k a<sub>A</sub>, v<sub>A</sub>) d<sub>A</sub>
+
+    <p>
+      As we can see, a<sub>F</sub> and a<sub>A</sub> are the ratios of the lateral boat areas
+      rotating through the water. In other words, if we assume that the area of the side of the
+      boat is equal to 1, then the front part of that area would be exactly equal to a<sub>F</sub>
+      and the back (aft) part of that area would be exactly equal to a<sub>A</sub>.
+    </p>
 
     <h3>Low speed resistance torque</h3>
 
@@ -364,22 +413,22 @@
       By substituting the resistance force for the low rotational speed region we get:
     </p>
 
-    T<sub>F</sub> = k a<sub>F</sub> v<sub>F</sub> a<sub>F</sub> = k v<sub>F</sub> a<sub>F</sub><sup>2</sup>
+    T<sub>F</sub> = k a<sub>F</sub> v<sub>F</sub> d<sub>F</sub>
 
     <p>and since</p>
 
-    v<sub>F</sub> = &omega; a<sub>F</sub>
+    v<sub>F</sub> = &omega; d<sub>F</sub>
 
     <p>we have:</p>
 
-    T<sub>F</sub> = k &omega; a<sub>F</sub><sup>3</sup>
+    T<sub>F</sub> = k &omega; a<sub>F</sub> d<sub>F</sub><sup>2</sup>
 
     <p>
       Similarly, the resistance torque T<sub>A</sub> caused by the aft part of the boat at low rotational
       speeds is given by:
     </p>
 
-    T<sub>A</sub> = k &omega; a<sub>A</sub><sup>3</sup>
+    T<sub>A</sub> = k &omega; a<sub>A</sub> d<sub>A</sub><sup>2</sup>
 
     <p>
       We remember that the above formulae hold only when v < v<sub>T</sub> and since
@@ -391,7 +440,7 @@
         <td>
           <table>
             <tr><td>v<sub>F</sub></td></tr>
-            <tr><td style="border-top: 1px solid;">a<sub>F</sub></td></tr>
+            <tr><td style="border-top: 1px solid;">d<sub>F</sub></td></tr>
           </table>
         </td>
       </tr>
@@ -407,7 +456,7 @@
         <td>
           <table>
             <tr><td>v<sub>T</sub></td></tr>
-            <tr><td style="border-top: 1px solid;">a<sub>F</sub></td></tr>
+            <tr><td style="border-top: 1px solid;">d<sub>F</sub></td></tr>
           </table>
         </td>
       </tr>
@@ -421,7 +470,7 @@
         <td>
           <table>
             <tr><td>v<sub>T</sub></td></tr>
-            <tr><td style="border-top: 1px solid;">a<sub>A</sub></td></tr>
+            <tr><td style="border-top: 1px solid;">d<sub>A</sub></td></tr>
           </table>
         </td>
       </tr>
@@ -442,22 +491,22 @@
       By substituting the resistance force for the high rotational speed region we get:
     </p>
 
-    T<sub>F</sub> = k a<sub>F</sub> v<sub>F</sub><sup>2</sup> a<sub>F</sub> = k v<sub>F</sub><sup>2</sup> a<sub>F</sub><sup>2</sup>
+    T<sub>F</sub> = k a<sub>F</sub> v<sub>F</sub><sup>2</sup> d<sub>F</sub>
 
     <p>and since</p>
 
-    v<sub>F</sub> = &omega; a<sub>F</sub>
+    v<sub>F</sub> = &omega; d<sub>F</sub>
 
     <p>we have:</p>
 
-    T<sub>F</sub> = k &omega;<sup>2</sup> a<sub>F</sub><sup>4</sup>
+    T<sub>F</sub> = k &omega;<sup>2</sup> a<sub>F</sub> d<sub>F</sub><sup>3</sup>
 
     <p>
       Similarly, the resistance torque T<sub>A</sub> caused by the aft part of the boat at low rotational
       speeds is given by:
     </p>
 
-    T<sub>A</sub> = k &omega;<sup>2</sup> a<sub>A</sub><sup>4</sup>
+    T<sub>A</sub> = k &omega;<sup>2</sup> a<sub>A</sub> d<sub>A</sub><sup>3</sup>
 
     <p>
       As these formulae are valid only for the high rotational speed region, they require that &omega; &GreaterEqual; &omega;<sub>T</sub> where
@@ -469,7 +518,7 @@
         <td>
           <table>
             <tr><td>v<sub>T</sub></td></tr>
-            <tr><td style="border-top: 1px solid;">a<sub>F</sub></td></tr>
+            <tr><td style="border-top: 1px solid;">d<sub>F</sub></td></tr>
           </table>
         </td>
       </tr>
@@ -483,7 +532,7 @@
         <td>
           <table>
             <tr><td>v<sub>T</sub></td></tr>
-            <tr><td style="border-top: 1px solid;">a<sub>A</sub></td></tr>
+            <tr><td style="border-top: 1px solid;">d<sub>A</sub></td></tr>
           </table>
         </td>
       </tr>
@@ -521,9 +570,9 @@
 
         <td>
           <table>
-            <tr><td>k &omega; a<sub>F</sub><sup>3</sup> &nbsp; &nbsp; &nbsp; : &omega; < &omega;<sub>T</sub></td></tr>
+            <tr><td>k &omega; a<sub>F</sub> d<sub>F</sub><sup>2</sup> &nbsp; &nbsp; &nbsp; : &omega; < &omega;<sub>T</sub></td></tr>
             <tr><td></td></tr>
-            <tr><td>k &omega;<sup>2</sup> a<sub>F</sub><sup>4</sup>&nbsp; &nbsp; &nbsp; : &omega; &ge; &omega;<sub>T</sub></td></tr>
+            <tr><td>k &omega;<sup>2</sup> a<sub>F</sub> d<sub>F</sub><sup>3</sup>&nbsp; &nbsp; &nbsp; : &omega; &ge; &omega;<sub>T</sub></td></tr>
           </table>
         </td>
 
@@ -536,6 +585,20 @@
       <tr>
         <td>
           a<sub>F</sub> =
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">L - x</td></tr>
+            <tr><td align="center">L</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <table>
+      <tr>
+        <td>
+          d<sub>F</sub> =
         </td>
         <td>
           <table>
@@ -554,7 +617,7 @@
         <td>
           <table>
             <tr><td>v<sub>T</sub></td></tr>
-            <tr><td style="border-top: 1px solid;">a<sub>F</sub></td></tr>
+            <tr><td style="border-top: 1px solid;">d<sub>F</sub></td></tr>
           </table>
         </td>
       </tr>
@@ -579,9 +642,9 @@
 
         <td>
           <table>
-            <tr><td>k &omega; a<sub>A</sub><sup>3</sup> &nbsp; &nbsp; &nbsp; : &omega; < &omega;<sub>T</sub></td></tr>
+            <tr><td>k &omega; a<sub>A</sub> d<sub>A</sub><sup>2</sup> &nbsp; &nbsp; &nbsp; : &omega; < &omega;<sub>T</sub></td></tr>
             <tr><td></td></tr>
-            <tr><td>k &omega;<sup>2</sup> a<sub>A</sub><sup>4</sup>&nbsp; &nbsp; &nbsp; : &omega; &ge; &omega;<sub>T</sub></td></tr>
+            <tr><td>k &omega;<sup>2</sup> a<sub>A</sub> d<sub>A</sub><sup>3</sup>&nbsp; &nbsp; &nbsp; : &omega; &ge; &omega;<sub>T</sub></td></tr>
           </table>
         </td>
 
@@ -594,6 +657,20 @@
       <tr>
         <td>
           a<sub>A</sub> =
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">x</td></tr>
+            <tr><td>L</td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <table>
+      <tr>
+        <td>
+          d<sub>A</sub> =
         </td>
         <td>
           <table>
@@ -612,7 +689,7 @@
         <td>
           <table>
             <tr><td>v<sub>T</sub></td></tr>
-            <tr><td style="border-top: 1px solid;">a<sub>A</sub></td></tr>
+            <tr><td style="border-top: 1px solid;">d<sub>A</sub></td></tr>
           </table>
         </td>
       </tr>
