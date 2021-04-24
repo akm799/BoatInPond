@@ -95,13 +95,13 @@ public class BoatImpl2 extends Body implements Boat {
 
     @Override
     protected final void updateAngularAcceleration(State start, double dt) {
-        final double rudderTorque = estimateRudderTorque(kRud, vLonSqSigned);
-        final double resistanceTorque = estimateResistanceTorque(kLat, omg, vLat);
+        final double rudderTorque = estimateRudderTorque(kRud, vLon);
+        final double resistanceTorque = estimateResistanceTorque(kLat, omg, vLon, vLat);
 
         aHdn = rudderTorque + resistanceTorque; // Assume moment of inertia value of 1.
     }
 
-    private double estimateRudderTorque(double k, double vSqSigned) {
+    private double estimateRudderTorque(double k, double v) {
         final double aoa = rudder.getAngleOfAttack();
         final double halfLength = rudder.getHalfLength();
         final double dragCoefficient = rudder.getDragCoefficient();
@@ -109,36 +109,61 @@ public class BoatImpl2 extends Body implements Boat {
 
         final double torqueDragComponent = dragCoefficient*halfLength*Math.cos(aoa);
         final double torqueLiftComponent = liftCoefficient*(cogDistanceFromStern + halfLength*Math.sin(aoa));
-        final double torque = k*vSqSigned*(torqueDragComponent + torqueLiftComponent);
+        final double torqueMagnitude = k*v*v*(torqueDragComponent + torqueLiftComponent);
 
-        if (rudder.getRudderAngle() >= 0) {
-            return torque;
-        } else {
-            return -torque;
+        if (v >= 0) {
+            if (rudder.getRudderAngle() >= 0) {
+                return torqueMagnitude;
+            } else {
+                return -torqueMagnitude;
+            }
+        } else { // When the boat is going backwards the rudder torque is reversed.
+            if (rudder.getRudderAngle() >= 0) {
+                return -torqueMagnitude;
+            } else {
+                return torqueMagnitude;
+            }
         }
     }
 
-    private double estimateResistanceTorque(double kLat, double omg, double vLat) {
+    private double estimateResistanceTorque(double kLat, double omg, double vLon, double vLat) {
         // The constants for the back boat section depend on the current rudder deflection angle.
         final double effectiveRudderLength = rudder.getHalfLength()*Math.sin(rudder.getAngleOfAttack());
         final double dBack = cogDistanceFromStern + effectiveRudderLength;
         final double kBack = (dBack/boatLength) * kLat;
 
-        final double vRotFront = omg*dFront - vLat; // The lateral water flow reduces the rotational resistance of the front boat section.
-        final double forceFront = resistanceForce(kFront, vRotFront);
+        final double vRotFront, vRotBack;
+        if (vLon >= 0) {
+            vRotFront = omg*dFront - vLat; // The lateral water flow reduces the rotational resistance of the front boat section.
+            vRotBack = omg*dBack + vLat; // The lateral water flow increases the rotational resistance of the back boat section.
+        } else { // When the boat is moving backwards, the reverse is true.
+            vRotFront = omg*dFront + vLat;
+            vRotBack = omg*dBack - vLat;
+        }
 
-        final double vRotBack = omg*dBack + vLat; // The lateral water flow increases the rotational resistance of the back boat section.
-        final double forceBack = resistanceForce(kBack, vRotBack);
+        final double forceFront = resistanceForceMagnitude(kFront, vRotFront);
+        final double forceBack = resistanceForceMagnitude(kBack, vRotBack);
+        final double torqueMagnitude = forceFront*dFront + forceBack*dBack;
 
-        return forceFront*dFront + forceBack*dBack;
+        if (omg >= 0) {
+            return -torqueMagnitude;
+        } else {
+            return torqueMagnitude;
+        }
     }
 
-    private double resistanceForce(double k, double v) {
-        final double vAbs = Math.abs(v);
-        if (vAbs < V_TRANSITION) {
-            return -k*v;
+    private double resistanceForceMagnitude(double k, double v) {
+        final double vAbs;
+        if (v >= 0) {
+            vAbs = v;
         } else {
-            return -k*v*vAbs;
+            vAbs = -v;
+        }
+
+        if (vAbs < V_TRANSITION) {
+            return k*vAbs;
+        } else {
+            return k*vAbs*vAbs;
         }
     }
 
