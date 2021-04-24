@@ -56,7 +56,7 @@ public class BoatPerformance {
         this.launchSpeed = launchSpeed;
         this.distanceLimit = distanceLimit;
         this.turnRate = turnRate;
-        this.turnRadius = turnRate/turningSpeed; //TODO Accept the turn radius as an input parameter.
+        this.turnRadius = turningSpeed/turnRate; //TODO Accept the turn radius as an input parameter.
         this.turningSpeed = turningSpeed;
         this.timeToMaxRudderDeflection = timeToMaxRudderDeflection;
     }
