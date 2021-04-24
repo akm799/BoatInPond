@@ -38,7 +38,7 @@ public class BoatConstantsImpl2 implements BoatConstants {
         this.maxRudderAngle = maxRudderAngle;
         this.rudderLength = boatLength/boatToRudderLengthRatio;
         this.timeToMaxRudderAngle = performance.timeToMaxRudderDeflection;
-        this.kRud = kRudEstimation(kLat, boatLength, boatToRudderLengthRatio, cogDistanceFromStern, performance.turnRate, performance.turningSpeed);
+        this.kRud = kRudEstimation(kLat, boatLength, boatToRudderLengthRatio, cogDistanceFromStern, performance.turnRadius, performance.turningSpeed);
     }
 
     private void checkArgs(double length, double cogDistanceFromStern, double omega, double v, double vTransition) {
@@ -70,10 +70,22 @@ public class BoatConstantsImpl2 implements BoatConstants {
             double boatLength,
             double boatToRudderLengthRatio,
             double cogDistanceFromStern,
-            double turningRate,
+            double turnRadius,
             double turningSpeed
     ) {
         final Hydrofoil hydrofoil = new HydrofoilImpl();
+        final double c = estimateRudderTorqueCoefficient(hydrofoil, boatLength, boatToRudderLengthRatio, cogDistanceFromStern);
+        final double resistanceTorque = estimateResistanceTorqueMagnitude(hydrofoil, kLat, boatLength, boatToRudderLengthRatio, cogDistanceFromStern, turnRadius, turningSpeed);
+
+        return resistanceTorque/(c * turningSpeed * turningSpeed);
+    }
+
+    private double estimateRudderTorqueCoefficient(
+            Hydrofoil hydrofoil,
+            double boatLength,
+            double boatToRudderLengthRatio,
+            double cogDistanceFromStern
+    ) {
         final double aoa = hydrofoil.getMaxLiftAngleOfAttack();
         final double halfLength = (boatLength/boatToRudderLengthRatio)/2;
         final double dragCoefficient = hydrofoil.getDragCoefficient(aoa);
@@ -81,36 +93,54 @@ public class BoatConstantsImpl2 implements BoatConstants {
 
         final double torqueDragComponent = dragCoefficient*halfLength*Math.cos(aoa);
         final double torqueLiftComponent = liftCoefficient*(cogDistanceFromStern + halfLength*Math.sin(aoa));
-        final double c = torqueDragComponent + torqueLiftComponent;
 
-        final double rudderLengthEffective = halfLength*Math.sin(aoa);
-
-        final double dAngleDeg = 5; // A rough guess. Probably depends on the boat speed (turningSpeed).
-        final double dAngle = dAngleDeg*Math.PI/180;
-        final double vLat = turningSpeed*Math.sin(dAngle);
-
-        final double dFront = boatLength - cogDistanceFromStern;
-        final double kFront = (dFront/boatLength) * kLat;
-        final double dBack = cogDistanceFromStern + rudderLengthEffective;
-        final double kBack = (dBack/boatLength) * kLat;
-
-        final double vRotFront = turningRate*dFront - vLat; // The lateral water flow reduces the rotational resistance of the front boat section.
-        final double forceFront = resistanceForce(kFront, vRotFront);
-
-        final double vRotBack = turningRate*dBack + vLat; // The lateral water flow increases the rotational resistance of the back boat section.
-        final double forceBack = resistanceForce(kBack, vRotBack);
-
-        final double resistanceTorque = forceFront*dFront + forceBack*dBack;
-
-        return resistanceTorque/(c * turningSpeed * turningSpeed);
+        return torqueDragComponent + torqueLiftComponent;
     }
 
-    private double resistanceForce(double k, double v) {
+    private double estimateResistanceTorqueMagnitude(
+            Hydrofoil hydrofoil,
+            double kLat,
+            double boatLength,
+            double boatToRudderLengthRatio,
+            double cogDistanceFromStern,
+            double radius,
+            double v
+    ) {
+        final double dFront = boatLength - cogDistanceFromStern;
+        final double kFront = (dFront/boatLength) * kLat;
+
+        final double halfLength = (boatLength/boatToRudderLengthRatio)/2;
+        final double effectiveRudderLength = halfLength*Math.sin(hydrofoil.getMaxLiftAngleOfAttack());
+        final double dBack = cogDistanceFromStern + effectiveRudderLength;
+        final double kBack = (dBack/boatLength) * kLat;
+
+        final double omg = v / radius;
+        final double vLat = vLat(kLat, 1, radius, v); // Assume mass equal to 1.
+        final double vRotFront = omg*dFront - vLat; // The lateral water flow reduces the rotational resistance of the front boat section.
+        final double vRotBack = omg*dBack + vLat; // The lateral water flow increases the rotational resistance of the back boat section.
+
+        final double forceFront = resistanceForceMagnitude(kFront, vRotFront);
+        final double forceBack = resistanceForceMagnitude(kBack, vRotBack);
+
+        return forceFront*dFront + forceBack*dBack;
+    }
+
+    private double vLat(double kLat, double mass, double radius, double v) {
+        final double fc = mass*v*v/radius;
+        final double vLatHigh = Math.sqrt(fc / kLat);
+        if (vLatHigh < V_TRANSITION) {
+            return fc / kLat;
+        } else {
+            return vLatHigh;
+        }
+    }
+
+    private double resistanceForceMagnitude(double k, double v) {
         final double vAbs = Math.abs(v);
         if (vAbs < V_TRANSITION) {
-            return -k*v;
+            return k*vAbs;
         } else {
-            return -k*v*vAbs;
+            return k*vAbs*vAbs;
         }
     }
 
