@@ -127,11 +127,15 @@ public class BoatConstantsImpl2 implements BoatConstants {
 
     private double vLat(double kLat, double mass, double radius, double v) {
         final double fc = mass*v*v/radius;
-        final double vLatHigh = Math.sqrt(fc / kLat);
-        if (vLatHigh < V_TRANSITION) {
-            return fc / kLat;
-        } else {
+        final double vLatLow = fc / kLat;
+        final double vLatHigh = Math.sqrt(vLatLow);
+
+        if (vLatHigh >= V_TRANSITION) {
             return vLatHigh;
+        } else if (vLatLow < V_TRANSITION) {
+            return vLatLow;
+        } else {
+            throw new IllegalStateException("Unable to reach acceptable vLat value in turning performance estimation.");
         }
     }
 
