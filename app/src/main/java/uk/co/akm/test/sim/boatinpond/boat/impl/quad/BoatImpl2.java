@@ -1,5 +1,6 @@
 package uk.co.akm.test.sim.boatinpond.boat.impl.quad;
 
+
 import uk.co.akm.test.sim.boatinpond.boat.Boat;
 import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.HydrofoilRudder;
@@ -107,8 +108,8 @@ public class BoatImpl2 extends Body implements Boat {
         final double dragCoefficient = rudder.getDragCoefficient();
         final double liftCoefficient = rudder.getLiftCoefficient();
 
-        final double torqueDragComponent = dragCoefficient*halfLength*Math.cos(aoa);
-        final double torqueLiftComponent = liftCoefficient*(cogDistanceFromStern + halfLength*Math.sin(aoa));
+        final double torqueDragComponent = dragCoefficient*halfLength*Math.sin(aoa);
+        final double torqueLiftComponent = liftCoefficient*(cogDistanceFromStern + halfLength*Math.cos(aoa));
         final double torqueMagnitude = k*v*v*(torqueDragComponent + torqueLiftComponent);
 
         if (v >= 0) {

@@ -91,8 +91,8 @@ public class BoatConstantsImpl2 implements BoatConstants {
         final double dragCoefficient = hydrofoil.getDragCoefficient(aoa);
         final double liftCoefficient = hydrofoil.getLiftCoefficient(aoa);
 
-        final double torqueDragComponent = dragCoefficient*halfLength*Math.cos(aoa);
-        final double torqueLiftComponent = liftCoefficient*(cogDistanceFromStern + halfLength*Math.sin(aoa));
+        final double torqueDragComponent = dragCoefficient*halfLength*Math.sin(aoa);
+        final double torqueLiftComponent = liftCoefficient*(cogDistanceFromStern + halfLength*Math.cos(aoa));
 
         return torqueDragComponent + torqueLiftComponent;
     }
@@ -110,7 +110,7 @@ public class BoatConstantsImpl2 implements BoatConstants {
         final double kFront = (dFront/boatLength) * kLat;
 
         final double halfLength = (boatLength/boatToRudderLengthRatio)/2;
-        final double effectiveRudderLength = halfLength*Math.sin(hydrofoil.getMaxLiftAngleOfAttack());
+        final double effectiveRudderLength = halfLength*Math.cos(hydrofoil.getMaxLiftAngleOfAttack());
         final double dBack = cogDistanceFromStern + effectiveRudderLength;
         final double kBack = (dBack/boatLength) * kLat;
 
