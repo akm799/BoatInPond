@@ -6,7 +6,7 @@ import uk.co.akm.test.sim.boatinpond.boat.MotorBoatConstants;
  * Created by Thanos Mavroidis on 28/02/2018.
  */
 public final class MotorBoatConstantsImpl extends BoatConstantsImpl implements MotorBoatConstants {
-    private final double maxMotorPower;
+    private final double maxMotorForce;
     private final double timeToMaxPower;
 
     public MotorBoatConstantsImpl(MotorBoatPerformance performance,
@@ -19,11 +19,11 @@ public final class MotorBoatConstantsImpl extends BoatConstantsImpl implements M
                                   double boatToRudderLengthRatio) {
         super(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle, boatToRudderLengthRatio);
 
-        maxMotorPower = estimateMaxMotorPower(performance);
+        maxMotorForce = estimateMaxMotorForce(performance);
         timeToMaxPower = performance.timeToMaxPower;
     }
 
-    private double estimateMaxMotorPower(MotorBoatPerformance performance) {
+    private double estimateMaxMotorForce(MotorBoatPerformance performance) {
         final double k = getkLon();
         final double v = performance.maxSpeed;
 
@@ -32,7 +32,7 @@ public final class MotorBoatConstantsImpl extends BoatConstantsImpl implements M
 
     @Override
     public double getMaxMotorForce() {
-        return maxMotorPower;
+        return maxMotorForce;
     }
 
     @Override
