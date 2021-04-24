@@ -32,10 +32,16 @@ public class BoatPerformance {
     /**
      * The sustained turn rate that the boat will achieve will full rudder deflection when travelling at a constant speed defined by {@link #turningSpeed}
      */
+    @Deprecated
     public final double turnRate;
 
     /**
-     * The constant speed that the boat will be travelling when constantly turning, under full rudder deflection, with a turn rate defined in {@link #turnRate}
+     * The turn radius that the boat will achieve when constantly turning, under most efficient rudder deflection, at a turning speed defined in {@link #turningSpeed}
+     */
+    public final double turnRadius;
+
+    /**
+     * The constant speed that the boat will be travelling when constantly turning, under most efficient rudder deflection, with a turn radius defined in {@link #turnRadius}
      */
     public final double turningSpeed;
 
@@ -45,10 +51,12 @@ public class BoatPerformance {
      */
     public final double timeToMaxRudderDeflection;
 
+    //TODO Replace input parameter turnRate by turnRadius.
     public BoatPerformance(double launchSpeed, double distanceLimit, double turnRate, double turningSpeed, double timeToMaxRudderDeflection) {
         this.launchSpeed = launchSpeed;
         this.distanceLimit = distanceLimit;
         this.turnRate = turnRate;
+        this.turnRadius = turnRate/turningSpeed; //TODO Accept the turn radius as an input parameter.
         this.turningSpeed = turningSpeed;
         this.timeToMaxRudderDeflection = timeToMaxRudderDeflection;
     }
