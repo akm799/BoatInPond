@@ -8,11 +8,18 @@ public final class PowerHydrofoilRudder extends PowerRudder implements Hydrofoil
     private final double halfLength;
     private final Hydrofoil hydrofoil = new HydrofoilImpl();
 
+    private final double dZeroAngle;
+    private final double dZeroToMaxAngleRange;
+
     public PowerHydrofoilRudder(double maxAngle, double timeToMaxAngle, double length) {
         super(maxAngle, timeToMaxAngle);
 
         checkArguments(length);
         this.halfLength = length/2;
+
+        final double dMaxAngle = hydrofoil.getDragCoefficient(getMaxRudderAngle());
+        this.dZeroAngle = hydrofoil.getDragCoefficient(0);
+        this.dZeroToMaxAngleRange = dMaxAngle - dZeroAngle;
     }
 
     private void checkArguments(double length) {
@@ -34,6 +41,11 @@ public final class PowerHydrofoilRudder extends PowerRudder implements Hydrofoil
     @Override
     public double getDragCoefficient() {
         return hydrofoil.getDragCoefficient(getAngleOfAttack());
+    }
+
+    @Override
+    public double normaliseDragCoefficient(double rawValue) {
+        return (rawValue - dZeroAngle)/dZeroToMaxAngleRange;
     }
 
     @Override

@@ -41,6 +41,7 @@ public class BoatImpl2 extends Body implements Boat {
     private double vLatSqSigned;
 
     private double omg;
+    private double dragCoefficient;
 
     private final HydrofoilRudder rudder;
 
@@ -92,6 +93,7 @@ public class BoatImpl2 extends Body implements Boat {
         vLatSqSigned = vLat*Math.abs(vLat);
 
         omg = start.omgHdn();
+        dragCoefficient = rudder.getDragCoefficient();
     }
 
     @Override
@@ -105,7 +107,6 @@ public class BoatImpl2 extends Body implements Boat {
     private double estimateRudderTorque(double k, double v) {
         final double aoa = rudder.getAngleOfAttack();
         final double halfLength = rudder.getHalfLength();
-        final double dragCoefficient = rudder.getDragCoefficient();
         final double liftCoefficient = rudder.getLiftCoefficient();
 
         final double torqueDragComponent = dragCoefficient*halfLength*Math.sin(aoa);
@@ -171,7 +172,8 @@ public class BoatImpl2 extends Body implements Boat {
     @Override
     protected final void updateAcceleration(State start, double dt) {
         final double kLon = (vLon >= 0 ? this.kLon : this.kLonReverse);
-        final double kLonEffective = kLon + kLon*rudderAreaFraction*Math.sin(Math.abs(rudder.getRudderAngle())); // Approximate increased longitudinal resistance due to rudder deflection.
+        final double kLonRudder = kLon*rudderAreaFraction*rudder.normaliseDragCoefficient(dragCoefficient); // Approximate increased longitudinal resistance due to rudder deflection.
+        final double kLonEffective = kLon + kLonRudder;
 
         // Evaluate the acceleration wrt the linear heading.
         final double propulsionLon = estimatePropulsionForce();
