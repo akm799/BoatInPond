@@ -126,8 +126,14 @@ public class BoatConstantsImpl2 implements BoatConstants {
     }
 
     private double vLat(double kLat, double mass, double radius, double v) {
+        // Measured angle difference between boat heading and velocity vectors
+        // observed at a constant turning speed of 16.61 kts and a constant
+        // turning rate of 14.58 degrees per second.
+        final double phiDeg = 8.34;
+
+        final double cosPhi = Math.cos(phiDeg*Math.PI/180);
         final double fc = mass*v*v/radius;
-        final double vLatLow = fc / kLat;
+        final double vLatLow = fc / (kLat * cosPhi);
         final double vLatHigh = Math.sqrt(vLatLow);
 
         if (vLatHigh >= V_TRANSITION) {
