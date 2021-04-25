@@ -1,6 +1,7 @@
 package uk.co.akm.test.sim.boatinpond.boat.impl.quad;
 
 
+
 import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.Hydrofoil;
 import uk.co.akm.test.sim.boatinpond.boat.impl.foil.HydrofoilImpl;
@@ -128,7 +129,41 @@ public class BoatConstantsImpl2 implements BoatConstants {
         return forceFront*dFront + forceBack*dBack;
     }
 
+    /**
+     * Returns the magnitude of the boat velocity vector which is perpendicular to the
+     * boat's longitudinal (bow-stern) axis when the boat performs a sustained turn of
+     * radius {@code radius} at a constant speed {@code v}.
+     *
+     * @param kLat the boat lateral water resistance coefficient
+     * @param mass the boat mass
+     * @param radius the sustained turn radius
+     * @param v the sustained turn constant speed
+     * @return the magnitude of the boat velocity vector which is perpendicular to the
+     * boat's longitudinal (bow-stern) axis during a sustained turn at a constant speed
+     */
     private double vLat(final double kLat, final double mass, final double radius, double v) {
+        final double phi = phi(kLat, mass, radius, v);
+        final double vLat = v*Math.sin(phi);
+        if (vLat < V_TRANSITION) {
+            throw new IllegalStateException("Unable to reach acceptable vLat value in turning performance estimation.");
+        }
+
+        return vLat;
+    }
+
+    /**
+     * Returns the absolute difference between the angles of the boat heading and velocity
+     * vectors that are expected during a sustained turn of radius {@code radius} at a
+     * constant speed {@code v}
+     *
+     * @param kLat the boat lateral water resistance coefficient
+     * @param mass the boat mass
+     * @param radius the sustained turn radius
+     * @param v the sustained turn constant speed
+     * @return the absolute difference between the angles of the boat heading and velocity
+     * vectors during a sustained turn at a constant speed
+     */
+    private double phi(final double kLat, final double mass, final double radius, double v) {
         final FunctionAndDerivative f = new FunctionAndDerivative() {
             final double c = 2*mass/(kLat*radius);
 
@@ -142,14 +177,9 @@ public class BoatConstantsImpl2 implements BoatConstants {
                 return Math.cos(x)*Math.sin(2*x) + 2*Math.sin(x)*Math.cos(2*x);
             }
         };
-        final double phi0 = 15*Math.PI/180;
-        final double phi = (new NewtonRaphsonRootFinder()).findRoot(f, phi0, 0.000001);
-        final double vLat = v*Math.sin(phi);
-        if (vLat < V_TRANSITION) {
-            throw new IllegalStateException("Unable to reach acceptable vLat value in turning performance estimation.");
-        }
 
-        return vLat;
+        final double phi0 = 15*Math.PI/180;
+        return  (new NewtonRaphsonRootFinder()).findRoot(f, phi0, 0.000001);
     }
 
     private double resistanceForceMagnitude(double k, double v) {
