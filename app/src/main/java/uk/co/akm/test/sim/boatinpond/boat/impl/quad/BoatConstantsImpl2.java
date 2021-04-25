@@ -1,8 +1,11 @@
 package uk.co.akm.test.sim.boatinpond.boat.impl.quad;
 
+
 import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.Hydrofoil;
 import uk.co.akm.test.sim.boatinpond.boat.impl.foil.HydrofoilImpl;
+import uk.co.akm.test.sim.boatinpond.math.root.FunctionAndDerivative;
+import uk.co.akm.test.sim.boatinpond.math.root.NewtonRaphsonRootFinder;
 
 /**
  * Created by Thanos Mavroidis on 23/04/2021.
@@ -125,24 +128,28 @@ public class BoatConstantsImpl2 implements BoatConstants {
         return forceFront*dFront + forceBack*dBack;
     }
 
-    private double vLat(double kLat, double mass, double radius, double v) {
-        // Measured angle difference between boat heading and velocity vectors
-        // observed at a constant turning speed of 16.61 kts and a constant
-        // turning rate of 14.58 degrees per second.
-        final double phiDeg = 8.34;
+    private double vLat(final double kLat, final double mass, final double radius, double v) {
+        final FunctionAndDerivative f = new FunctionAndDerivative() {
+            final double c = 2*mass/(kLat*radius);
 
-        final double cosPhi = Math.cos(phiDeg*Math.PI/180);
-        final double fc = mass*v*v/radius;
-        final double vLatLow = fc / (kLat * cosPhi);
-        final double vLatHigh = Math.sqrt(vLatLow);
+            @Override
+            public double f(double x) {
+                return Math.sin(x) * Math.sin(2*x) - c;
+            }
 
-        if (vLatHigh >= V_TRANSITION) {
-            return vLatHigh;
-        } else if (vLatLow < V_TRANSITION) {
-            return vLatLow;
-        } else {
+            @Override
+            public double fp(double x) {
+                return Math.cos(x)*Math.sin(2*x) + 2*Math.sin(x)*Math.cos(2*x);
+            }
+        };
+        final double phi0 = 15*Math.PI/180;
+        final double phi = (new NewtonRaphsonRootFinder()).findRoot(f, phi0, 0.000001);
+        final double vLat = v*Math.sin(phi);
+        if (vLat < V_TRANSITION) {
             throw new IllegalStateException("Unable to reach acceptable vLat value in turning performance estimation.");
         }
+
+        return vLat;
     }
 
     private double resistanceForceMagnitude(double k, double v) {
