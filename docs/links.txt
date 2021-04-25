@@ -9,5 +9,8 @@ https://www.mermaid-consultants.com/ship-resistance-calculation.html
 Rudder Physics
 https://www.youtube.com/watch?v=jbc15fj6hnM
 
+Maneuverability Estimation of high-speed craft (turn radius data).
+https://core.ac.uk/download/pdf/36737918.pdf
+
 On Line Function Plotter
 https://www.desmos.com/calculator
