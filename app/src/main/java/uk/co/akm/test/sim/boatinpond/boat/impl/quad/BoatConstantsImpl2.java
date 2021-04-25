@@ -78,10 +78,25 @@ public class BoatConstantsImpl2 implements BoatConstants {
             double turningSpeed
     ) {
         final Hydrofoil hydrofoil = new HydrofoilImpl();
-        final double c = estimateRudderTorqueCoefficient(hydrofoil, boatLength, boatToRudderLengthRatio, cogDistanceFromStern);
-        final double resistanceTorque = estimateResistanceTorqueMagnitude(hydrofoil, kLat, boatLength, boatToRudderLengthRatio, cogDistanceFromStern, turnRadius, turningSpeed);
+        final double phi = phi(kLat, 1, turnRadius, turningSpeed); // Assume mass equal to 1.
+        final double vLon = turningSpeed*Math.cos(phi);
+        final double vLat = turningSpeed*Math.sin(phi);
+        checkVComponents(vLon, vLat);
 
-        return resistanceTorque/(c * turningSpeed * turningSpeed);
+        final double c = estimateRudderTorqueCoefficient(hydrofoil, boatLength, boatToRudderLengthRatio, cogDistanceFromStern);
+        final double resistanceTorque = estimateResistanceTorqueMagnitude(hydrofoil, kLat, boatLength, boatToRudderLengthRatio, cogDistanceFromStern, turnRadius, turningSpeed, vLat);
+
+        return resistanceTorque/(c * vLon * vLon);
+    }
+
+    private void checkVComponents(double vLon, double vLat) {
+        if (vLon < V_TRANSITION) {
+            throw new IllegalArgumentException("Unable to reach vLon value above the transition speed, during the rudder coefficient estimation.");
+        }
+
+        if (vLat < V_TRANSITION) {
+            throw new IllegalArgumentException("Unable to reach vLat value above the transition speed, during the rudder coefficient estimation.");
+        }
     }
 
     private double estimateRudderTorqueCoefficient(
@@ -108,7 +123,8 @@ public class BoatConstantsImpl2 implements BoatConstants {
             double boatToRudderLengthRatio,
             double cogDistanceFromStern,
             double radius,
-            double v
+            double v,
+            double vLat
     ) {
         final double dFront = boatLength - cogDistanceFromStern;
         final double kFront = (dFront/boatLength) * kLat;
@@ -119,7 +135,6 @@ public class BoatConstantsImpl2 implements BoatConstants {
         final double kBack = (dBack/boatLength) * kLat;
 
         final double omg = v / radius;
-        final double vLat = vLat(kLat, 1, radius, v); // Assume mass equal to 1.
         final double vRotFront = omg*dFront - vLat; // The lateral water flow reduces the rotational resistance of the front boat section.
         final double vRotBack = omg*dBack + vLat; // The lateral water flow increases the rotational resistance of the back boat section.
 
@@ -127,28 +142,6 @@ public class BoatConstantsImpl2 implements BoatConstants {
         final double forceBack = resistanceForceMagnitude(kBack, vRotBack);
 
         return forceFront*dFront + forceBack*dBack;
-    }
-
-    /**
-     * Returns the magnitude of the boat velocity vector which is perpendicular to the
-     * boat's longitudinal (bow-stern) axis when the boat performs a sustained turn of
-     * radius {@code radius} at a constant speed {@code v}.
-     *
-     * @param kLat the boat lateral water resistance coefficient
-     * @param mass the boat mass
-     * @param radius the sustained turn radius
-     * @param v the sustained turn constant speed
-     * @return the magnitude of the boat velocity vector which is perpendicular to the
-     * boat's longitudinal (bow-stern) axis during a sustained turn at a constant speed
-     */
-    private double vLat(final double kLat, final double mass, final double radius, double v) {
-        final double phi = phi(kLat, mass, radius, v);
-        final double vLat = v*Math.sin(phi);
-        if (vLat < V_TRANSITION) {
-            throw new IllegalStateException("Unable to reach acceptable vLat value in turning performance estimation.");
-        }
-
-        return vLat;
     }
 
     /**
