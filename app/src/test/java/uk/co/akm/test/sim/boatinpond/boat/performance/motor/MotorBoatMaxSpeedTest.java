@@ -9,7 +9,7 @@ import uk.co.akm.test.sim.boatinpond.boat.MotorBoat;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatConstantsImpl2;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatImpl2;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatPerformance;
-import uk.co.akm.test.sim.boatinpond.phys.Updatable;
+import uk.co.akm.test.sim.boatinpond.boat.performance.BoatPerformanceTestHelper;
 
 public class MotorBoatMaxSpeedTest {
     private final double kLatOverKLon = 50;
@@ -43,7 +43,7 @@ public class MotorBoatMaxSpeedTest {
 
         final double twoMins = 2*60;
         applyMaximumPower(underTest.getMotor());
-        update(underTest, twoMins);
+        BoatPerformanceTestHelper.update(underTest, dt, twoMins);
 
         final double v = underTest.v();
         Assert.assertTrue(v > 0);
@@ -64,13 +64,6 @@ public class MotorBoatMaxSpeedTest {
             final double beforeIncrease = motor.getForce();
             motor.update(dt);
             increase = motor.getForce() - beforeIncrease;
-        }
-    }
-
-    private void update(Updatable updatable, double secs) {
-        final long n = Math.round(secs/dt);
-        for (int i=0 ; i<n ; i++) {
-            updatable.update(dt);
         }
     }
 }
