@@ -36,7 +36,9 @@ public class MotorBoatTurnTest {
     private final MotorBoatPerformance performance = new MotorBoatPerformance(launchSpeed, distanceLimit, turnRate, turningSpeed, timeToMaxRudderDeflection, maxSpeed, timeToMaxPower);
     private final MotorBoatConstantsImpl2 constants = new MotorBoatConstantsImpl2(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle, boatToRudderLengthRatio);
 
+    private final double mass = 1;
     private final double dt = 0.0001;
+    private final double twoPi = 2*Math.PI;
 
     @Test
     public void shouldMakeSustainedTurn() {
@@ -54,25 +56,43 @@ public class MotorBoatTurnTest {
         Assert.assertTrue(v > 0);
 
         final BoatTurnData data = updateAndRecordTurnData(underTest, dt, threeMins);
-        data.assertTurnIsCircle(1E-9);
+        data.assertTurnIsCircle();
         Assert.assertTrue(data.v > 0);
         Assert.assertTrue(data.radius > 0);
+        Assert.assertEquals(data.period, twoPi/data.omega, 1E-04);
+        System.out.println("v=" + data.v + " omega*radius=" + (data.omega*data.radius));
     }
 
     private BoatTurnData updateAndRecordTurnData(UpdatableState boat, double dt, double secs) {
         double vSum = 0;
+        double vSumSq = 0;
+        double period = 0;
+        double omegaSum = 0;
+        double omegaSumSq = 0;
         double xMin = Double.MAX_VALUE;
         double xMax = Double.MIN_VALUE;
         double yMin = Double.MAX_VALUE;
         double yMax = Double.MIN_VALUE;
 
+        double t = 0;
+        final double headingStart = boat.hdn();
+
         final long n = Math.round(secs/dt);
         for (int i=0 ; i<n ; i++) {
             boat.update(dt);
 
-            vSum += boat.v();
             final double x = boat.x();
             final double y = boat.y();
+            final double v = boat.v();
+            final double omega = Math.abs(boat.omgHdn());
+
+            t += dt;
+
+            vSum += v;
+            vSumSq += v*v;
+
+            omegaSum += omega;
+            omegaSumSq += omega*omega;
 
             if (x < xMin) {
                 xMin = x;
@@ -89,9 +109,19 @@ public class MotorBoatTurnTest {
             if (y > yMax) {
                 yMax = y;
             }
+
+            if (Math.abs(boat.hdn() - headingStart) > twoPi && period == 0) {
+                period = t;
+            }
         }
 
-        return new BoatTurnData(xMin, xMax, yMin, yMax, vSum/n);
+        final double vMean = vSum/n;
+        final double vStDev = Math.sqrt(Math.abs( (vSumSq - 2*vMean*vSum + n*vMean*vMean)/n ));
+
+        final double omegaMean = omegaSum/n;
+        final double omegaStDev = Math.sqrt(Math.abs( (omegaSumSq - 2*omegaMean*omegaSum + n*omegaMean*omegaMean)/n ));
+
+        return new BoatTurnData(xMin, xMax, yMin, yMax, vMean, vStDev, period, omegaMean, omegaStDev);
     }
 
     private void applyMaximumPower(Motor motor) {
@@ -132,17 +162,35 @@ public class MotorBoatTurnTest {
         public final double yMin;
         public final double yMax;
         public final double v;
+        public final double vStDev;
+        public final double period;
+        public final double omega;
+        public final double omegaStDev;
 
         public final double dx;
         public final double dy;
         public final double radius;
 
-        BoatTurnData(double xMin, double xMax, double yMin, double yMax, double v) {
+        BoatTurnData(
+                double xMin,
+                double xMax,
+                double yMin,
+                double yMax,
+                double v,
+                double vStDev,
+                double period,
+                double omega,
+                double omegaStDev
+        ) {
             this.xMin = xMin;
             this.xMax = xMax;
             this.yMin = yMin;
             this.yMax = yMax;
             this.v = v;
+            this.vStDev = vStDev;
+            this.period = period;
+            this.omega = omega;
+            this.omegaStDev = omegaStDev;
 
             if (xMin > xMax) {
                 throw new IllegalArgumentException("xMin=" + xMin + " cannot be greater than xMax=" + xMax);
@@ -157,8 +205,10 @@ public class MotorBoatTurnTest {
             radius = (dx + dy)/2;
         }
 
-        void assertTurnIsCircle(double accuracy) {
-            Assert.assertEquals(dx, dy, accuracy);
+        void assertTurnIsCircle() {
+            Assert.assertEquals(dx, dy, 1E-9);
+            Assert.assertTrue(vStDev < 1E-4);
+            Assert.assertTrue(omegaStDev < 1E-5);
         }
     }
 }
