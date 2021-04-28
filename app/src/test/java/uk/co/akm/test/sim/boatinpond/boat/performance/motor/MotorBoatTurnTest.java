@@ -61,7 +61,7 @@ public class MotorBoatTurnTest {
         Assert.assertTrue(data.v > 0);
         Assert.assertTrue(data.radius > 0);
         Assert.assertEquals(data.period, twoPi/data.omega, 1E-04);
-        System.out.println("v=" + data.v + " omega*radius=" + (data.omega*data.radius));
+        Assert.assertEquals(data.v, data.omega*data.radius, 1E-09);
     }
 
     private BoatTurnData updateAndRecordTurnData(UpdatableState boat, double dt, double secs) {
@@ -199,13 +199,13 @@ public class MotorBoatTurnTest {
 
             dx = xMax - xMin;
             dy = yMax - yMin;
-            radius = (dx + dy)/2;
+            radius = (dx + dy)/4;
         }
 
         void assertTurnIsCircle() {
-            Assert.assertEquals(dx, dy, 1E-9);
-            Assert.assertTrue(vStDev < 1E-4);
-            Assert.assertTrue(omegaStDev < 1E-5);
+            Assert.assertEquals(dx, dy, 1E-09);
+            Assert.assertTrue(vStDev < 1E-04);
+            Assert.assertTrue(omegaStDev < 1E-05);
         }
     }
 }
