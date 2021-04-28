@@ -37,7 +37,6 @@ public class MotorBoatTurnTest {
     private final MotorBoatPerformance performance = new MotorBoatPerformance(launchSpeed, distanceLimit, turnRate, turningSpeed, timeToMaxRudderDeflection, maxSpeed, timeToMaxPower);
     private final MotorBoatConstantsImpl2 constants = new MotorBoatConstantsImpl2(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle, boatToRudderLengthRatio);
 
-    private final double mass = 1;
     private final double dt = 0.0001;
     private final double twoPi = 2*Math.PI;
 
@@ -58,14 +57,16 @@ public class MotorBoatTurnTest {
 
         final BoatTurnData data = updateAndRecordTurnData(underTest, dt, threeMins);
         data.assertTurnIsCircle();
-        Assert.assertTrue(data.v > 0);
-        Assert.assertTrue(data.radius > 0);
+
+        // Check basic circular motion formulae.
         Assert.assertEquals(data.period, twoPi/data.omega, 1E-05);
         Assert.assertEquals(data.v, data.omega*data.radius, 1E-09);
+        Assert.assertEquals(data.a, data.v*data.v/data.radius, 1E-10);
     }
 
     private BoatTurnData updateAndRecordTurnData(UpdatableState boat, double dt, double secs) {
         final Distribution vDistribution = new Distribution();
+        final Distribution aDistribution = new Distribution();
         final Distribution omegaDistribution = new Distribution();
 
         double period = 0;
@@ -92,9 +93,11 @@ public class MotorBoatTurnTest {
             final double x = boat.x();
             final double y = boat.y();
             final double v = boat.v();
+            final double a = Math.sqrt(Math.pow(boat.ax(), 2) + Math.pow(boat.ay(), 2));
             final double omega = Math.abs(boat.omgHdn());
 
             vDistribution.add(v);
+            aDistribution.add(a);
             omegaDistribution.add(omega);
 
             final double distance = distance(x, y, x0, y0);
@@ -129,10 +132,13 @@ public class MotorBoatTurnTest {
         final double vMean = vDistribution.getAverage();
         final double vStDev = vDistribution.getStandardDeviation();
 
+        final double aMean = aDistribution.getAverage();
+        final double aStDev = aDistribution.getStandardDeviation();
+
         final double omegaMean = omegaDistribution.getAverage();
         final double omegaStDev = omegaDistribution.getStandardDeviation();
 
-        return new BoatTurnData(xMin, xMax, yMin, yMax, vMean, vStDev, period, rotationTime, omegaMean, omegaStDev);
+        return new BoatTurnData(xMin, xMax, yMin, yMax, vMean, vStDev, aMean, aStDev, period, rotationTime, omegaMean, omegaStDev);
     }
 
     private double distance(double x1, double y1, double x2, double y2) {
@@ -178,6 +184,8 @@ public class MotorBoatTurnTest {
         public final double yMax;
         public final double v;
         public final double vStDev;
+        public final double a;
+        public final double aStDev;
         public final double period;
         public final double rotationTime;
         public final double omega;
@@ -194,6 +202,8 @@ public class MotorBoatTurnTest {
                 double yMax,
                 double v,
                 double vStDev,
+                double a,
+                double aStDev,
                 double period,
                 double rotationTime,
                 double omega,
@@ -205,6 +215,8 @@ public class MotorBoatTurnTest {
             this.yMax = yMax;
             this.v = v;
             this.vStDev = vStDev;
+            this.a = a;
+            this.aStDev = aStDev;
             this.period = period;
             this.rotationTime = rotationTime;
             this.omega = omega;
@@ -224,8 +236,15 @@ public class MotorBoatTurnTest {
         }
 
         void assertTurnIsCircle() {
+            Assert.assertTrue(v > 0);
+            Assert.assertTrue(a > 0);
+            Assert.assertTrue(omega > 0);
+            Assert.assertTrue(radius > 0);
+            Assert.assertTrue(period > 0);
+
             Assert.assertEquals(dx, dy, 1E-09); // Circle described.
             Assert.assertTrue(vStDev < 1E-04); // Constant turning speed.
+            Assert.assertTrue(aStDev < 1E-06); // Constant acceleration.
             Assert.assertTrue(omegaStDev < 1E-05); // Constant angular speed.
             Assert.assertTrue(Math.abs(rotationTime - period) < 1E-03); // Circle period cross calculation check.
         }
