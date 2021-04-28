@@ -11,6 +11,7 @@ import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatConstantsImpl2;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatImpl2;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatPerformance;
 import uk.co.akm.test.sim.boatinpond.boat.performance.BoatPerformanceTestHelper;
+import uk.co.akm.test.sim.boatinpond.boat.performance.Distribution;
 import uk.co.akm.test.sim.boatinpond.phys.UpdatableState;
 
 public class MotorBoatTurnTest {
@@ -64,11 +65,10 @@ public class MotorBoatTurnTest {
     }
 
     private BoatTurnData updateAndRecordTurnData(UpdatableState boat, double dt, double secs) {
-        double vSum = 0;
-        double vSumSq = 0;
+        final Distribution vDistribution = new Distribution();
+        final Distribution omegaDistribution = new Distribution();
+
         double period = 0;
-        double omegaSum = 0;
-        double omegaSumSq = 0;
         double xMin = Double.MAX_VALUE;
         double xMax = Double.MIN_VALUE;
         double yMin = Double.MAX_VALUE;
@@ -88,11 +88,8 @@ public class MotorBoatTurnTest {
 
             t += dt;
 
-            vSum += v;
-            vSumSq += v*v;
-
-            omegaSum += omega;
-            omegaSumSq += omega*omega;
+            vDistribution.add(v);
+            omegaDistribution.add(omega);
 
             if (x < xMin) {
                 xMin = x;
@@ -115,11 +112,11 @@ public class MotorBoatTurnTest {
             }
         }
 
-        final double vMean = vSum/n;
-        final double vStDev = Math.sqrt(Math.abs( (vSumSq - 2*vMean*vSum + n*vMean*vMean)/n ));
+        final double vMean = vDistribution.getAverage();
+        final double vStDev = vDistribution.getStandardDeviation();
 
-        final double omegaMean = omegaSum/n;
-        final double omegaStDev = Math.sqrt(Math.abs( (omegaSumSq - 2*omegaMean*omegaSum + n*omegaMean*omegaMean)/n ));
+        final double omegaMean = omegaDistribution.getAverage();
+        final double omegaStDev = omegaDistribution.getStandardDeviation();
 
         return new BoatTurnData(xMin, xMax, yMin, yMax, vMean, vStDev, period, omegaMean, omegaStDev);
     }

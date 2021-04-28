@@ -25,6 +25,9 @@ public final class Distribution {
         }
 
         final double mean = getAverage();
-        return Math.sqrt( (sumSq - 2*mean*sum + n*mean*mean)/n );
+        // Take the absolute value because for near-constant distributions, numerical errors can result in a negative number.
+        final double standardDeviationSq = Math.abs( (sumSq - 2*mean*sum + n*mean*mean)/n );
+
+        return Math.sqrt(standardDeviationSq);
     }
 }
