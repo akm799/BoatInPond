@@ -10,8 +10,8 @@ import uk.co.akm.test.sim.boatinpond.boat.Rudder;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatConstantsImpl2;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatImpl2;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatPerformance;
-import uk.co.akm.test.sim.boatinpond.boat.performance.BoatPerformanceTestHelper;
-import uk.co.akm.test.sim.boatinpond.boat.performance.Distribution;
+import uk.co.akm.test.sim.boatinpond.boat.performance.helper.BoatPerformanceTestHelper;
+import uk.co.akm.test.sim.boatinpond.boat.performance.helper.Distribution;
 import uk.co.akm.test.sim.boatinpond.phys.UpdatableState;
 
 public class MotorBoatTurnTest {

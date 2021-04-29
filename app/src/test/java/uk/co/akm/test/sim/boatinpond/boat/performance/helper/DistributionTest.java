@@ -1,4 +1,4 @@
-package uk.co.akm.test.sim.boatinpond.boat.performance;
+package uk.co.akm.test.sim.boatinpond.boat.performance.helper;
 
 import junit.framework.Assert;
 

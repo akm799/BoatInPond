@@ -9,7 +9,7 @@ import uk.co.akm.test.sim.boatinpond.boat.MotorBoat;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatConstantsImpl2;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatImpl2;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatPerformance;
-import uk.co.akm.test.sim.boatinpond.boat.performance.BoatPerformanceTestHelper;
+import uk.co.akm.test.sim.boatinpond.boat.performance.helper.BoatPerformanceTestHelper;
 
 public class MotorBoatMaxSpeedTest {
     private final double kLatOverKLon = 50;

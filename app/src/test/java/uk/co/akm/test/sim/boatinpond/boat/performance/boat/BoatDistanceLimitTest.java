@@ -8,7 +8,7 @@ import uk.co.akm.test.sim.boatinpond.boat.Boat;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatConstantsImpl2;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatImpl2;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatPerformance;
-import uk.co.akm.test.sim.boatinpond.boat.performance.BoatPerformanceTestHelper;
+import uk.co.akm.test.sim.boatinpond.boat.performance.helper.BoatPerformanceTestHelper;
 
 public class BoatDistanceLimitTest {
     private final double kLatOverKLon = 50;
