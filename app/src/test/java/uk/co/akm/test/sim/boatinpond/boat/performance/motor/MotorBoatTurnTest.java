@@ -62,11 +62,16 @@ public class MotorBoatTurnTest {
         Assert.assertEquals(data.period, twoPi/data.omega, 1E-05);
         Assert.assertEquals(data.v, data.omega*data.radius, 1E-09);
         Assert.assertEquals(data.a, data.v*data.v/data.radius, 1E-10);
+
+        // Check for a constant angle between the boat's velocity vector and actual heading.
+        Assert.assertTrue(data.phi > 0);
+        Assert.assertTrue(data.phiStDev < 1E-06);
     }
 
     private BoatTurnData updateAndRecordTurnData(UpdatableState boat, double dt, double secs) {
         final Distribution vDistribution = new Distribution();
         final Distribution aDistribution = new Distribution();
+        final Distribution phiDistribution = new Distribution();
         final Distribution omegaDistribution = new Distribution();
 
         double period = 0;
@@ -108,6 +113,14 @@ public class MotorBoatTurnTest {
             distancePrevious = distance;
             distanceIncreasePrevious = distanceIncrease;
 
+            final double vx = boat.vx();
+            final double vy = boat.vy();
+            final double heading = boat.hdnP();
+            final double cosHeading = Math.cos(heading);
+            final double sinHeading = Math.sin(heading);
+            final double phi = Math.abs(BoatPerformanceTestHelper.angleBetween(vx, vy, cosHeading, sinHeading));
+            phiDistribution.add(phi);
+
             if (x < xMin) {
                 xMin = x;
             }
@@ -138,7 +151,25 @@ public class MotorBoatTurnTest {
         final double omegaMean = omegaDistribution.getAverage();
         final double omegaStDev = omegaDistribution.getStandardDeviation();
 
-        return new BoatTurnData(xMin, xMax, yMin, yMax, vMean, vStDev, aMean, aStDev, period, rotationTime, omegaMean, omegaStDev);
+        final double phi = phiDistribution.getAverage();
+        final double phiStDev = phiDistribution.getStandardDeviation();
+
+        return new BoatTurnData(
+                xMin,
+                xMax,
+                yMin,
+                yMax,
+                vMean,
+                vStDev,
+                aMean,
+                aStDev,
+                period,
+                rotationTime,
+                omegaMean,
+                omegaStDev,
+                phi,
+                phiStDev
+        );
     }
 
     private double distance(double x1, double y1, double x2, double y2) {
@@ -190,6 +221,8 @@ public class MotorBoatTurnTest {
         public final double rotationTime;
         public final double omega;
         public final double omegaStDev;
+        public final double phi;
+        public final double phiStDev;
 
         public final double dx;
         public final double dy;
@@ -207,7 +240,9 @@ public class MotorBoatTurnTest {
                 double period,
                 double rotationTime,
                 double omega,
-                double omegaStDev
+                double omegaStDev,
+                double phi,
+                double phiStDev
         ) {
             this.xMin = xMin;
             this.xMax = xMax;
@@ -221,6 +256,8 @@ public class MotorBoatTurnTest {
             this.rotationTime = rotationTime;
             this.omega = omega;
             this.omegaStDev = omegaStDev;
+            this.phi = phi;
+            this.phiStDev = phiStDev;
 
             if (xMin > xMax) {
                 throw new IllegalArgumentException("xMin=" + xMin + " cannot be greater than xMax=" + xMax);
