@@ -31,7 +31,7 @@ public class BoatConstantsImpl2 implements BoatConstants {
                               double rudderAreaFraction,
                               double maxRudderAngle,
                               double boatToRudderLengthRatio) {
-        checkArgs(boatLength, cogDistanceFromStern, performance.turnRate, performance.turningSpeed, V_TRANSITION);
+        checkArgs(boatLength, cogDistanceFromStern, performance.turningSpeed);
 
         this.kLon = kLonEstimation(performance.launchSpeed, performance.distanceLimit);
         this.kLat = kLon*kLatOverKLon;
@@ -45,18 +45,13 @@ public class BoatConstantsImpl2 implements BoatConstants {
         this.kRud = kRudEstimation(kLat, boatLength, boatToRudderLengthRatio, cogDistanceFromStern, performance.turnRadius, performance.turningSpeed);
     }
 
-    private void checkArgs(double length, double cogDistanceFromStern, double omega, double v, double vTransition) {
+    private void checkArgs(double length, double cogDistanceFromStern, double v) {
         if (cogDistanceFromStern >= length) {
             throw new IllegalArgumentException("Distance of the centre of gravity from the stern (" + cogDistanceFromStern + ") is more than the total boat length (" + length + ").");
         }
 
-        if (v < vTransition) {
-            throw new IllegalArgumentException("Input boat turning speed (" + v + ") is too low. It is less than the transition speed (" + vTransition + ").");
-        }
-
-        final double omegaMin = Math.min(2*vTransition/cogDistanceFromStern, 2*vTransition/(length - cogDistanceFromStern));
-        if (omega < omegaMin) {
-            throw new IllegalArgumentException("Input boat turning angular velocity (" + omega + ") is less that the minimum value (" + omegaMin + ").");
+        if (v < V_TRANSITION) {
+            throw new IllegalArgumentException("Input boat turning speed (" + v + ") is too low. It is less than the transition speed (" + V_TRANSITION + ").");
         }
     }
 
@@ -147,7 +142,9 @@ public class BoatConstantsImpl2 implements BoatConstants {
     /**
      * Returns the absolute difference between the angles of the boat heading and velocity
      * vectors that are expected during a sustained turn of radius {@code radius} at a
-     * constant speed {@code v}
+     * constant speed {@code v} (i.e. the boat drift angle). It is assumed that the drift
+     * angle will be such that the boat lateral (i.e. sideways) velocity will have a magnitude
+     * greater than the transition velocity one.
      *
      * @param kLat the boat lateral water resistance coefficient
      * @param mass the boat mass
@@ -171,8 +168,8 @@ public class BoatConstantsImpl2 implements BoatConstants {
             }
         };
 
-        final double phi0 = 15*Math.PI/180;
-        return  (new NewtonRaphsonRootFinder()).findRoot(f, phi0, 0.000001);
+        final double phi0 = 10*Math.PI/180;
+        return  (new NewtonRaphsonRootFinder()).findRoot(f, phi0, 1E-10);
     }
 
     private double resistanceForceMagnitude(double k, double v) {
