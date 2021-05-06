@@ -10,6 +10,7 @@ import uk.co.akm.test.sim.boatinpond.boat.Rudder;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatConstantsImpl2;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatImpl2;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatPerformance;
+import uk.co.akm.test.sim.boatinpond.boat.performance.helper.BoatAngleFinder;
 import uk.co.akm.test.sim.boatinpond.boat.performance.helper.BoatPerformanceTestHelper;
 import uk.co.akm.test.sim.boatinpond.boat.performance.helper.Distribution;
 import uk.co.akm.test.sim.boatinpond.phys.UpdatableState;
@@ -58,6 +59,9 @@ public class MotorBoatTurnTest {
         final BoatTurnData data = updateAndRecordTurnData(underTest, dt, threeMins);
         data.assertTurnIsCircle();
 
+        // Check the observed turning speed.
+        Assert.assertEquals(v, data.v, 1E-09);
+
         // Check basic circular motion formulae.
         Assert.assertEquals(data.period, twoPi/data.omega, 1E-05);
         Assert.assertEquals(data.v, data.omega*data.radius, 1E-09);
@@ -66,6 +70,10 @@ public class MotorBoatTurnTest {
         // Check for a constant angle between the boat's velocity vector and actual heading.
         Assert.assertTrue(data.phi > 0);
         Assert.assertTrue(data.phiStDev < 1E-06);
+
+        // Check the angle between the boat's heading and velocity vectors.
+        final BoatAngleFinder angleFinder = new BoatAngleFinder(1, constants.getkLat(), data.radius, v);
+        angleFinder.assertAngleEquals(data.phi, 1E-03);
     }
 
     private BoatTurnData updateAndRecordTurnData(UpdatableState boat, double dt, double secs) {
