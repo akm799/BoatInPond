@@ -80,10 +80,12 @@ public final class BoatAngleFinder {
         Assert.assertTrue(failureMessage, diff <= accuracy);
     }
 
+    // Solving for the angle a in m*v^2/r = k*v_lat*cos(a) where v_lat = v*sin(a)
     private double estimateAngleAssumingLowVLat() {
         return Math.asin(2*c*v)/2;
     }
 
+    // Solving for the angle a in m*v^2/r = k*v_lat^2*cos(a) where v_lat = v*sin(a)
     private double estimateAngleAssumingHighVLat(double x0) {
         return rootFinder.findRoot(functionAndDerivative, x0, 1E-18);
     }
