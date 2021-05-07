@@ -10,6 +10,8 @@ import uk.co.akm.test.sim.boatinpond.math.root.NewtonRaphsonRootFinder;
  * a sustained circular turn at a constant speed.
  */
 public final class BoatAngleFinder {
+    private static final double PHI_0 = 10*Math.PI/180;
+
     private final double c;
     private final double v;
 
@@ -59,6 +61,26 @@ public final class BoatAngleFinder {
      * @param accuracy the expected maximum (absolute) difference, in radians, between the expected and estimated angle
      */
     public void assertAngleEquals(double expectedAngle, double accuracy) {
+        if (canEstimateAngleAssumingLowVLat()) {
+            assertBestAngleEquals(expectedAngle, accuracy);
+        } else {
+            assertAngleAssumingHighVLatEquals(expectedAngle, accuracy);
+        }
+    }
+
+    private void assertAngleAssumingHighVLatEquals(double expectedAngle, double accuracy) {
+        // Angle estimation assuming that the boat's lateral speed is greater than the transition speed.
+        // This needs to solve a transcendental equation numerically and we use the previous estimate as
+        // starting point of our numerical iteration.
+        final double phiHighVLat = estimateAngleAssumingHighVLat(PHI_0);
+
+        final double diff = Math.abs(phiHighVLat - expectedAngle);
+        final String failureMessage = "Expected angle is " + expectedAngle + " radians but the actual angle is " + phiHighVLat + " radians. The difference is greater than the input accuracy of " + accuracy + " radians.";
+
+        Assert.assertTrue(failureMessage, diff <= accuracy);
+    }
+
+    private void assertBestAngleEquals(double expectedAngle, double accuracy) {
         // Angle estimation assuming that the boat's lateral speed is less than the transition speed.
         final double phiLowVLat = estimateAngleAssumingLowVLat();
 
@@ -78,6 +100,11 @@ public final class BoatAngleFinder {
         final String failureMessage = "Expected angle is " + expectedAngle + " radians but the actual angle is " + actualAngle + " radians. The difference is greater than the input accuracy of " + accuracy + " radians.";
 
         Assert.assertTrue(failureMessage, diff <= accuracy);
+    }
+
+    // Check if we can solve for the angle a in m*v^2/r = k*v_lat*cos(a) where v_lat = v*sin(a)
+    private boolean canEstimateAngleAssumingLowVLat() {
+        return (2*c*v <= 1);
     }
 
     // Solving for the angle a in m*v^2/r = k*v_lat*cos(a) where v_lat = v*sin(a)
