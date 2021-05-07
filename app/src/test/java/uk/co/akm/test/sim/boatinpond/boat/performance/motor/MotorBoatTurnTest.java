@@ -25,7 +25,7 @@ public class MotorBoatTurnTest {
     private final double launchSpeed = 3.01; // 6 knots
     private final double distanceLimit = 75;
     private final double turningSpeed = 20.56; // 40 Knots
-    private final double turnRate = 57*Math.PI/180; //TODO Check minimum value so we can have a realistic value.
+    private final double turnRate = 57*Math.PI/180; // 57 degrees per second at 40 knots is equivalent to a 20.67 metre turning radius.
 
     private final double maxRudderAngle = Math.PI/4;
     private final double timeToMaxRudderDeflection = 2;
