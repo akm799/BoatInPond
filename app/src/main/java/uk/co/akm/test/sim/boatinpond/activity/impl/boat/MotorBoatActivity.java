@@ -14,7 +14,6 @@ import uk.co.akm.test.sim.boatinpond.boat.MotorBoat;
 import uk.co.akm.test.sim.boatinpond.boat.MotorBoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.factory.MotorBoatConstantsFactory;
 import uk.co.akm.test.sim.boatinpond.boat.factory.impl.quad.MotorBoatConstantsFactoryImpl;
-import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatImpl;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatImpl2;
 import uk.co.akm.test.sim.boatinpond.widget.PercentageTextView;
 

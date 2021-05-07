@@ -29,7 +29,7 @@ public final class BoatConstantsTest {
 
     private final BoatPerformance performance = new BoatPerformance(launchSpeed, distanceLimit, turningSpeed, turnRadius, timeToMaxRudderDeflection);
 
-    private final BoatConstants underTest = new BoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle, boatToRudderLengthRatio);
+    private final BoatConstants underTest = new BoatConstantsImpl2(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle, boatToRudderLengthRatio);
 
     @Test
     public void shouldEvaluateKLon() {

@@ -80,7 +80,7 @@ public final class BoatActivity extends AbstractBoatActivity {
         final int launchSpeedIndicator = getIntent().getIntExtra(LAUNCH_SPEED_INDICATOR_KEY, 50);
         final double v0 = determineLaunchSpeed(launchSpeedIndicator);
 
-        return new uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatImpl(constants, Math.PI/2, v0);
+        return new uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatImpl2(constants, Math.PI/2, v0);
     }
 
     private Boat linearResistanceInstance() {

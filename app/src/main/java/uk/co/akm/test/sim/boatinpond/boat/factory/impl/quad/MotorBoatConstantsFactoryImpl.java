@@ -2,7 +2,6 @@ package uk.co.akm.test.sim.boatinpond.boat.factory.impl.quad;
 
 import uk.co.akm.test.sim.boatinpond.boat.MotorBoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.factory.MotorBoatConstantsFactory;
-import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatConstantsImpl;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatConstantsImpl2;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatPerformance;
 

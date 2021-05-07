@@ -31,11 +31,11 @@ public final class BoatTest extends AbstractBoatTest {
         distanceLimitForSlowDownTest = distanceLimit;
         maxAnglesDiff = 0.2;
 
-        constants = new BoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle, boatToRudderLengthRatio);
+        constants = new BoatConstantsImpl2(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle, boatToRudderLengthRatio);
     }
 
     @Override
     protected Boat boatInstance(BoatConstants boatConstants, double hdn0, double v0) {
-        return new BoatImpl(boatConstants, hdn0, v0);
+        return new BoatImpl2(boatConstants, hdn0, v0);
     }
 }
