@@ -15,6 +15,7 @@ import uk.co.akm.test.sim.boatinpond.boat.MotorBoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.factory.MotorBoatConstantsFactory;
 import uk.co.akm.test.sim.boatinpond.boat.factory.impl.quad.MotorBoatConstantsFactoryImpl;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatImpl;
+import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatImpl2;
 import uk.co.akm.test.sim.boatinpond.widget.PercentageTextView;
 
 /**
@@ -134,7 +135,7 @@ public final class MotorBoatActivity extends AbstractBoatActivity {
         final MotorBoatConstantsFactory constantsFactory = new MotorBoatConstantsFactoryImpl();
         final MotorBoatConstants constants = constantsFactory.instance(rudderSizeIndicator, maxPowerIndicator);
 
-        return new MotorBoatImpl(constants, Math.PI/2, 0);
+        return new MotorBoatImpl2(constants, Math.PI/2, 0);
     }
 
     private static final class MotorSwitchListener implements CompoundButton.OnCheckedChangeListener {

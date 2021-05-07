@@ -16,8 +16,8 @@ public class MotorBoatPerformance extends BoatPerformance {
      */
     public final double timeToMaxPower;
 
-    public MotorBoatPerformance(double launchSpeed, double distanceLimit, double turnRate, double turningSpeed, double timeToMaxRudderDeflection, double maxSpeed, double timeToMaxPower) {
-        super(launchSpeed, distanceLimit, turnRate, turningSpeed, timeToMaxRudderDeflection);
+    public MotorBoatPerformance(double launchSpeed, double distanceLimit, double turningSpeed, double turnRadius, double timeToMaxRudderDeflection, double maxSpeed, double timeToMaxPower) {
+        super(launchSpeed, distanceLimit, turningSpeed, turnRadius, timeToMaxRudderDeflection);
 
         this.maxSpeed = maxSpeed;
         this.timeToMaxPower = timeToMaxPower;

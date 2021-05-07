@@ -27,7 +27,7 @@ public class BoatConstantsImpl implements BoatConstants {
                              double rudderAreaFraction,
                              double maxRudderAngle,
                              double boatToRudderLengthRatio) {
-        checkArgs(boatLength, cogDistanceFromStern, performance.turnRate, performance.turningSpeed, V_TRANSITION);
+        checkArgs(boatLength, cogDistanceFromStern, performance.turningSpeed, V_TRANSITION);
 
         this.kLon = kLonEstimation(performance.launchSpeed, performance.distanceLimit);
         this.kLat = kLon*kLatOverKLon;
@@ -38,21 +38,16 @@ public class BoatConstantsImpl implements BoatConstants {
         this.maxRudderAngle = maxRudderAngle;
         this.rudderLength = boatLength/boatToRudderLengthRatio;
         this.timeToMaxRudderAngle = performance.timeToMaxRudderDeflection;
-        this.kRud = kRudEstimation(kLat, boatLength, cogDistanceFromStern, performance.turnRate, performance.turningSpeed);
+        this.kRud = kRudEstimation(kLat, boatLength, cogDistanceFromStern, performance.turningSpeed, performance.turnRadius);
     }
 
-    private void checkArgs(double length, double cogDistanceFromStern, double omega, double v, double vTransition) {
+    private void checkArgs(double length, double cogDistanceFromStern, double v, double vTransition) {
         if (cogDistanceFromStern >= length) {
             throw new IllegalArgumentException("Distance of the centre of gravity from the stern (" + cogDistanceFromStern + ") is more than the total boat length (" + length + ").");
         }
 
         if (v < vTransition) {
             throw new IllegalArgumentException("Input boat turning speed (" + v + ") is too low. It is less than the transition speed (" + vTransition + ").");
-        }
-
-        final double omegaMin = Math.min(2*vTransition/cogDistanceFromStern, 2*vTransition/(length - cogDistanceFromStern));
-        if (omega < omegaMin) {
-            throw new IllegalArgumentException("Input boat turning angular velocity (" + omega + ") is less that the minimum value (" + omegaMin + ").");
         }
     }
 
@@ -61,9 +56,10 @@ public class BoatConstantsImpl implements BoatConstants {
     }
 
     @Deprecated
-    private double kRudEstimation(double kLat, double boatLength, double cogDistanceFromStern, double turningRate, double turningSpeed) {
+    private double kRudEstimation(double kLat, double boatLength, double cogDistanceFromStern, double turningSpeed, double turningRadius) {
         final double cogDistanceFromBow = (boatLength - cogDistanceFromStern);
-        final double omegaSq = turningRate * turningRate;
+        final double omega = turningSpeed/turningRadius;
+        final double omegaSq = omega * omega;
         final double vSq = turningSpeed * turningSpeed;
 
         return (kLat/(8*boatLength)) * Math.pow(cogDistanceFromStern, 3) * Math.pow(cogDistanceFromBow, 4) * omegaSq/vSq;

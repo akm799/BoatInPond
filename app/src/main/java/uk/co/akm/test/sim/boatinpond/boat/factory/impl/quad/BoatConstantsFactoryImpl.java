@@ -20,7 +20,7 @@ public final class BoatConstantsFactoryImpl implements BoatConstantsFactory {
     private final double distanceLimit = 75;
     private final double minTurningSpeed = 5.14; // 10 Knots
     private final double maxTurningSpeed = 20.56; // 40 Knots
-    private final double turnRate = 2.5*Math.PI/8; // 56.25 degrees per second
+    private final double turnRadius = 20.66668818928022; // Equivalent to 57 degrees per second turning rate at 40 knots.
 
     private final double maxRudderAngle = Math.PI/4;
     private final double timeToMaxRudderDeflection = 2;
@@ -36,7 +36,7 @@ public final class BoatConstantsFactoryImpl implements BoatConstantsFactory {
         // High turning speed means small rudder and low turning speed means large rudder. This is because it is water speed past the rudder, i.e. high water speed gives a large rudder force even for a small rudder.
         final double turningSpeed = calculator.computeValue(MAX_INDICATOR_SIZE - rudderSizeIndicator, minTurningSpeed, maxTurningSpeed, indicatorName);
         final double rudderAreaFraction = calculator.computeValue(rudderSizeIndicator, minRudderAreaFraction, maxRudderAreaFraction, indicatorName);
-        final BoatPerformance performance = new BoatPerformance(launchSpeed, distanceLimit, turnRate, turningSpeed, timeToMaxRudderDeflection);
+        final BoatPerformance performance = new BoatPerformance(launchSpeed, distanceLimit, turningSpeed, turnRadius, timeToMaxRudderDeflection);
 
         return new BoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle, boatToRudderLengthRatio);
     }

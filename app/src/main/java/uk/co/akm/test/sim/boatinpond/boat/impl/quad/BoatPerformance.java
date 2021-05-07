@@ -8,9 +8,8 @@ package uk.co.akm.test.sim.boatinpond.boat.impl.quad;
  *    reach. The parameters V0 and D are used to define the linear motion performance characteristics.
  *
  * 2) The boat is turning at constant speed V describing a circle with radius R. This is with enough
- *    motor power to sustain a constant speed and under full rudder deflection. The turn rate A is
- *    equal to A = 2*pi*R/T where T is the time it takes to complete one circle (i.e. T = 2*pi*R/V).
- *    The parameters V and A are used to define the turning motion performance characteristics.
+ *    motor power to sustain a constant speed and under full rudder deflection. The parameters V and R
+ *    are used to define the turning motion performance characteristics.
  *
  * The time taken for the rudder to reach maximum deflection is, also, defined.
  *
@@ -30,12 +29,6 @@ public class BoatPerformance {
 
 
     /**
-     * The sustained turn rate that the boat will achieve will full rudder deflection when travelling at a constant speed defined by {@link #turningSpeed}
-     */
-    @Deprecated
-    public final double turnRate;
-
-    /**
      * The turn radius that the boat will achieve when constantly turning, under most efficient rudder deflection, at a turning speed defined in {@link #turningSpeed}
      */
     public final double turnRadius;
@@ -51,12 +44,10 @@ public class BoatPerformance {
      */
     public final double timeToMaxRudderDeflection;
 
-    //TODO Replace input parameter turnRate by turnRadius.
-    public BoatPerformance(double launchSpeed, double distanceLimit, double turnRate, double turningSpeed, double timeToMaxRudderDeflection) {
+    public BoatPerformance(double launchSpeed, double distanceLimit, double turningSpeed, double turnRadius, double timeToMaxRudderDeflection) {
         this.launchSpeed = launchSpeed;
         this.distanceLimit = distanceLimit;
-        this.turnRate = turnRate;
-        this.turnRadius = turningSpeed/turnRate; //TODO Accept the turn radius as an input parameter.
+        this.turnRadius = turnRadius;
         this.turningSpeed = turningSpeed;
         this.timeToMaxRudderDeflection = timeToMaxRudderDeflection;
     }

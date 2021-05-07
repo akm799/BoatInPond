@@ -3,6 +3,7 @@ package uk.co.akm.test.sim.boatinpond.boat.factory.impl.quad;
 import uk.co.akm.test.sim.boatinpond.boat.MotorBoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.factory.MotorBoatConstantsFactory;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatConstantsImpl;
+import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatConstantsImpl2;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatPerformance;
 
 /**
@@ -20,7 +21,7 @@ public final class MotorBoatConstantsFactoryImpl implements MotorBoatConstantsFa
     private final double distanceLimit = 75;
     private final double minTurningSpeed = 5.14; // 10 Knots
     private final double maxTurningSpeed = 20.56; // 40 Knots
-    private final double turnRate = 2.5*Math.PI/8; // 56.25 degrees per second
+    private final double turnRadius = 20.66668818928022; // Equivalent to 57 degrees per second turning rate at 40 knots.
 
     private final double maxRudderAngle = Math.PI/4;
     private final double timeToMaxRudderDeflection = 2;
@@ -43,9 +44,9 @@ public final class MotorBoatConstantsFactoryImpl implements MotorBoatConstantsFa
         final double turningSpeed = calculator.computeValue(MAX_INDICATOR_SIZE - rudderSizeIndicator, minTurningSpeed, maxTurningSpeed, rudderSizeIndicatorName);
         final double rudderAreaFraction = calculator.computeValue(rudderSizeIndicator, minRudderAreaFraction, maxRudderAreaFraction, rudderSizeIndicatorName);
         final double maxSpeed = calculator.computeValue(maxMotorPowerIndicator, minMaxSpeed, maxMaxSpeed, maxMotorPowerIndicatorName);
-        final MotorBoatPerformance performance = new MotorBoatPerformance(launchSpeed, distanceLimit, turnRate, turningSpeed, timeToMaxRudderDeflection, maxSpeed, timeToMaxPower);
+        final MotorBoatPerformance performance = new MotorBoatPerformance(launchSpeed, distanceLimit, turningSpeed, turnRadius, timeToMaxRudderDeflection, maxSpeed, timeToMaxPower);
 
-        return new MotorBoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle, boatToRudderLengthRatio);
+        return new MotorBoatConstantsImpl2(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle, boatToRudderLengthRatio);
     }
 
     private void checkArgs(int rudderSizeIndicator, int maxMotorPowerIndicator) {

@@ -21,7 +21,7 @@ public class MotorBoatMaxSpeedTest {
     private final double launchSpeed = 3.01; // 6 knots
     private final double distanceLimit = 75;
     private final double turningSpeed = 20.56; // 40 Knots
-    private final double turnRate = 57*Math.PI/180; //TODO Check minimum value so we can have a realistic value.
+    private final double turnRadius = 20.66668818928022; // Equivalent to 57 degrees per second turning rate.
 
     private final double maxRudderAngle = Math.PI/4;
     private final double timeToMaxRudderDeflection = 2;
@@ -31,7 +31,7 @@ public class MotorBoatMaxSpeedTest {
 
     private final double timeToMaxPower = 4;
 
-    private final MotorBoatPerformance performance = new MotorBoatPerformance(launchSpeed, distanceLimit, turnRate, turningSpeed, timeToMaxRudderDeflection, maxSpeed, timeToMaxPower);
+    private final MotorBoatPerformance performance = new MotorBoatPerformance(launchSpeed, distanceLimit, turningSpeed, turnRadius, timeToMaxRudderDeflection, maxSpeed, timeToMaxPower);
     private final MotorBoatConstantsImpl2 constants = new MotorBoatConstantsImpl2(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle, boatToRudderLengthRatio);
 
     private final double dt = 0.0001;
