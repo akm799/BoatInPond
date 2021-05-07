@@ -2,7 +2,7 @@ package uk.co.akm.test.sim.boatinpond.boat.factory.impl.quad;
 
 import uk.co.akm.test.sim.boatinpond.boat.BoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.factory.BoatConstantsFactory;
-import uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatConstantsImpl2;
+import uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatConstantsImpl;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatPerformance;
 
 /**
@@ -38,6 +38,6 @@ public final class BoatConstantsFactoryImpl implements BoatConstantsFactory {
         final double rudderAreaFraction = calculator.computeValue(rudderSizeIndicator, minRudderAreaFraction, maxRudderAreaFraction, indicatorName);
         final BoatPerformance performance = new BoatPerformance(launchSpeed, distanceLimit, turningSpeed, turnRadius, timeToMaxRudderDeflection);
 
-        return new BoatConstantsImpl2(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle, boatToRudderLengthRatio);
+        return new BoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle, boatToRudderLengthRatio);
     }
 }

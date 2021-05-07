@@ -17,7 +17,7 @@ import uk.co.akm.test.sim.boatinpond.phys.State;
  *
  * Created by Thanos Mavroidis on 23/04/2021.
  */
-public class BoatImpl2 extends Body implements Boat {
+public class BoatImpl extends Body implements Boat {
     private static final double V_TRANSITION = BoatConstants.V_TRANSITION;
 
     private final double kLon;
@@ -45,7 +45,7 @@ public class BoatImpl2 extends Body implements Boat {
 
     private final HydrofoilRudder rudder;
 
-    public BoatImpl2(BoatConstants constants, double hdn0, double v0) {
+    public BoatImpl(BoatConstants constants, double hdn0, double v0) {
         super(0, 0, 0, hdn0, 0, 0, v0*Math.cos(hdn0), v0*Math.sin(hdn0), 0, 0, 0, 0);
 
         kLon = constants.getkLon();

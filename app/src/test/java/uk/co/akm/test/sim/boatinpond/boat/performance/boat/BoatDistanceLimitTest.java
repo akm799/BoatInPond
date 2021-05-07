@@ -5,8 +5,8 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import uk.co.akm.test.sim.boatinpond.boat.Boat;
-import uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatConstantsImpl2;
-import uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatImpl2;
+import uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatConstantsImpl;
+import uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatImpl;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatPerformance;
 import uk.co.akm.test.sim.boatinpond.boat.performance.helper.BoatPerformanceTestHelper;
 
@@ -27,14 +27,14 @@ public class BoatDistanceLimitTest {
     private final double boatToRudderLengthRatio = 20;
 
     private final BoatPerformance performance = new BoatPerformance(launchSpeed, distanceLimit, turningSpeed, turnRadius, timeToMaxRudderDeflection);
-    private final BoatConstantsImpl2 constants = new BoatConstantsImpl2(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle, boatToRudderLengthRatio);
+    private final BoatConstantsImpl constants = new BoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle, boatToRudderLengthRatio);
 
     private final double dt = 0.0001;
 
     @Test
     public void shouldReachDistanceLimit() {
         // Launch boat along the positive y-axis direction.
-        final Boat underTest = new BoatImpl2(constants, Math.PI/2, launchSpeed);
+        final Boat underTest = new BoatImpl(constants, Math.PI/2, launchSpeed);
         Assert.assertEquals(launchSpeed, underTest.v(), 0);
 
         final double tenMins = 10*60;

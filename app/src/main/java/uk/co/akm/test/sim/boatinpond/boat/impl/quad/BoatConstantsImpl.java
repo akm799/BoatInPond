@@ -11,7 +11,7 @@ import uk.co.akm.test.sim.boatinpond.math.root.NewtonRaphsonRootFinder;
 /**
  * Created by Thanos Mavroidis on 23/04/2021.
  */
-public class BoatConstantsImpl2 implements BoatConstants {
+public class BoatConstantsImpl implements BoatConstants {
     private final double kLon;
     private final double kLat;
     private final double kLonReverse;
@@ -23,14 +23,14 @@ public class BoatConstantsImpl2 implements BoatConstants {
     private final double maxRudderAngle;
     private final double timeToMaxRudderAngle;
 
-    public BoatConstantsImpl2(BoatPerformance performance,
-                              double kLatOverKLon,
-                              double kLonReverseOverKLon,
-                              double boatLength,
-                              double cogDistanceFromStern,
-                              double rudderAreaFraction,
-                              double maxRudderAngle,
-                              double boatToRudderLengthRatio) {
+    public BoatConstantsImpl(BoatPerformance performance,
+                             double kLatOverKLon,
+                             double kLonReverseOverKLon,
+                             double boatLength,
+                             double cogDistanceFromStern,
+                             double rudderAreaFraction,
+                             double maxRudderAngle,
+                             double boatToRudderLengthRatio) {
         checkArgs(boatLength, cogDistanceFromStern, performance.turningSpeed);
 
         this.kLon = kLonEstimation(performance.launchSpeed, performance.distanceLimit);

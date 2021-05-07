@@ -2,7 +2,7 @@ package uk.co.akm.test.sim.boatinpond.boat.factory.impl.quad;
 
 import uk.co.akm.test.sim.boatinpond.boat.MotorBoatConstants;
 import uk.co.akm.test.sim.boatinpond.boat.factory.MotorBoatConstantsFactory;
-import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatConstantsImpl2;
+import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatConstantsImpl;
 import uk.co.akm.test.sim.boatinpond.boat.impl.quad.MotorBoatPerformance;
 
 /**
@@ -45,7 +45,7 @@ public final class MotorBoatConstantsFactoryImpl implements MotorBoatConstantsFa
         final double maxSpeed = calculator.computeValue(maxMotorPowerIndicator, minMaxSpeed, maxMaxSpeed, maxMotorPowerIndicatorName);
         final MotorBoatPerformance performance = new MotorBoatPerformance(launchSpeed, distanceLimit, turningSpeed, turnRadius, timeToMaxRudderDeflection, maxSpeed, timeToMaxPower);
 
-        return new MotorBoatConstantsImpl2(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle, boatToRudderLengthRatio);
+        return new MotorBoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle, boatToRudderLengthRatio);
     }
 
     private void checkArgs(int rudderSizeIndicator, int maxMotorPowerIndicator) {

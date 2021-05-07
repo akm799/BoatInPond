@@ -32,7 +32,7 @@ public class MotorBoatTest {
     private final double timeToMaxPower = 4;
 
     private final MotorBoatPerformance performance = new MotorBoatPerformance(launchSpeed, distanceLimit, turningSpeed, turnRadius, timeToMaxRudderDeflection, maxSpeed, timeToMaxPower);
-    private final MotorBoatConstants constants = new MotorBoatConstantsImpl2(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle, boatToRudderLengthRatio);
+    private final MotorBoatConstants constants = new MotorBoatConstantsImpl(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle, boatToRudderLengthRatio);
 
     @Test
     public void shouldApproachMaxSpeed() {
@@ -40,7 +40,7 @@ public class MotorBoatTest {
         final double maxSpeedProximity = 1.0E-11;
         final double travelingTime = 600; // 10 mins
 
-        final MotorBoat underTest = new MotorBoatImpl2(constants, 0, 0);
+        final MotorBoat underTest = new MotorBoatImpl(constants, 0, 0);
         Assert.assertEquals(0.0, underTest.v());
         Assert.assertEquals(0.0, underTest.vx());
         Assert.assertEquals(0.0, underTest.vy());

@@ -8,10 +8,10 @@ import uk.co.akm.test.sim.boatinpond.boat.impl.MotorImpl;
 /**
  * Created by Thanos Mavroidis on 24/02/2018.
  */
-public final class MotorBoatImpl2 extends BoatImpl2 implements MotorBoat {
+public final class MotorBoatImpl extends BoatImpl implements MotorBoat {
     private final Motor motor;
 
-    public MotorBoatImpl2(MotorBoatConstants constants, double hdn0, double v0) {
+    public MotorBoatImpl(MotorBoatConstants constants, double hdn0, double v0) {
         super(constants, hdn0, v0);
 
         motor = new MotorImpl(constants.getMaxMotorForce(), constants.timeToMaxPower());

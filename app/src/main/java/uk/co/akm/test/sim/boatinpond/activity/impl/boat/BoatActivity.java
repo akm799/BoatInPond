@@ -10,6 +10,7 @@ import uk.co.akm.test.sim.boatinpond.boat.factory.BoatConstantsFactory;
 import uk.co.akm.test.sim.boatinpond.boat.factory.impl.quad.BoatConstantsFactoryImpl;
 import uk.co.akm.test.sim.boatinpond.boat.impl.linear.BoatConstantsApprox;
 import uk.co.akm.test.sim.boatinpond.boat.impl.linear.LinearBoatConstants;
+import uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatImpl;
 
 /**
  * Created by Thanos Mavroidis on 29/11/2017.
@@ -80,7 +81,7 @@ public final class BoatActivity extends AbstractBoatActivity {
         final int launchSpeedIndicator = getIntent().getIntExtra(LAUNCH_SPEED_INDICATOR_KEY, 50);
         final double v0 = determineLaunchSpeed(launchSpeedIndicator);
 
-        return new uk.co.akm.test.sim.boatinpond.boat.impl.quad.BoatImpl2(constants, Math.PI/2, v0);
+        return new BoatImpl(constants, Math.PI/2, v0);
     }
 
     private Boat linearResistanceInstance() {

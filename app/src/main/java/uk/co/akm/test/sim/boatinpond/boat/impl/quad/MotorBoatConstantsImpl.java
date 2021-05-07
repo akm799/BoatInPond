@@ -5,18 +5,18 @@ import uk.co.akm.test.sim.boatinpond.boat.MotorBoatConstants;
 /**
  * Created by Thanos Mavroidis on 28/02/2018.
  */
-public final class MotorBoatConstantsImpl2 extends BoatConstantsImpl2 implements MotorBoatConstants {
+public final class MotorBoatConstantsImpl extends BoatConstantsImpl implements MotorBoatConstants {
     private final double maxMotorForce;
     private final double timeToMaxPower;
 
-    public MotorBoatConstantsImpl2(MotorBoatPerformance performance,
-                                   double kLatOverKLon,
-                                   double kLonReverseOverKLon,
-                                   double boatLength,
-                                   double cogDistanceFromStern,
-                                   double rudderAreaFraction,
-                                   double maxRudderAngle,
-                                   double boatToRudderLengthRatio) {
+    public MotorBoatConstantsImpl(MotorBoatPerformance performance,
+                                  double kLatOverKLon,
+                                  double kLonReverseOverKLon,
+                                  double boatLength,
+                                  double cogDistanceFromStern,
+                                  double rudderAreaFraction,
+                                  double maxRudderAngle,
+                                  double boatToRudderLengthRatio) {
         super(performance, kLatOverKLon, kLonReverseOverKLon, boatLength, cogDistanceFromStern, rudderAreaFraction, maxRudderAngle, boatToRudderLengthRatio);
 
         maxMotorForce = estimateMaxMotorForce(performance);
