@@ -281,6 +281,56 @@
       rotation.
     </p>
 
+    <p>
+      As we can see, v<sub>LAT</sub> is opposed to v<sub>F</sub> but it has the same direction as
+      v<sub>A</sub>. That is because the (small) lateral boat motion aids the front part of the boat
+      to rotate but causes extra resistance to the rotation of the back (aft) part of the boat.
+      Consequently, in order to use v<sub>F</sub> and v<sub>A</sub> to calculate the resistance
+      torque of the front and back (aft) part of the boat, the formulae for v<sub>F</sub> and
+      v<sub>A</sub> must be rewritten as:
+    </p>
+
+    <table>
+      <tr>
+        <td>
+          v<sub>F</sub> = &omega;
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">L - x</td></tr>
+            <tr><td align="center">2</td></tr>
+          </table>
+        </td>
+        <td>
+          - v<sub>LAT</sub>
+        </td>
+      </tr>
+    </table>
+
+    and
+
+    <table>
+      <tr>
+        <td>
+          v<sub>A</sub> = &omega;
+        </td>
+        <td>
+          <table>
+            <tr><td style="border-bottom: 1px solid;">x</td></tr>
+            <tr><td>2</td></tr>
+          </table>
+        </td>
+        <td>
+          + v<sub>LAT</sub>
+        </td>
+      </tr>
+    </table>
+
+    <p>
+      This ony holds if the boat is moving forward while rotating. If it is reversing while turning
+      then the sign of v<sub>LAT</sub> in the above equations will be reversed.
+    </p>
+
     <h3>Calculating the resistance force and torque</h3>
 
     <p>
@@ -500,20 +550,20 @@
 
     T<sub>F</sub> = k a<sub>F</sub> v<sub>F</sub> d<sub>F</sub>
 
-    <p>and since</p>
+    <p>where</p>
 
-    v<sub>F</sub> = &omega; d<sub>F</sub>
-
-    <p>we have:</p>
-
-    T<sub>F</sub> = k &omega; a<sub>F</sub> d<sub>F</sub><sup>2</sup>
+    v<sub>F</sub> = &omega; d<sub>F</sub> - v<sub>LAT</sub>
 
     <p>
       Similarly, the resistance torque T<sub>A</sub> caused by the aft part of the boat at low rotational
       speeds is given by:
     </p>
 
-    T<sub>A</sub> = k &omega; a<sub>A</sub> d<sub>A</sub><sup>2</sup>
+    T<sub>A</sub> = k a<sub>A</sub> v<sub>A</sub> d<sub>A</sub>
+
+    <p>where</p>
+
+    v<sub>A</sub> = &omega; d<sub>A</sub> + v<sub>LAT</sub>
 
     <p>
       We remember that the above formulae hold only when v < v<sub>T</sub> and since
@@ -524,8 +574,8 @@
         <td>&omega; = </td>
         <td>
           <table>
-            <tr><td>v<sub>F</sub></td></tr>
-            <tr><td style="border-top: 1px solid;">d<sub>F</sub></td></tr>
+            <tr><td>v<sub>F</sub> + v<sub>LAT</sub></td></tr>
+            <tr><td align="center" style="border-top: 1px solid;">d<sub>F</sub></td></tr>
           </table>
         </td>
       </tr>
@@ -540,8 +590,8 @@
         <td>&omega;<sub>T</sub> = </td>
         <td>
           <table>
-            <tr><td>v<sub>T</sub></td></tr>
-            <tr><td style="border-top: 1px solid;">d<sub>F</sub></td></tr>
+            <tr><td>v<sub>T</sub> + v<sub>LAT</sub></td></tr>
+            <tr><td align="center" style="border-top: 1px solid;">d<sub>F</sub></td></tr>
           </table>
         </td>
       </tr>
@@ -554,8 +604,8 @@
         <td>&omega;<sub>T</sub> = </td>
         <td>
           <table>
-            <tr><td>v<sub>T</sub></td></tr>
-            <tr><td style="border-top: 1px solid;">d<sub>A</sub></td></tr>
+            <tr><td>v<sub>T</sub> - v<sub>LAT</sub></td></tr>
+            <tr><td align="center" style="border-top: 1px solid;">d<sub>A</sub></td></tr>
           </table>
         </td>
       </tr>
@@ -578,20 +628,20 @@
 
     T<sub>F</sub> = k a<sub>F</sub> v<sub>F</sub><sup>2</sup> d<sub>F</sub>
 
-    <p>and since</p>
+    <p>where</p>
 
-    v<sub>F</sub> = &omega; d<sub>F</sub>
-
-    <p>we have:</p>
-
-    T<sub>F</sub> = k &omega;<sup>2</sup> a<sub>F</sub> d<sub>F</sub><sup>3</sup>
+    v<sub>F</sub> = &omega; d<sub>F</sub> - v<sub>LAT</sub>
 
     <p>
       Similarly, the resistance torque T<sub>A</sub> caused by the aft part of the boat at low rotational
       speeds is given by:
     </p>
 
-    T<sub>A</sub> = k &omega;<sup>2</sup> a<sub>A</sub> d<sub>A</sub><sup>3</sup>
+    T<sub>A</sub> = k a<sub>A</sub> v<sub>A</sub><sup>2</sup> d<sub>A</sub>
+
+    <p>where</p>
+
+    v<sub>A</sub> = &omega; d<sub>A</sub> + v<sub>LAT</sub>
 
     <p>
       As these formulae are valid only for the high rotational speed region, they require that &omega; &GreaterEqual; &omega;<sub>T</sub> where
@@ -602,8 +652,8 @@
         <td>&omega;<sub>T</sub> = </td>
         <td>
           <table>
-            <tr><td>v<sub>T</sub></td></tr>
-            <tr><td style="border-top: 1px solid;">d<sub>F</sub></td></tr>
+            <tr><td>v<sub>T</sub> + v<sub>LAT</sub></td></tr>
+            <tr><td align="center" style="border-top: 1px solid;">d<sub>F</sub></td></tr>
           </table>
         </td>
       </tr>
@@ -616,8 +666,8 @@
         <td>&omega;<sub>T</sub> = </td>
         <td>
           <table>
-            <tr><td>v<sub>T</sub></td></tr>
-            <tr><td style="border-top: 1px solid;">d<sub>A</sub></td></tr>
+            <tr><td>v<sub>T</sub> - v<sub>LAT</sub></td></tr>
+            <tr><td align="center" style="border-top: 1px solid;">d<sub>A</sub></td></tr>
           </table>
         </td>
       </tr>
@@ -644,7 +694,7 @@
         <td>
           <table>
             <tr><td></td></tr>
-            <tr><td>T<sub>F</sub>(k, &omega;)</td></tr>
+            <tr><td>T<sub>F</sub></td></tr>
             <tr><td></td></tr>
           </table>
         </td>
@@ -655,9 +705,9 @@
 
         <td>
           <table>
-            <tr><td>k &omega; a<sub>F</sub> d<sub>F</sub><sup>2</sup> &nbsp; &nbsp; &nbsp; : &omega; < &omega;<sub>T</sub></td></tr>
+            <tr><td>k a<sub>F</sub> v<sub>F</sub> d<sub>F</sub> &nbsp; &nbsp; &nbsp; : &omega; < &omega;<sub>T</sub></td></tr>
             <tr><td></td></tr>
-            <tr><td>k &omega;<sup>2</sup> a<sub>F</sub> d<sub>F</sub><sup>3</sup>&nbsp; &nbsp; &nbsp; : &omega; &ge; &omega;<sub>T</sub></td></tr>
+            <tr><td>k a<sub>F</sub> v<sub>F</sub><sup>2</sup> d<sub>F</sub>&nbsp; &nbsp; &nbsp; : &omega; &ge; &omega;<sub>T</sub></td></tr>
           </table>
         </td>
 
@@ -694,6 +744,8 @@
       </tr>
     </table>
 
+    <p>v<sub>F</sub> = &omega; d<sub>F</sub> - v<sub>LAT</sub></p>
+
     and
 
     <table>
@@ -701,8 +753,8 @@
         <td>&omega;<sub>T</sub> = </td>
         <td>
           <table>
-            <tr><td>v<sub>T</sub></td></tr>
-            <tr><td style="border-top: 1px solid;">d<sub>F</sub></td></tr>
+            <tr><td>v<sub>T</sub> + v<sub>LAT</sub></td></tr>
+            <tr><td align="center" style="border-top: 1px solid;">d<sub>F</sub></td></tr>
           </table>
         </td>
       </tr>
@@ -716,7 +768,7 @@
         <td>
           <table>
             <tr><td></td></tr>
-            <tr><td>T<sub>A</sub>(k, &omega;)</td></tr>
+            <tr><td>T<sub>A</sub></td></tr>
             <tr><td></td></tr>
           </table>
         </td>
@@ -727,9 +779,9 @@
 
         <td>
           <table>
-            <tr><td>k &omega; a<sub>A</sub> d<sub>A</sub><sup>2</sup> &nbsp; &nbsp; &nbsp; : &omega; < &omega;<sub>T</sub></td></tr>
+            <tr><td>k a<sub>A</sub> v<sub>A</sub> d<sub>A</sub> &nbsp; &nbsp; &nbsp; : &omega; < &omega;<sub>T</sub></td></tr>
             <tr><td></td></tr>
-            <tr><td>k &omega;<sup>2</sup> a<sub>A</sub> d<sub>A</sub><sup>3</sup>&nbsp; &nbsp; &nbsp; : &omega; &ge; &omega;<sub>T</sub></td></tr>
+            <tr><td>k a<sub>A</sub> v<sub>A</sub><sup>2</sup> d<sub>A</sub>&nbsp; &nbsp; &nbsp; : &omega; &ge; &omega;<sub>T</sub></td></tr>
           </table>
         </td>
 
@@ -766,6 +818,8 @@
       </tr>
     </table>
 
+    <p>v<sub>A</sub> = &omega; d<sub>A</sub> + v<sub>LAT</sub></p>
+
     and
 
     <table>
@@ -773,8 +827,8 @@
         <td>&omega;<sub>T</sub> = </td>
         <td>
           <table>
-            <tr><td>v<sub>T</sub></td></tr>
-            <tr><td style="border-top: 1px solid;">d<sub>A</sub></td></tr>
+            <tr><td>v<sub>T</sub> - v<sub>LAT</sub></td></tr>
+            <tr><td align="center" style="border-top: 1px solid;">d<sub>A</sub></td></tr>
           </table>
         </td>
       </tr>
