@@ -196,6 +196,91 @@
       front and aft sections, respectively.
     </p>
 
+    <h3>Considering the boat speed</h3>
+
+    <p>
+      So far we have considered a stationary boat rotating in the water. However, when the rudder is
+      deflected to induce the rotation then boat will not be stationary. It will be moving with a
+      certain velocity and we need to consider the effect of this liner motion to the boat rotation.
+    </p>
+
+    <p>
+      The boat will be turning with some drift angle, i.e. an angle between the boat heading and
+      velocity vectors. Thus, the boat velocity v can be separated into two distinct components
+      v<sub>LON</sub> and v<sub>LAT</sub> which are the components of the boat velocity vector
+      along and perpendicular to the boat axis, respectively. This is depicted in the following
+      diagram:
+    </p>
+
+    <svg width="200" height="200">
+      <line x1="100" y1="190" x2="100" y2="10" style="stroke:#000000;stroke-width:2"/>
+      <path d="M 95 10 L 100 5 L 105 10 Z" style="fill:#000000;"/>
+      <line x1="95" y1="190" x2="105" y2="190" style="stroke:#000000;stroke-width:3"/>
+      <circle cx="100" cy="125" r="4" fill="#000000"/>
+      <line x1="25" y1="190" x2="25" y2="10" style="stroke:#000000;stroke-width:1"/>
+      <line x1="22" y1="184" x2="25" y2="190" style="stroke:#000000;stroke-width:1"/>
+      <line x1="28" y1="184" x2="25" y2="190" style="stroke:#000000;stroke-width:1"/>
+      <line x1="22" y1="16" x2="25" y2="10" style="stroke:#000000;stroke-width:1"/>
+      <line x1="28" y1="16" x2="25" y2="10" style="stroke:#000000;stroke-width:1"/>
+      <text x="10" y="100" fill="#000000">L</text>
+      <line x1="175" y1="190" x2="175" y2="125" style="stroke:#000000;stroke-width:1"/>
+      <line x1="172" y1="184" x2="175" y2="190" style="stroke:#000000;stroke-width:1"/>
+      <line x1="178" y1="184" x2="175" y2="190" style="stroke:#000000;stroke-width:1"/>
+      <line x1="172" y1="131" x2="175" y2="125" style="stroke:#000000;stroke-width:1"/>
+      <line x1="178" y1="131" x2="175" y2="125" style="stroke:#000000;stroke-width:1"/>
+      <text x="180" y="160" fill="#000000">x</text>
+      <line x1="100" y1="67" x2="50" y2="67" style="stroke:#000000;stroke-width:1"/>
+      <line x1="56" y1="64" x2="50" y2="67" style="stroke:#000000;stroke-width:1"/>
+      <line x1="56" y1="70" x2="50" y2="67" style="stroke:#000000;stroke-width:1"/>
+      <foreignObject height="20" width="20" x="40" y="45">
+        T<sub>F</sub>
+      </foreignObject>
+      <line x1="100" y1="67" x2="150" y2="67" style="stroke:#000000;stroke-width:1" stroke-dasharray="2"/>
+      <line x1="144" y1="64" x2="150" y2="67" style="stroke:#000000;stroke-width:1"/>
+      <line x1="144" y1="70" x2="150" y2="67" style="stroke:#000000;stroke-width:1"/>
+      <foreignObject height="20" width="20" x="145" y="48">
+        v<sub>F</sub>
+      </foreignObject>
+      <line x1="100" y1="158" x2="120" y2="158" style="stroke:#000000;stroke-width:1"/>
+      <line x1="114" y1="155" x2="120" y2="158" style="stroke:#000000;stroke-width:1"/>
+      <line x1="114" y1="161" x2="120" y2="158" style="stroke:#000000;stroke-width:1"/>
+      <foreignObject height="20" width="20" x="120" y="158">
+        T<sub>A</sub>
+      </foreignObject>
+      <line x1="100" y1="158" x2="80" y2="158" style="stroke:#000000;stroke-width:1" stroke-dasharray="2"/>
+      <line x1="86" y1="155" x2="80" y2="158" style="stroke:#000000;stroke-width:1"/>
+      <line x1="86" y1="161" x2="80" y2="158" style="stroke:#000000;stroke-width:1"/>
+      <foreignObject height="20" width="20" x="70" y="155">
+        v<sub>A</sub>
+      </foreignObject>
+      <path d="M 80 125 A 20 20 0 0 1 120 125" style="stroke:#000000; fill:none;stroke-width:1"/>
+      <line x1="118" y1="121" x2="120" y2="125" style="stroke:#000000;stroke-width:1"/>
+      <line x1="122" y1="121" x2="120" y2="125" style="stroke:#000000;stroke-width:1"/>
+      <text x="114" y="135" fill="#000000">&omega;</text>
+
+      <!-- Velocity vector -->
+      <line x1="100" y1="125" x2="50" y2="10" style="stroke:#000000;stroke-width:1" stroke-dasharray="2"/>
+      <line x1="50" y1="10" x2="55" y2="15" style="stroke:#000000;stroke-width:1"/>
+      <line x1="50" y1="10" x2="50" y2="17" style="stroke:#000000;stroke-width:1"/>
+      <text x="48" y="9" fill="#000000">v</text>
+
+      <!-- Velocity vector lateral component -->
+      <line x1="100" y1="125" x2="50" y2="125" style="stroke:#000000;stroke-width:1" stroke-dasharray="2"/>
+      <line x1="50" y1="125" x2="56" y2="123" style="stroke:#000000;stroke-width:1"/>
+      <line x1="50" y1="125" x2="56" y2="127" style="stroke:#000000;stroke-width:1"/>
+      <foreignObject height="20" width="40" x="40" y="103">
+        v<sub>LAT</sub>
+      </foreignObject>
+
+    </svg>
+
+    <p>
+      The above diagram represents the forces acting on the stationary rotating boat that we have seen
+      before, but, in addition, we show the boat velocity vector, as well as its lateral component.
+      We do not show the velocity vector longitudinal component since it has no effect in the boat's
+      rotation.
+    </p>
+
     <h3>Calculating the resistance force and torque</h3>
 
     <p>
