@@ -16,6 +16,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    namespace 'uk.co.akm.test.sim.boatinpond'
 }
 
 dependencies {
