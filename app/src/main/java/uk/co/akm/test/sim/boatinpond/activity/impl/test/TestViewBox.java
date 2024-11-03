@@ -28,9 +28,9 @@ final class TestViewBox implements ViewData<TestBody> {
     private String compassHeading;
     private String speed;
 
-    private NumberFormat latLongFormat = new DecimalFormat("0.0000");
-    private NumberFormat speedFormat = new DecimalFormat("0.00");
-    private NumberFormat compassFormat = new DecimalFormat("000");
+    private final NumberFormat latLongFormat = new DecimalFormat("0.0000");
+    private final NumberFormat speedFormat = new DecimalFormat("0.00");
+    private final NumberFormat compassFormat = new DecimalFormat("000");
 
     TestViewBox(double horizontalSide, double lineSpacing, int screenWidth, int screenHeight) {
         final Environment env = new TestEnvironment();

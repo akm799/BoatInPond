@@ -31,8 +31,6 @@ public final class ViewBoxFast implements ViewBoxFeatures {
     private final Line top = new Line(topLeft, topRight);
     private final Line[] sides = {left, right, bottom, top};
 
-    private final int maxDiv;
-
     private double xMax;
     private double xMin;
     private double yMax;
@@ -73,7 +71,7 @@ public final class ViewBoxFast implements ViewBoxFeatures {
         this.screenHeight = screenHeight;
         this.verticalSide = (screenHeight*horizontalSide)/screenWidth;
 
-        maxDiv = (int)(Math.sqrt(horizontalSide*horizontalSide + verticalSide*verticalSide)/lineSpacing) + 1;
+        final int maxDiv = (int)(Math.sqrt(horizontalSide*horizontalSide + verticalSide*verticalSide)/lineSpacing) + 1;
         vertical = new double[maxDiv];
         horizontal = new double[maxDiv];
         lines = initLines(maxDiv);
